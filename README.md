@@ -35,7 +35,9 @@ The client has specified the following requirements in the form of User Stories:
 - A registered user may login
 - A registered user may update their avatar
 - A registered user may logout
+  
 </br>
+
 ### Technical Restrictions
 The company CTO has set the following technical restrictions:
 - Must use an approved JavaScript Framework
@@ -43,7 +45,9 @@ The company CTO has set the following technical restrictions:
 - Must be hosted on an approved Static Host
 - Must use an approved Design Application
 - Must use an approved Planning Application
+  
 </br>
+
 ### Required Links
 The Product Owner has requested links to the following:
 - A Gantt chart for project timing
@@ -52,23 +56,31 @@ The Product Owner has requested links to the following:
 - A kanban project board
 - A repository link
 - A hosted application demo link
+
 </br>
+
 ### Approved Resources
 This list covers libraries and services that have been vetted by the company and approved for use.
 #### JavaScript Frameworks
 - React (>16)
+
 </br>
+
 #### CSS Frameworks
 - Bootstrap (>5)
 - Tailwind (>3)
 - MUI (>5)
 - Styled Components
 - CSS Modules
+
 </br>
+
 #### Hosting Services
 - GitHub Pages
 - Netlify
+
 </br>
+
 #### Design Applications
 - Adobe XD
 - Figma
@@ -76,7 +88,9 @@ This list covers libraries and services that have been vetted by the company and
 - Planning Applications
 - Trello
 - GitHub Projects
+
 </br>
+
 ### Delivery
 Include the required links in the Moodle delivery window using the template format.
 All final changes must be merged into the default branch main or master. Other branches will not be checked.
