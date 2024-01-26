@@ -25,11 +25,13 @@ C
 holidaze/index.html,d/b/db49b7b45201fd937cf1f4eba96ebfba0262786e
 J
 holidaze/src/vite-env.d.ts,f/a/fa766641918c8d10bff239484a0bc61625fa343d
-D
-holidaze/src/App.css,c/f/cf36928d210f0a728daa3e99dd7237927ce710cd
 F
 holidaze/src/index.css,a/d/adbec898a1ede136de6713ac1bf960acc3703681
 E
 holidaze/src/main.tsx,a/5/a5887570fd7d6c592955bc56db8c533debbece29
 G
 holidaze/vite.config.ts,8/1/81278bf085c2f7a739a6f396e7fd19cb189d1fb5
+K
+holidaze/tailwind.config.ts,3/9/398b77fe59c4da10be88264330d5d66d3fe27ed3
+G
+holidaze/src/output.css,f/7/f7fc8c4c53d0880d2d71736ff0548c0943341774
