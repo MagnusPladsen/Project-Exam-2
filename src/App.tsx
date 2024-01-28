@@ -1,7 +1,9 @@
 import { BrowserRouter, Outlet, Route, Routes } from "react-router-dom";
-import "./App.css";
 import LandingPage from "./pages/LandingPage";
-import Header from "./components/header/Header";
+import Header, {
+  mobileHeaderHeight,
+  desktopHeaderHeight,
+} from "./components/header/Header";
 import Footer from "./components/Footer/Footer";
 
 function App() {
@@ -17,14 +19,22 @@ function App() {
 }
 
 const AppContainer = () => {
+  const screenHeight = window.innerHeight;
+  const minBodyHeight = (screenHeight - mobileHeaderHeight).toString() + "px";
+  const minDesktopBodyHeight =
+    (screenHeight - desktopHeaderHeight).toString() + "px";
+  console.log(screenHeight, minBodyHeight);
+  //not working
   return (
-    <div>
+    <>
       <Header />
-      <div className="flex flex-col">
+      <div
+        className={`flex flex-col min-h-[${minBodyHeight}] lg:min-h-[${minDesktopBodyHeight}] bg-background`}
+      >
         <Outlet />
       </div>
       <Footer />
-    </div>
+    </>
   );
 };
 
