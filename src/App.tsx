@@ -19,17 +19,11 @@ function App() {
 }
 
 const AppContainer = () => {
-  const screenHeight = window.innerHeight;
-  const minBodyHeight = (screenHeight - mobileHeaderHeight).toString() + "px";
-  const minDesktopBodyHeight =
-    (screenHeight - desktopHeaderHeight).toString() + "px";
-  console.log(screenHeight, minBodyHeight);
-  //not working
   return (
     <>
       <Header />
       <div
-        className={`flex flex-col min-h-[${minBodyHeight}] lg:min-h-[${minDesktopBodyHeight}] bg-background`}
+        className={`flex flex-col min-h-[calc(100vh-${mobileHeaderHeight})] lg:min-h-[calc(100vh-${desktopHeaderHeight})] bg-background`}
       >
         <Outlet />
       </div>
