@@ -9,6 +9,7 @@ export default {
       },
       fontFamily: {
         sans: ["Roboto", "sans-serif"],
+        logo: ["Lobster", "cursive"],
       },
     },
   },

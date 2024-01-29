@@ -1,5 +1,4 @@
 import { BrowserRouter, Outlet, Route, Routes } from "react-router-dom";
-import "./App.css";
 import LandingPage from "./pages/LandingPage";
 import Header from "./components/header/Header";
 import Footer from "./components/Footer/Footer";
@@ -18,13 +17,15 @@ function App() {
 
 const AppContainer = () => {
   return (
-    <div>
+    <>
       <Header />
-      <div className="flex flex-col">
+      <div
+        className={`pt-10 px-4 lg:mx-auto lg:max-w-[1800px] flex flex-col min-h-[calc(100vh-60px)] lg:min-h-[calc(100vh-80px)] bg-background`}
+      >
         <Outlet />
       </div>
       <Footer />
-    </div>
+    </>
   );
 };
 
