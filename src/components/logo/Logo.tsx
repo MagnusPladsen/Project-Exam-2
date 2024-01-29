@@ -1,4 +1,4 @@
-import LogoIcon from "./LogoIcon";
+import LogoIcon from "../icons/LogoIcon";
 
 function Logo() {
   return (

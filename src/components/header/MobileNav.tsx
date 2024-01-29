@@ -1,6 +1,7 @@
 import { useState } from "react";
-import HamburgerIcon from "../icons/hamburger/HamburgerIcon";
+import HamburgerIcon from "../icons/HamburgerIcon";
 import { NavLink } from "react-router-dom";
+import ProfileIcon from "../icons/Profileicon";
 
 function MobileNav({
   links,
@@ -42,6 +43,16 @@ function MobileNav({
                 </NavLink>
               </li>
             ))}
+            <li>
+              <NavLink
+                to={"/profile"}
+                className={({ isActive }) =>
+                  isActive ? "underline underline-offset-4" : ""
+                }
+              >
+                My profile
+              </NavLink>
+            </li>
           </ul>
         </div>
       )}

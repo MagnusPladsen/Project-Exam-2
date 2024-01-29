@@ -1,8 +1,9 @@
 import { NavLink } from "react-router-dom";
+import ProfileIcon from "../icons/Profileicon";
 
 function DesktopNav({ links }: { links: NavLink[] }) {
   return (
-    <ul className="lg:flex gap-5 hidden">
+    <ul className="lg:flex gap-5 hidden items-center">
       {links.map((link) => (
         <li key={link.name}>
           <NavLink
@@ -22,7 +23,9 @@ function DesktopNav({ links }: { links: NavLink[] }) {
             isActive ? "underline underline-offset-4" : ""
           }
         >
-          My profile
+          <div className="flex gap-2 items-center">
+            <p>My profile</p> <ProfileIcon />
+          </div>
         </NavLink>
       </li>
     </ul>

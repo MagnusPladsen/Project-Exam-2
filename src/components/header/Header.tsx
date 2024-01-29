@@ -1,4 +1,4 @@
-import Logo from "../icons/logo/Logo";
+import Logo from "../logo/Logo";
 import DesktopNav from "./DesktopNav";
 import MobileNav from "./MobileNav";
 
