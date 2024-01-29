@@ -4,17 +4,17 @@ import { NavLink } from "react-router-dom";
 
 function MobileNav({
   links,
-  mobileHeaderHeight,
+  headerHeight,
 }: {
   links: NavLink[];
-  mobileHeaderHeight: string;
+  headerHeight: string;
 }) {
   const [open, setOpen] = useState(false);
 
   return (
     <div className="lg:hidden">
       <div
-        style={{ height: mobileHeaderHeight }}
+        style={{ height: headerHeight }}
         onClick={() => setOpen((prev) => !prev)}
         className={`absolute right-4 flex top-0 items-center`}
       >
@@ -23,9 +23,9 @@ function MobileNav({
       {open && (
         <div
           style={{
-            top: mobileHeaderHeight,
+            top: headerHeight,
             right: 0,
-            height: `calc(100vh - ${mobileHeaderHeight})`,
+            height: `calc(100vh - ${headerHeight})`,
           }}
           className={`absolute bg-primary w-screen `}
         >

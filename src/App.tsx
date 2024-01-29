@@ -20,7 +20,7 @@ const AppContainer = () => {
     <>
       <Header />
       <div
-        className={`pt-10 flex flex-col min-h-[calc(100vh-60px)] lg:min-h-[calc(100vh-$80px)] bg-background`}
+        className={`pt-10 px-4 lg:mx-auto lg:max-w-[1800px] flex flex-col min-h-[calc(100vh-60px)] lg:min-h-[calc(100vh-80px)] bg-background`}
       >
         <Outlet />
       </div>

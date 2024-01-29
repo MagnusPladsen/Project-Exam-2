@@ -2,7 +2,7 @@ import { NavLink } from "react-router-dom";
 
 function DesktopNav({ links }: { links: NavLink[] }) {
   return (
-    <ul className="lg:flex gap-10 hidden">
+    <ul className="lg:flex gap-5 hidden">
       {links.map((link) => (
         <li key={link.name}>
           <NavLink
@@ -15,6 +15,16 @@ function DesktopNav({ links }: { links: NavLink[] }) {
           </NavLink>
         </li>
       ))}
+      <li>
+        <NavLink
+          to={"/profile"}
+          className={({ isActive }) =>
+            isActive ? "underline underline-offset-4" : ""
+          }
+        >
+          My profile
+        </NavLink>
+      </li>
     </ul>
   );
 }

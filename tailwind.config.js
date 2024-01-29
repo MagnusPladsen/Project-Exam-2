@@ -9,7 +9,7 @@ export default {
       },
       fontFamily: {
         sans: ["Roboto", "sans-serif"],
-       /*  logo: ["Single Day", "cursive"], */
+        logo: ["Lobster", "cursive"],
       },
     },
   },
