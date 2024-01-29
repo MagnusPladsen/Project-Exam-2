@@ -1,9 +1,6 @@
 import { BrowserRouter, Outlet, Route, Routes } from "react-router-dom";
 import LandingPage from "./pages/LandingPage";
-import Header, {
-  mobileHeaderHeight,
-  desktopHeaderHeight,
-} from "./components/header/Header";
+import Header from "./components/header/Header";
 import Footer from "./components/Footer/Footer";
 
 function App() {
@@ -23,7 +20,7 @@ const AppContainer = () => {
     <>
       <Header />
       <div
-        className={`flex flex-col min-h-[calc(100vh-${mobileHeaderHeight})] lg:min-h-[calc(100vh-${desktopHeaderHeight})] bg-background`}
+        className={`pt-10 flex flex-col min-h-[calc(100vh-60px)] lg:min-h-[calc(100vh-$80px)] bg-background`}
       >
         <Outlet />
       </div>

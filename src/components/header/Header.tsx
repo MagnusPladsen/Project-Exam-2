@@ -1,17 +1,27 @@
 import Logo from "../icons/logo/Logo";
+import DesktopNav from "./DesktopNav";
+import MobileNav from "./MobileNav";
 
-export const mobileHeaderHeight = "60px";
-export const desktopHeaderHeight = "80px";
+const mobileHeaderHeight = "60px";
+const desktopHeaderHeight = "80px";
+
+export const navLinks = ["Home", "Log in"];
 
 function Header() {
+  const height = `h-[${mobileHeaderHeight}] lg:h-[${desktopHeaderHeight}]`;
   return (
-    <nav
-      className={`h-[${mobileHeaderHeight}] lg:h-[${desktopHeaderHeight}] bg-primary`}
-    >
-      <div className="flex items-center justify-center lg:justify-start lg:w-fit h-full gap-2">
-        <Logo />
-      </div>
-    </nav>
+    <header>
+      <nav
+        style={{ height: mobileHeaderHeight }}
+        className={` ${height} bg-primary text-white`}
+      >
+        <div className="px-4 flex items-center justify-center lg:justify-between h-full gap-2 relative">
+          <Logo />
+          <MobileNav links={navLinks} mobileHeaderHeight={mobileHeaderHeight} />
+          <DesktopNav links={navLinks} />
+        </div>
+      </nav>
+    </header>
   );
 }
 
