@@ -5,8 +5,10 @@ import MobileNav from "./MobileNav";
 const mobileHeaderHeight = "60px";
 const desktopHeaderHeight = "80px";
 
-export const navLinks = ["Home", "Log in"];
-
+const navLinks: NavLink[] = [
+  { name: "Home", path: "/" },
+  { name: "Log in", path: "/login" },
+];
 function Header() {
   const height = `h-[${mobileHeaderHeight}] lg:h-[${desktopHeaderHeight}]`;
   return (
