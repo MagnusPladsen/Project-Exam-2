@@ -6,7 +6,7 @@ const headerHeight = "60px";
 
 const navLinks: NavLink[] = [
   { name: "Home", path: "/" },
-  { name: "Log in", path: "/login" },
+  { name: "Profile", path: "/profile" },
 ];
 function Header() {
   return (
@@ -18,7 +18,7 @@ function Header() {
       >
         <div className="px-4 lg:mx-auto lg:max-w-[1800px] flex items-center justify-center lg:justify-between h-full gap-2 relative">
           <Logo />
-          <MobileNav links={navLinks} headerHeight={headerHeight} />
+          <MobileNav />
           <DesktopNav links={navLinks} />
         </div>
       </nav>
