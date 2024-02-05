@@ -8,8 +8,6 @@ import { useOutletContext } from "react-router-dom";
 import PrimaryButton from "../components/buttons/PrimaryButton";
 
 function VenuesPage() {
-  const className = useOutletContext();
-
   const [latestVenues, setLatestVenues] = useState<Venue[]>([]);
 
   const [activeStep, setActiveStep] = useState<number>(0);
@@ -43,36 +41,34 @@ function VenuesPage() {
   }, [isLoading]);
 
   return (
-    <div className={`${className} bg-white dark:bg-gray-900`}>
-      <div className="py-8 mx-auto xl:max-w-screen-xl lg:py-16 lg:px-6">
-        <div className="mx-auto max-w-screen-sm text-center lg:mb-16 mb-8">
-          <h1 className="mb-4 text-3xl lg:text-4xl tracking-tight font-extrabold text-gray-900 dark:text-white">
-            Venues
-          </h1>
-          <p className="font-light text-gray-500 sm:text-xl dark:text-gray-400">
-            Find venues posted by our community
-          </p>
-        </div>
-        <div className="grid gap-8 lg:grid-cols-2 mb-4">
-          {isLoading ? (
-            <>
-              <VenueCard isLoading />
-              <VenueCard isLoading />
-              <VenueCard isLoading />
-              <VenueCard isLoading />
-              <VenueCard isLoading />
-            </>
-          ) : (
-            latestVenues.map((venue, index) => (
-              <VenueCard venue={venue} key={index} />
-            ))
-          )}
-        </div>
-        <div className="w-fit mx-auto my-10">
-          <PrimaryButton onClick={incrementStep}>Load more</PrimaryButton>
-        </div>
+    <section>
+      <div className="mx-auto max-w-screen-sm text-center lg:mb-16 mb-8">
+        <h1 className="mb-4 text-3xl lg:text-4xl tracking-tight font-extrabold text-gray-900 dark:text-white">
+          Venues
+        </h1>
+        <p className="font-light text-gray-500 sm:text-xl dark:text-gray-400">
+          Find venues posted by our community
+        </p>
       </div>
-    </div>
+      <div className="grid gap-8 lg:grid-cols-2 mb-4">
+        {isLoading ? (
+          <>
+            <VenueCard isLoading />
+            <VenueCard isLoading />
+            <VenueCard isLoading />
+            <VenueCard isLoading />
+            <VenueCard isLoading />
+          </>
+        ) : (
+          latestVenues.map((venue, index) => (
+            <VenueCard venue={venue} key={index} />
+          ))
+        )}
+      </div>
+      <div className="w-fit mx-auto my-10">
+        <PrimaryButton onClick={incrementStep}>Load more</PrimaryButton>
+      </div>
+    </section>
   );
 }
 

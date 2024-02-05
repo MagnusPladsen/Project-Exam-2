@@ -6,7 +6,7 @@ const headerHeight = "60px";
 
 const navLinks: NavLink[] = [
   { name: "Home", path: "/" },
-  { name: "Profile", path: "/profile" },
+  { name: "Venues", path: "/venues" },
 ];
 function Header() {
   return (

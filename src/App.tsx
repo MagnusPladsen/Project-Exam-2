@@ -23,9 +23,11 @@ const AppContainer = () => {
   return (
     <>
       <Header />
-
-      <Outlet context="mx-auto lg:max-w-[1800px] flex flex-col min-h-[calc(100vh-60px)] lg:min-h-[calc(100vh-80px)] bg-background lg:p-8 tracking-wide" />
-
+      <div className="mx-auto lg:max-w-[1800px] flex flex-col min-h-[calc(100vh-60px)] lg:min-h-[calc(100vh-80px)] bg-white tracking-wide">
+        <div className="py-8 mx-auto xl:max-w-screen-xl lg:py-16 lg:px-6">
+          <Outlet />
+        </div>
+      </div>
       <Footer />
     </>
   );
