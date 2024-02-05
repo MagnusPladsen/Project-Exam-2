@@ -9,6 +9,14 @@ interface Customer {
   avatar: string;
 }
 
+interface User {
+  name: string;
+  email: string;
+  password: string;
+  avatar: string;
+  venueManager?: boolean;
+}
+
 interface Owner {
   name: string;
   email: string;

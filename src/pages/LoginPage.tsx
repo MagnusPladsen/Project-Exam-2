@@ -1,8 +1,14 @@
+import { useOutletContext } from "react-router-dom";
 import LogoIcon from "../components/icons/LogoIcon";
+import PrimaryButton from "../components/buttons/PrimaryButton";
 
 function LoginPage() {
+  const className = useOutletContext();
+
   return (
-    <div className="antialiased bg-gradient-to-b from-primary to-white h-full w-full">
+    <div
+      className={` antialiased bg-gradient-to-b from-primary to-white h-full w-full`}
+    >
       <div className="container px-6 mx-auto">
         <div className="flex flex-col text-center md:text-left md:flex-row h-screen justify-evenly md:items-center">
           <div className="flex flex-col w-full">
@@ -18,9 +24,6 @@ function LoginPage() {
             </h1>
             <p className="font-bold mx-auto md:mx-0 hidden lg:block lg:text-3xl text-white">
               Book your venue today!
-            </p>
-            <p className="font-bold lg:text-3xl hidden lg:block mx-auto md:mx-0 text-white">
-              You deserve a break!
             </p>
           </div>
           <div className="w-full md:w-full lg:w-9/12 mx-auto md:mx-0">
@@ -52,12 +55,7 @@ function LoginPage() {
                   />
                 </div>
                 <div id="button" className="flex flex-col w-full my-5 gap-6">
-                  <button
-                    type="button"
-                    className="w-full py-4 bg-primary hover:bg-white border border-primary transition-all rounded-lg text-white hover:text-primary font-bold"
-                  >
-                    Log in
-                  </button>
+                  <PrimaryButton text="Log in" />
 
                   <a
                     href="/profile/register"
