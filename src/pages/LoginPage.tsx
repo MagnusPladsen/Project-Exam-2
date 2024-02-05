@@ -1,27 +1,15 @@
-import { useOutletContext } from "react-router-dom";
-import LogoIcon from "../components/icons/LogoIcon";
 import PrimaryButton from "../components/buttons/PrimaryButton";
+import LogoIcon from "../components/icons/LogoIcon";
 
 function LoginPage() {
-  const className = useOutletContext();
-
   return (
-    <div
+    <section
       className={` antialiased bg-gradient-to-b from-primary to-white h-full w-full`}
     >
       <div className="container px-6 mx-auto">
         <div className="flex flex-col text-center md:text-left md:flex-row h-screen justify-evenly md:items-center">
           <div className="flex flex-col w-full">
-            <div className="hidden lg:block">
-              <LogoIcon size={"200"} />
-            </div>
-
-            <h1 className="text-6xl lg:text-9xl font-logo text-white font-bold flex gap-5 items-center">
-              <div className="lg:hidden">
-                <LogoIcon size={"80"} />
-              </div>
-              Holidaze
-            </h1>
+            <LoginPage />
             <p className="font-bold mx-auto md:mx-0 hidden lg:block lg:text-3xl text-white">
               Book your venue today!
             </p>
@@ -55,7 +43,7 @@ function LoginPage() {
                   />
                 </div>
                 <div id="button" className="flex flex-col w-full my-5 gap-6">
-                  <PrimaryButton text="Log in" />
+                  <PrimaryButton className="w-full">Log in</PrimaryButton>
 
                   <a
                     href="/profile/register"
@@ -69,7 +57,7 @@ function LoginPage() {
           </div>
         </div>
       </div>
-    </div>
+    </section>
   );
 }
 
