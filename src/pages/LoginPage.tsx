@@ -1,5 +1,6 @@
 import { useOutletContext } from "react-router-dom";
 import LogoIcon from "../components/icons/LogoIcon";
+import PrimaryButton from "../components/buttons/PrimaryButton";
 
 function LoginPage() {
   const className = useOutletContext();
@@ -54,12 +55,7 @@ function LoginPage() {
                   />
                 </div>
                 <div id="button" className="flex flex-col w-full my-5 gap-6">
-                  <button
-                    type="button"
-                    className="w-full py-4 bg-primary hover:bg-white border border-primary transition-all rounded-lg text-white hover:text-primary font-bold"
-                  >
-                    Log in
-                  </button>
+                  <PrimaryButton text="Log in" />
 
                   <a
                     href="/profile/register"

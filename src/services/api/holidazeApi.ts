@@ -9,11 +9,12 @@ export const holidazeApi = createApi({
   tagTypes: ["venues"],
   endpoints: (builder) => ({
     getLatestVenues: builder.query<Venue[], void>({
-      query: () => "venues/?limit=5&offset=0`",
+      query: () => "venues/?limit=5&offset=0&_owner=true&_bookings=true`",
       providesTags: ["venues"],
     }),
     getVenues: builder.query<Venue[], { limit: number; offset: number }>({
-      query: ({ limit, offset }) => `venues/?limit=${limit}&offset=${offset}`,
+      query: ({ limit, offset }) =>
+        `venues/?limit=${limit}&offset=${offset}&_owner=true&_bookings=true`,
       providesTags: ["venues"],
     }),
     createVenue: builder.mutation<Venue, Partial<Venue>>({

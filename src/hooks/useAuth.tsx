@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 
 function useAuth() {
   const [user, setUser] = useState<User | null>(null);
@@ -19,13 +19,13 @@ function useAuth() {
     localStorage.removeItem("token");
     localStorage.removeItem("user");
     setUser(null);
-  }
+  };
 
   const logIn = (user: User, token: string) => {
     localStorage.setItem("user", JSON.stringify(user));
     localStorage.setItem("token", token);
     setUser(user);
-  }
+  };
 
   return { user, isLoggedIn, logOut, logIn };
 }
