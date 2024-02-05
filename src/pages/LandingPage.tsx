@@ -36,7 +36,7 @@ function LandingPage() {
         </div>
         <div className="hidden lg:mt-0 lg:col-span-5 lg:flex">
           <img
-            src="/public/hero.jpg"
+            src="/hero.jpg"
             alt="Hero image"
             className="rounded-lg"
           />
