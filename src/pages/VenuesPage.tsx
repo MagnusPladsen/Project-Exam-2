@@ -1,11 +1,9 @@
-import { useState, useEffect } from "react";
-import {
-  useGetLatestVenuesQuery,
-  useGetVenuesQuery,
-} from "../services/api/holidazeApi";
-import VenueCard from "../components/listVenus/VenueCard";
-import { useOutletContext } from "react-router-dom";
+import { useEffect, useState } from "react";
 import PrimaryButton from "../components/buttons/PrimaryButton";
+import VenueCard from "../components/listVenus/VenueCard";
+import {
+  useGetVenuesQuery
+} from "../services/api/holidazeApi";
 
 function VenuesPage() {
   const [latestVenues, setLatestVenues] = useState<Venue[]>([]);

@@ -4,6 +4,7 @@ import LocationIcon from "../icons/LocationIcon";
 import ProfileIcon from "../icons/Profileicon";
 import Skeleton from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
+import { Link } from "react-router-dom";
 
 function VenueCard({
   venue,
@@ -34,13 +35,13 @@ function VenueCard({
         </span>
       </div>
       <h2 className="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white truncate text-ellipsis">
-        <a href={`/profile/${venue?.owner.name}`}>
+        <Link to={`/profile/${venue?.owner.name}`}>
           {isLoading || !venue ? (
             <Skeleton width={200} height={20} />
           ) : (
             venue.name
           )}
-        </a>
+        </Link>
       </h2>
       <p className="mb-5 h-[calc(1rem*3)] font-light text-gray-500 dark:text-gray-400 line-clamp-3">
         {isLoading || !venue ? (
@@ -68,8 +69,8 @@ function VenueCard({
             )}
           </span>
         </div>
-        <a
-          href={`/venues/${venue?.id}`}
+        <Link
+          to={`/venues/${venue?.id}`}
           className="inline-flex items-center font-medium text-primary hover:underline"
         >
           See venue
@@ -85,7 +86,7 @@ function VenueCard({
               clipRule="evenodd"
             ></path>
           </svg>
-        </a>
+        </Link>
       </div>
     </article>
   );
