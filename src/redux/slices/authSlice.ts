@@ -4,13 +4,13 @@ import { RootState } from "../store"
 const authSlice = createSlice({
   name: "auth",
   initialState: { user: null, token: null } as {
-    user: null | any;
+    user: null | User;
     token: null | string;
   },
   reducers: {
     setCredentials: (
       state,
-      { payload: { user, token } }: PayloadAction<{ user: any; token: string }>
+      { payload: { user, token } }: PayloadAction<{ user: User; token: string }>
     ) => {
       state.user = user;
       state.token = token;

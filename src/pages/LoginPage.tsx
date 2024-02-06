@@ -4,16 +4,17 @@ import { useDispatch } from "react-redux";
 import { useState } from "react";
 import { useLoginMutation } from "../services/api/authService";
 import { setCredentials } from "../redux/slices/authSlice";
+import Logo from "../components/logo/Logo";
 
 function LoginPage() {
-  console.log("LoginPage");
-  /* const dispatch = useDispatch();
+  const dispatch = useDispatch();
   const navigate = useNavigate();
 
   const [formState, setFormState] = useState<LoginRequest>({
     email: "",
     password: "",
   });
+  console.log("formState", formState)
 
   const [login, { isLoading }] = useLoginMutation();
 
@@ -25,27 +26,24 @@ function LoginPage() {
   const onClick = async () => {
     try {
       const result = await login(formState);
-      console.log(result); */
-  /* if (result) {
+      console.log("result", result);
+      /* if (result) {
         dispatch(setCredentials(result.data));
         navigate("/venues");
       } */
-  /*  } catch (err) {
+    } catch (err) {
       console.log(err);
     }
   };
- */
+
   return (
     <section
       className={` antialiased bg-gradient-to-b from-primary to-white h-full w-full`}
     >
       <div className="container px-6 mx-auto">
         <div className="flex flex-col text-center md:text-left md:flex-row h-screen justify-evenly md:items-center">
-          <div className="flex flex-col w-full">
-            <LoginPage />
-            <p className="font-bold mx-auto md:mx-0 hidden lg:block lg:text-3xl text-white">
-              Book your venue today!
-            </p>
+          <div className="flex flex-col w-full lg:mb-80">
+            <Logo logoSize="60" textClassName="!text-6xl" />
           </div>
           <div className="w-full md:w-full lg:w-9/12 mx-auto md:mx-0">
             <div className="bg-white p-10 flex flex-col w-full shadow-xl rounded-xl">
@@ -63,7 +61,7 @@ function LoginPage() {
                     id="email"
                     placeholder="Please insert your email"
                     className="appearance-none border-2 border-gray-100 rounded-lg px-4 py-3 placeholder-gray-300 focus:outline-none focus:ring-2 focus:ring-primary focus:shadow-lg"
-                    /* onChange={handleChange} */
+                    onChange={handleChange}
                   />
                 </div>
                 <div id="input" className="flex flex-col w-full my-5">
@@ -76,11 +74,11 @@ function LoginPage() {
                     id="password"
                     placeholder="Please insert your password"
                     className="appearance-none border-2 border-gray-100 rounded-lg px-4 py-3 placeholder-gray-300 focus:outline-none focus:ring-2 focus:ring-primary focus:shadow-lg"
-                    /*  onChange={handleChange} */
+                     onChange={handleChange}
                   />
                 </div>
                 <div id="button" className="flex flex-col w-full my-5 gap-6">
-                  <PrimaryButton /* onClick={onClick}  */className="w-full">
+                  <PrimaryButton onClick={onClick}  className="w-full">
                     Log in
                   </PrimaryButton>
 

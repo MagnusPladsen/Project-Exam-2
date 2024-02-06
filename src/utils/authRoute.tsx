@@ -8,7 +8,7 @@ function AuthRoute({ ...rest }: RouteProps) {
   return (
     <Route
       {...rest}
-      element={user ? <Outlet /> : <Navigate to="/" replace />}
+      element={!!user ? <Outlet /> : <Navigate to="/" replace />}
     />
   );
 }

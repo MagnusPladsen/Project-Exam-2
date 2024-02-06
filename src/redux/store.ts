@@ -9,7 +9,7 @@ export const createStore = (
 ) =>
   configureStore({
     reducer: {
-      [authService.reducerPath]: authService,
+      [authService.reducerPath]: authService.reducer,
       [holidazeApi.reducerPath]: holidazeApi.reducer,
       authSlice,
     },

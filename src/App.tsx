@@ -16,7 +16,7 @@ function App() {
           <Route
             path="venues"
             element={
-              <AuthRoute>
+              <AuthRoute path="/">
                 <VenuesPage />
               </AuthRoute>
             }
@@ -31,9 +31,9 @@ const AppContainer = () => {
   return (
     <>
       <Header />
-      <div className="mx-auto lg:max-w-[1800px] flex flex-col min-h-[calc(100vh-60px)] lg:min-h-[calc(100vh-80px)] bg-white tracking-wide">
+      {/* <div className="mx-auto lg:max-w-[1800px] flex flex-col min-h-[calc(100vh-60px)] lg:min-h-[calc(100vh-80px)] bg-white tracking-wide"> */}
         <Outlet />
-      </div>
+     {/*  </div> */}
       <Footer />
     </>
   );
