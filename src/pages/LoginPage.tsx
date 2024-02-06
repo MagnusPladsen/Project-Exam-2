@@ -1,7 +1,40 @@
+import { useNavigate } from "react-router-dom";
 import PrimaryButton from "../components/buttons/PrimaryButton";
-import LogoIcon from "../components/icons/LogoIcon";
+import { useDispatch } from "react-redux";
+import { useState } from "react";
+import { useLoginMutation } from "../services/api/authService";
+import { setCredentials } from "../redux/slices/authSlice";
 
 function LoginPage() {
+  console.log("LoginPage");
+  /* const dispatch = useDispatch();
+  const navigate = useNavigate();
+
+  const [formState, setFormState] = useState<LoginRequest>({
+    email: "",
+    password: "",
+  });
+
+  const [login, { isLoading }] = useLoginMutation();
+
+  const handleChange = ({
+    target: { name, value },
+  }: React.ChangeEvent<HTMLInputElement>) =>
+    setFormState((prev) => ({ ...prev, [name]: value }));
+
+  const onClick = async () => {
+    try {
+      const result = await login(formState);
+      console.log(result); */
+  /* if (result) {
+        dispatch(setCredentials(result.data));
+        navigate("/venues");
+      } */
+  /*  } catch (err) {
+      console.log(err);
+    }
+  };
+ */
   return (
     <section
       className={` antialiased bg-gradient-to-b from-primary to-white h-full w-full`}
@@ -22,13 +55,15 @@ function LoginPage() {
               <form action="" className="w-full">
                 <div id="input" className="flex flex-col w-full my-5">
                   <label htmlFor="username" className="text-gray-500 mb-2">
-                    Username
+                    Email
                   </label>
                   <input
-                    type="text"
-                    id="username"
-                    placeholder="Please insert your username"
+                    name="email"
+                    type="email"
+                    id="email"
+                    placeholder="Please insert your email"
                     className="appearance-none border-2 border-gray-100 rounded-lg px-4 py-3 placeholder-gray-300 focus:outline-none focus:ring-2 focus:ring-primary focus:shadow-lg"
+                    /* onChange={handleChange} */
                   />
                 </div>
                 <div id="input" className="flex flex-col w-full my-5">
@@ -36,14 +71,18 @@ function LoginPage() {
                     Password
                   </label>
                   <input
+                    name="password"
                     type="password"
                     id="password"
                     placeholder="Please insert your password"
                     className="appearance-none border-2 border-gray-100 rounded-lg px-4 py-3 placeholder-gray-300 focus:outline-none focus:ring-2 focus:ring-primary focus:shadow-lg"
+                    /*  onChange={handleChange} */
                   />
                 </div>
                 <div id="button" className="flex flex-col w-full my-5 gap-6">
-                  <PrimaryButton className="w-full">Log in</PrimaryButton>
+                  <PrimaryButton /* onClick={onClick}  */className="w-full">
+                    Log in
+                  </PrimaryButton>
 
                   <a
                     href="/profile/register"

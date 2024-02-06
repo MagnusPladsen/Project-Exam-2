@@ -1,18 +1,26 @@
-import { configureStore } from "@reduxjs/toolkit";
-import venuesSlice from "./slices/venuesSlice";
-import { combineReducers } from "redux";
+import { configureStore, ConfigureStoreOptions } from "@reduxjs/toolkit";
+import { TypedUseSelectorHook, useDispatch, useSelector } from "react-redux";
+import { authService } from "../services/api/authService";
+import authSlice from "./slices/authSlice";
 import { holidazeApi } from "../services/api/holidazeApi";
 
-export const store = configureStore({
-  reducer: combineReducers({
-    venues: venuesSlice,
-    [holidazeApi.reducerPath]: holidazeApi.reducer,
-  }),
-  middleware: (getDefaultMiddleware: any) =>
-    getDefaultMiddleware().concat(holidazeApi.middleware),
-});
+export const createStore = (
+  options?: ConfigureStoreOptions["preloadedState"] | undefined
+) =>
+  configureStore({
+    reducer: {
+      [authService.reducerPath]: authService,
+      [holidazeApi.reducerPath]: holidazeApi.reducer,
+      authSlice,
+    },
+    middleware: (getDefaultMiddleware) =>
+      getDefaultMiddleware().concat(authService.middleware, holidazeApi.middleware),
+    ...options,
+  });
 
-// Infer the `RootState` and `AppDispatch` types from the store itself
-export type RootState = ReturnType<typeof store.getState>;
-// Inferred type: {posts: PostsState, comments: CommentsState, users: UsersState}
+export const store = createStore();
+
 export type AppDispatch = typeof store.dispatch;
+export const useAppDispatch = () => useDispatch<AppDispatch>();
+export type RootState = ReturnType<typeof store.getState>;
+export const useTypedSelector: TypedUseSelectorHook<RootState> = useSelector;

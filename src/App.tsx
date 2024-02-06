@@ -4,6 +4,7 @@ import Header from "./components/header/Header";
 import LandingPage from "./pages/LandingPage";
 import LoginPage from "./pages/LoginPage";
 import VenuesPage from "./pages/VenuesPage";
+import AuthRoute from "./utils/authRoute";
 
 function App() {
   return (
@@ -15,9 +16,9 @@ function App() {
           <Route
             path="venues"
             element={
-              /*  <AuthWrapper> */
-              <VenuesPage />
-              /* </AuthWrapper> */
+              <AuthRoute>
+                <VenuesPage />
+              </AuthRoute>
             }
           />
         </Route>

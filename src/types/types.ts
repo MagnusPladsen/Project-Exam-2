@@ -13,8 +13,13 @@ interface User {
   name: string;
   email: string;
   password: string;
-  avatar: string;
+  avatar?: string;
   venueManager?: boolean;
+}
+
+interface LoginRequest {
+  email: string;
+  password: string;
 }
 
 interface Owner {
