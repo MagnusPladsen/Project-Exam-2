@@ -5,6 +5,7 @@ import LandingPage from "./pages/LandingPage";
 import LoginPage from "./pages/LoginPage";
 import VenuesPage from "./pages/VenuesPage";
 import AuthRoute from "./utils/authRoute";
+import ProfilePage from "./pages/ProfilePage";
 
 function App() {
   return (
@@ -12,7 +13,10 @@ function App() {
       <Routes>
         <Route path="" element={<LandingPage />} />
         <Route path="/*" element={<AppContainer />}>
-          <Route path="profile/login" element={<LoginPage />} />
+          <Route path="login" element={<LoginPage />} />
+          <Route path="profile" element={<AuthRoute />}>
+            <Route index element={<ProfilePage />} />
+          </Route>
           <Route path="venues" element={<AuthRoute />}>
             <Route index element={<VenuesPage />} />
           </Route>

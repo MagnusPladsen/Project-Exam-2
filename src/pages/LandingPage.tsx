@@ -31,7 +31,7 @@ function LandingPage() {
                     See venues
                   </PrimaryButton>
                 </Link>
-                <Link to="/profile/login">
+                <Link to="/login">
                   <p className="mb-4 text-sm font-bold max-w-3xl w-fit mx-auto text-gray-300 hover:text-white hover:underline transition-all">
                     Log in
                   </p>
