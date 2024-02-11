@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import Logo from "../logo/Logo";
 import DesktopNav from "./DesktopNav";
 import MobileNav from "./MobileNav";
@@ -17,7 +18,9 @@ function Header() {
         className={` bg-primary text-white`}
       >
         <div className="px-4 lg:mx-auto lg:max-w-[1800px] flex items-center justify-center lg:justify-between h-full gap-2 relative">
-          <Logo />
+          <Link to="/">
+            <Logo />
+          </Link>
           <MobileNav />
           <DesktopNav links={navLinks} />
         </div>

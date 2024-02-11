@@ -12,9 +12,34 @@ interface Customer {
 interface User {
   name: string;
   email: string;
-  password: string;
-  avatar: string;
+  avatar?: string;
   venueManager?: boolean;
+  accessToken: string;
+}
+
+interface LoginRequest {
+  email: string;
+  password: string;
+}
+
+interface RegisterRequest {
+  name: string;
+  email: string;
+  password: string;
+  avatar?: string;
+  venueManager: boolean;
+}
+
+interface ServerErrorResponse {
+  errors: ServerError[];
+  status: string;
+  statusCode: number;
+}
+
+interface ServerError {
+  code: string;
+  message: string;
+  path: string[];
 }
 
 interface Owner {
@@ -76,4 +101,10 @@ interface CreateVenue {
   rating?: number;
   meta?: Meta;
   location?: Location;
+}
+
+interface InputProps extends React.InputHTMLAttributes<HTMLInputElement> {
+  name: string;
+  label?: string;
+  className?: string;
 }
