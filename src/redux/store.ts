@@ -1,15 +1,11 @@
-import {
-  combineReducers,
-  configureStore,
-  ConfigureStoreOptions,
-} from "@reduxjs/toolkit";
+import { Middleware, combineReducers, configureStore } from "@reduxjs/toolkit";
 import { TypedUseSelectorHook, useDispatch, useSelector } from "react-redux";
-import { authService } from "../services/api/authService";
-import auth from "./slices/authSlice";
-import { holidazeApi } from "../services/api/holidazeApi";
-import storage from "redux-persist/lib/storage";
 import { persistReducer, persistStore } from "redux-persist";
-import { thunk } from "redux-thunk"; // Corrected import
+import storage from "redux-persist/lib/storage";
+import * as thunk from "redux-thunk";
+import { authService } from "../services/api/authService";
+import { holidazeApi } from "../services/api/holidazeApi";
+import auth from "./slices/authSlice";
 
 const persistConfig = {
   key: "root",
@@ -24,15 +20,29 @@ const combinedReducers = combineReducers({
 
 const persistedReducer = persistReducer(persistConfig, combinedReducers);
 
-// Corrected spelling of ConfigureStoreOptions
+// fixed the issue with the non-serializable value
+const nonSerializableCheckMiddleware: Middleware =
+  (store) => (next) => (action: any) => {
+    if (action.type === "persist/PERSIST") {
+      // Exclude specific actions from the check
+      return next(action);
+    }
+    return next(action);
+  };
+
 export const createStore = () =>
   configureStore({
     reducer: persistedReducer,
     middleware: (getDefaultMiddleware) =>
-      getDefaultMiddleware().concat([
+      getDefaultMiddleware({
+        serializableCheck: {
+          ignoredActions: ["persist/PERSIST"], // Ignore specific actions
+        },
+      }).concat([
         authService.middleware,
         holidazeApi.middleware,
-        thunk, // Placed custom middleware before default
+        thunk.thunk,
+        nonSerializableCheckMiddleware,
       ]),
   });
 
@@ -43,3 +53,6 @@ export type AppDispatch = typeof store.dispatch;
 export const useAppDispatch = () => useDispatch<AppDispatch>();
 export type RootState = ReturnType<typeof store.getState>;
 export const useTypedSelector: TypedUseSelectorHook<RootState> = useSelector;
+function createLogger() {
+  throw new Error("Function not implemented.");
+}
