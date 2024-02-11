@@ -7,12 +7,11 @@ import FormErrorMessage from "../../messages/FormErrorMessage";
 import Input from "../Input";
 import schema from "./validation";
 import sanitizeUrl from "../../../formatters/sanitizeUrl";
+import useAuth from "../../../hooks/useAuth";
 
-function RegisterForm({
-  setRegister,
-}: {
-  setRegister: (value: boolean) => void;
-}) {
+function RegisterForm({}: {}) {
+  const { saveUser } = useAuth();
+
   const formMethods = useForm<RegisterRequest>({
     resolver: yupResolver(schema),
   });
@@ -24,14 +23,12 @@ function RegisterForm({
   const [register, { error }] = useRegisterMutation();
 
   const submitForm = async (data: RegisterRequest) => {
-    await register(data)
-      .unwrap()
-      .then(() => {
-        setRegister(false);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
+    try {
+      const res = await register(data).unwrap();
+      saveUser(res);
+    } catch (err) {
+      console.log(err);
+    }
   };
   return (
     <FormProvider {...formMethods}>
@@ -43,7 +40,9 @@ function RegisterForm({
           name="avatar"
           type="url"
           label="Avatar (optional)"
+          required={false}
           onBlur={(e) => {
+            if (!e.target.value) return;
             const sanitizedUrl = sanitizeUrl(e.target.value);
             console.log(sanitizedUrl);
             setValue("avatar", sanitizedUrl);

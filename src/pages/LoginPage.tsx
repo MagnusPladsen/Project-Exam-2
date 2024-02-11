@@ -28,7 +28,7 @@ function LoginPage() {
               <h2 className="text-2xl font-bold text-gray-800 text-left mb-5">
                 {register ? "Register" : "Log in"}
               </h2>
-              {register ? <RegisterForm setRegister={setRegister} /> : <LoginForm />}
+              {register ? <RegisterForm /> : <LoginForm />}
               <p
                 onClick={() => {
                   setRegister(!register);
