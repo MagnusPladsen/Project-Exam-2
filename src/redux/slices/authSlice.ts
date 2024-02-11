@@ -1,7 +1,7 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { RootState } from "../store"
+import { RootState } from "../store";
 
-const authSlice = createSlice({
+const auth = createSlice({
   name: "auth",
   initialState: { user: null, token: null } as {
     user: null | User;
@@ -14,13 +14,15 @@ const authSlice = createSlice({
     ) => {
       state.user = user;
       state.token = token;
-    }
+      return state;
+    },
   },
-  extraReducers: (builder) => {}
+  extraReducers: (builder) => {},
 });
 
-export const { setCredentials } = authSlice.actions;
+export const { setCredentials } = auth.actions;
 
-export default authSlice.reducer;
+export default auth.reducer;
 
 export const selectCurrentUser = (state: RootState) => state.auth.user;
+export const selectToken = (state: RootState) => state.auth.token;

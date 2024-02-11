@@ -1,7 +1,7 @@
 import { configureStore, ConfigureStoreOptions } from "@reduxjs/toolkit";
 import { TypedUseSelectorHook, useDispatch, useSelector } from "react-redux";
 import { authService } from "../services/api/authService";
-import authSlice from "./slices/authSlice";
+import auth from "./slices/authSlice";
 import { holidazeApi } from "../services/api/holidazeApi";
 
 export const createStore = (
@@ -11,10 +11,13 @@ export const createStore = (
     reducer: {
       [authService.reducerPath]: authService.reducer,
       [holidazeApi.reducerPath]: holidazeApi.reducer,
-      authSlice,
+      auth,
     },
     middleware: (getDefaultMiddleware) =>
-      getDefaultMiddleware().concat(authService.middleware, holidazeApi.middleware),
+      getDefaultMiddleware().concat(
+        authService.middleware,
+        holidazeApi.middleware
+      ),
     ...options,
   });
 

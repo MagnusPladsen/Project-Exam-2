@@ -1,13 +1,23 @@
 import { useForm, SubmitHandler, FormProvider } from "react-hook-form";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { useLoginMutation } from "../../../services/api/authService";
 import PrimaryButton from "../../buttons/PrimaryButton";
 import Input from "../Input";
 import ErrorMessage from "../../messages/ErrorMessage";
+import schema from "./validation";
+import { yupResolver } from "@hookform/resolvers/yup";
+import {
+  selectCurrentUser,
+  setCredentials,
+} from "../../../redux/slices/authSlice";
+import { useEffect } from "react";
 
 function LoginForm() {
-  const formMethods = useForm<LoginRequest>();
+  const formMethods = useForm<LoginRequest>({
+    resolver: yupResolver(schema),
+  });
+
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { handleSubmit } = formMethods;
@@ -17,14 +27,16 @@ function LoginForm() {
   const [login, { error }] = useLoginMutation();
 
   const submitForm = async (data: LoginRequest) => {
-    await login(data)
-      .then((res) => {
-        console.log(res);
-        /* dispatch(setCredentials({ user: res.data!, token: res.data.token }));
-      navigate("/venues"); */
-      })
-      .catch((err) => console.log(err));
+    try {
+      const res = await login(data).unwrap();
+      console.log(res);
+      dispatch(setCredentials({ user: res, token: res.accessToken }));
+      navigate("/venues");
+    } catch (err) {
+      console.log(err);
+    }
   };
+
   return (
     <FormProvider {...formMethods}>
       <form onSubmit={handleSubmit(onSubmit)} className="w-full">
