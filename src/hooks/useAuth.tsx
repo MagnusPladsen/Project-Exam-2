@@ -1,13 +1,11 @@
-import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useLoginMutation } from "../services/api/authService";
+import { useNavigate } from "react-router-dom";
 import {
   removeCredentials,
   selectCurrentUser,
   selectToken,
   setCredentials,
 } from "../redux/slices/authSlice";
-import { useNavigate } from "react-router-dom";
 
 function useAuth() {
   const dispatch = useDispatch();
