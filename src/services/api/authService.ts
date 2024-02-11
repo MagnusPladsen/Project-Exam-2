@@ -6,9 +6,9 @@ export const authService = createApi({
     baseUrl: "https://api.noroff.dev/api/v1/holidaze/auth/",
     prepareHeaders: (headers, { getState }) => {
       // By default, if we have a token in the store, let's use that for authenticated requests
-      const token = (getState() as RootState).auth.token;
+      const token = (getState() as RootState).authSlice.token;
       if (token) {
-        headers.set("authentication", `Bearer ${token}`);
+        headers.set("Authorization", `Bearer ${token}`);
       }
       return headers;
     },
@@ -20,6 +20,21 @@ export const authService = createApi({
         method: "POST",
         body,
       }),
+      transformErrorResponse: (response: any) => {
+        if (!response.ok) throw new Error(response.data.status);
+        return response.json();
+      },
+    }),
+    register: builder.mutation<User, RegisterRequest>({
+      query: (body) => ({
+        url: "register",
+        method: "POST",
+        body,
+      }),
+      transformErrorResponse: (response: any) => {
+        if (!response.ok) throw new Error(response.data.status);
+        return response.json();
+      },
     }),
     protected: builder.mutation({
       query: () => "protected",
@@ -27,4 +42,5 @@ export const authService = createApi({
   }),
 });
 
-export const { useLoginMutation, useProtectedMutation } = authService;
+export const { useLoginMutation, useRegisterMutation, useProtectedMutation } =
+  authService;
