@@ -16,11 +16,16 @@ const auth = createSlice({
       state.token = token;
       return state;
     },
+    removeCredentials: (state) => {
+      state.user = null;
+      state.token = null;
+      return state;
+    },
   },
   extraReducers: (builder) => {},
 });
 
-export const { setCredentials } = auth.actions;
+export const { setCredentials, removeCredentials } = auth.actions;
 
 export default auth.reducer;
 

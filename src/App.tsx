@@ -13,14 +13,9 @@ function App() {
         <Route path="" element={<LandingPage />} />
         <Route path="/*" element={<AppContainer />}>
           <Route path="profile/login" element={<LoginPage />} />
-          <Route
-            path="venues"
-            element={
-              <AuthRoute path="/">
-                <VenuesPage />
-              </AuthRoute>
-            }
-          />
+          <Route path="venues" element={<AuthRoute />}>
+            <Route index element={<VenuesPage />} />
+          </Route>
         </Route>
       </Routes>
     </BrowserRouter>
@@ -32,8 +27,8 @@ const AppContainer = () => {
     <>
       <Header />
       {/* <div className="mx-auto lg:max-w-[1800px] flex flex-col min-h-[calc(100vh-60px)] lg:min-h-[calc(100vh-80px)] bg-white tracking-wide"> */}
-        <Outlet />
-     {/*  </div> */}
+      <Outlet />
+      {/*  </div> */}
       <Footer />
     </>
   );

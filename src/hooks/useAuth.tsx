@@ -1,42 +1,33 @@
 import { useState } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useLoginMutation } from "../services/api/authService";
+import {
+  removeCredentials,
+  selectCurrentUser,
+  selectToken,
+  setCredentials,
+} from "../redux/slices/authSlice";
+import { useNavigate } from "react-router-dom";
 
 function useAuth() {
-  const [user, setUser] = useState<User | null>(null);
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
 
-  const isLoggedIn = () => {
-    const token = localStorage.getItem("token");
+  const token = useSelector(selectToken);
+  const user = useSelector(selectCurrentUser);
 
-    if (!!token) {
-      try {
-        const user = JSON.parse(localStorage.getItem("user")!);
-        if (!!user) {
-          setUser(user);
-        }
-      } catch (error) {
-        console.error("Error parsing user data:", error);
-        // Handle gracefully
-      }
-    }
-
-    return !!token;
+  const logIn = (user: User) => {
+    dispatch(setCredentials({ user: user, token: user.accessToken }));
+    navigate("/venues");
   };
-
 
   const logOut = () => {
-    localStorage.removeItem("token");
-    localStorage.removeItem("user");
-    setUser(null);
+    dispatch(removeCredentials());
   };
 
-  const saveProfile = (user: User, token: string) => {
-    localStorage.setItem("user", JSON.stringify(user));
-    localStorage.setItem("token", token);
-    setUser(user);
-  };
+  const isLoggedIn = !!token && !!user;
 
-  return { user, isLoggedIn, logOut, saveProfile };
+  return { isLoggedIn, user, token, logIn, logOut };
 }
 
 export default useAuth;

@@ -1,16 +1,9 @@
-import { useSelector } from "react-redux";
-import { Route, RouteProps } from "react-router-dom";
-import { selectCurrentUser } from "../redux/slices/authSlice";
-import { Navigate, Outlet } from "react-router-dom";
+import { RouteProps } from "react-router-dom";
+import useAuth from "../hooks/useAuth";
 
-function AuthRoute({ ...rest }: RouteProps) {
-  const user = useSelector(selectCurrentUser);
-  return (
-    <Route
-      {...rest}
-      element={!!user ? <Outlet /> : <Navigate to="/" replace />}
-    />
-  );
+function AuthRoute({ children }: RouteProps) {
+  const { isLoggedIn} = useAuth();
+  return <>{isLoggedIn ? children : null}</>;
 }
 
 export default AuthRoute;
