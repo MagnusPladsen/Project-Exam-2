@@ -16,7 +16,7 @@ function useAuth() {
   const token = useSelector(selectToken);
   const user = useSelector(selectCurrentUser);
 
-  const logIn = (user: User) => {
+  const saveUser = (user: User) => {
     dispatch(setCredentials({ user: user, token: user.accessToken }));
     navigate("/venues");
   };
@@ -27,7 +27,7 @@ function useAuth() {
 
   const isLoggedIn = !!token && !!user;
 
-  return { isLoggedIn, user, token, logIn, logOut };
+  return { isLoggedIn, user, token, saveUser, logOut };
 }
 
 export default useAuth;
