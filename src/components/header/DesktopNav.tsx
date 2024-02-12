@@ -27,7 +27,7 @@ function DesktopNav({ links }: { links: NavLink[] }) {
         <>
           <div
             onClick={() => setOpen((prev) => !prev)}
-            className="flex gap-2 items-center cursor-pointer"
+            className="flex gap-2 items-center cursor-pointer justify-center"
           >
             <motion.div
               animate={{
@@ -35,7 +35,7 @@ function DesktopNav({ links }: { links: NavLink[] }) {
               }}
               transition={{ duration: 0.2 }}
             >
-              <DropDownIcon />
+              <DropDownIcon className="text-white !h-3 !w-3" />
             </motion.div>
             <p>{user?.name}</p>{" "}
             {user?.avatar ? (
@@ -51,7 +51,7 @@ function DesktopNav({ links }: { links: NavLink[] }) {
           </div>
 
           {open && (
-            <div className="absolute right-0 top-[60px] bg-primary px-10 py-5 rounded-bl">
+            <div className="absolute right-0 top-[60px] bg-primary px-10 pb-5 rounded-bl">
               <ul className="flex flex-col gap-4">
                 <li>
                   <NavLink
@@ -64,6 +64,12 @@ function DesktopNav({ links }: { links: NavLink[] }) {
                     My profile
                   </NavLink>
                 </li>
+                {user?.venueManager && (
+                  <>
+                    <li className="cursor-pointer">My venues</li>
+                    <li className="cursor-pointer">New venue</li>
+                  </>
+                )}
 
                 <li
                   className="cursor-pointer"

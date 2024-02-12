@@ -5,12 +5,13 @@ import useAuth from "../../hooks/useAuth";
 import ProfileIcon from "../icons/Profileicon";
 import VenueIcon from "../icons/VenueIcon";
 import HomeIcon from "../icons/HomeIcon";
+import DropDownIcon from "../icons/DropDownIcon";
+import { motion } from "framer-motion";
 
 function MobileNav() {
   const { isLoggedIn, logOut, user } = useAuth();
 
   const [open, setOpen] = useState(false);
-  const [profileOpen, setProfileOpen] = useState(false);
 
   return (
     <div className="lg:hidden">
@@ -48,7 +49,7 @@ function MobileNav() {
           </NavLink>
           {isLoggedIn ? (
             <div
-              onClick={() => setProfileOpen((prev) => !prev)}
+              onClick={() => setOpen((prev) => !prev)}
               className="inline-flex flex-col items-center justify-center px-5 hover:bg-gray-50 dark:hover:bg-gray-800 group"
             >
               {user?.avatar ? (
@@ -62,8 +63,16 @@ function MobileNav() {
               ) : (
                 <ProfileIcon className="w-5 h-5 mb-2 text-gray-500 dark:text-gray-400 group-hover:text-primary dark:group-hover:text-blue-500" />
               )}
-              <span className="text-sm text-gray-500 dark:text-gray-400 group-hover:text-primary dark:group-hover:text-blue-500">
+              <span className="text-sm text-gray-500 dark:text-gray-400 group-hover:text-primary dark:group-hover:text-blue-500 flex gap-2 items-center ">
                 {isLoggedIn ? user?.name : "Profile"}
+                <motion.div
+                  animate={{
+                    rotate: open ? 180 : 0,
+                  }}
+                  transition={{ duration: 0.2 }}
+                >
+                  <DropDownIcon className="!h-3 !w-3" />
+                </motion.div>
               </span>
             </div>
           ) : (
@@ -78,13 +87,13 @@ function MobileNav() {
               </span>
             </NavLink>
           )}
-          {profileOpen && (
-            <div className="fixed bottom-[62px] right-0 border-x border-t bg-white border-gray-200 text-gray-500 text-sm w-[25%] text-center z-50 ">
-              <ul className="flex flex-col gap-5 ">
+          {open && (
+            <div className="fixed bottom-[62px] right-0 border-x border-t bg-white border-gray-200 text-gray-500 text-sm w-[50%] px-10 pt-5 z-50 ">
+              <ul className="flex flex-col ">
                 <li className="hover:bg-gray-50 py-5  cursor-pointer hover:text-primary">
                   <NavLink
                     to={"/profile"}
-                    onClick={() => setProfileOpen(false)}
+                    onClick={() => setOpen(false)}
                     className={({ isActive }) =>
                       isActive ? "underline underline-offset-4 " : ""
                     }
@@ -92,11 +101,37 @@ function MobileNav() {
                     My profile
                   </NavLink>
                 </li>
+                {user?.venueManager && (
+                  <>
+                    <li className="hover:bg-gray-50 py-5  cursor-pointer hover:text-primary">
+                      <NavLink
+                        to={"/profile/venues"}
+                        onClick={() => setOpen(false)}
+                        className={({ isActive }) =>
+                          isActive ? "underline underline-offset-4 " : ""
+                        }
+                      >
+                        My venues
+                      </NavLink>
+                    </li>
+                    <li className="hover:bg-gray-50 py-5  cursor-pointer hover:text-primary">
+                      <NavLink
+                        to={"/profile/venues/new"}
+                        onClick={() => setOpen(false)}
+                        className={({ isActive }) =>
+                          isActive ? "underline underline-offset-4 " : ""
+                        }
+                      >
+                        New venue
+                      </NavLink>
+                    </li>
+                  </>
+                )}
 
                 <li
                   className="cursor-pointer hover:bg-gray-50 py-5 "
                   onClick={() => {
-                    setProfileOpen(false);
+                    setOpen(false);
                     logOut();
                   }}
                 >
