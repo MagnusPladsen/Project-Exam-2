@@ -1,9 +1,8 @@
 import { useEffect, useState } from "react";
 import PrimaryButton from "../components/buttons/PrimaryButton";
 import VenueCard from "../components/listVenus/VenueCard";
-import {
-  useGetVenuesQuery 
-} from "../services/api/holidazeApi";
+import { useGetVenuesQuery } from "../services/api/holidazeApi";
+import ErrorMessage from "../components/messages/ErrorMessage";
 
 function VenuesPage() {
   const [latestVenues, setLatestVenues] = useState<Venue[]>([]);
@@ -49,7 +48,7 @@ function VenuesPage() {
         </p>
       </div>
       <div className="grid gap-8 lg:grid-cols-2 mb-4">
-        {isLoading ? (
+        {isLoading && !error && (
           <>
             <VenueCard isLoading />
             <VenueCard isLoading />
@@ -57,11 +56,13 @@ function VenuesPage() {
             <VenueCard isLoading />
             <VenueCard isLoading />
           </>
-        ) : (
+        )}
+        {latestVenues.length &&
+          !error &&
           latestVenues.map((venue, index) => (
             <VenueCard venue={venue} key={index} />
-          ))
-        )}
+          ))}
+        {error && <ErrorMessage />}
       </div>
       <div className="w-fit mx-auto my-10">
         <PrimaryButton onClick={incrementStep}>Load more</PrimaryButton>
