@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import PrimaryButton from "../components/buttons/PrimaryButton";
 import VenueCard from "../components/listVenus/VenueCard";
 import {
-  useGetVenuesQuery
+  useGetVenuesQuery 
 } from "../services/api/holidazeApi";
 
 function VenuesPage() {
