@@ -27,7 +27,6 @@ function VenuesPage() {
   }
 
   function getMoreVenues() {
-    if (venues) alert("No more venues to load");
     if (!!venues) {
       setLatestVenues((prev) => [...prev, ...venues]);
     }
