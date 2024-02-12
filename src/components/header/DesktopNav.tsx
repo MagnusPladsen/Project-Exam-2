@@ -2,6 +2,8 @@ import { NavLink } from "react-router-dom";
 import ProfileIcon from "../icons/Profileicon";
 import useAuth from "../../hooks/useAuth";
 import { useState } from "react";
+import DropDownIcon from "../icons/DropDownIcon";
+import { motion } from "framer-motion";
 
 function DesktopNav({ links }: { links: NavLink[] }) {
   const { isLoggedIn, logOut, user } = useAuth();
@@ -27,6 +29,14 @@ function DesktopNav({ links }: { links: NavLink[] }) {
             onClick={() => setOpen((prev) => !prev)}
             className="flex gap-2 items-center cursor-pointer"
           >
+            <motion.div
+              animate={{
+                rotate: open ? 180 : 0,
+              }}
+              transition={{ duration: 0.2 }}
+            >
+              <DropDownIcon />
+            </motion.div>
             <p>{user?.name}</p>{" "}
             {user?.avatar ? (
               <img
@@ -36,13 +46,13 @@ function DesktopNav({ links }: { links: NavLink[] }) {
                 alt="Profile picture"
               />
             ) : (
-              <ProfileIcon />
+              <ProfileIcon className="!h-[34px] !w-[34px] !text-white" />
             )}
           </div>
 
           {open && (
-            <div className="absolute bg-primary rounded">
-              <ul className="flex flex-col gap-2">
+            <div className="absolute right-0 top-[60px] bg-primary px-10 py-5 rounded-bl">
+              <ul className="flex flex-col gap-4">
                 <li>
                   <NavLink
                     to={"/profile"}

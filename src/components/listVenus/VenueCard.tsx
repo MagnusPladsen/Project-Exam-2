@@ -52,14 +52,20 @@ function VenueCard({
       </p>
       <div className="flex justify-between items-center">
         <div className="flex items-center space-x-2">
-          {isLoading || !venue?.owner?.avatar ? (
+          {isLoading ? (
             <Skeleton circle width={28} height={28} />
           ) : (
-            <img
-              className="w-7 h-7 rounded-full"
-              src={venue.owner.avatar}
-              alt={`${venue.owner.name}'s avatar`}
-            />
+            <>
+              {venue?.owner?.avatar ? (
+                <img
+                  className="w-7 h-7 rounded-full"
+                  src={venue.owner.avatar}
+                  alt={`${venue.owner.name}'s avatar`}
+                />
+              ) : (
+                <ProfileIcon fill="#CCD3E1" size="28" />
+              )}
+            </>
           )}
           <span className="font-medium dark:text-white">
             {isLoading || !venue ? (
