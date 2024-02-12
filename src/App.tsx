@@ -18,13 +18,8 @@ function App() {
             <Route path="login" element={<LoginPage />} />
 
             {/* Routes that require authentication */}
-            <Route path="profile" element={<AuthRoute />}>
-              <Route index element={<ProfilePage />} />
-            </Route>
-
-            <Route path="venues" element={<AuthRoute />}>
-              <Route index element={<VenuesPage />} />
-            </Route>
+            <Route path="profile" element={<ProfilePage />} />
+            <Route path="venues" element={<VenuesPage />} />
           </Route>
         </Routes>
       </AuthRoute>

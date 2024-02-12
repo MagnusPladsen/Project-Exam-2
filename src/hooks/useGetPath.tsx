@@ -1,6 +1,6 @@
 function useGetPath() {
   const url = new URL(window.location.href);
-  const protectedRoutes = ["profile", "venues"];
+  const protectedRoutes = ["profile"];
 
   const venueIdParam = url.searchParams.get("venueId");
   const path = url.pathname;

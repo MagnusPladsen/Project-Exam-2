@@ -19,11 +19,11 @@ function LoginPage() {
       className={` antialiased bg-gradient-to-b from-primary to-white h-full w-full `}
     >
       <div className="container px-6 mx-auto py-10">
-        <div className="flex flex-col text-center md:text-left md:flex-row min-h-screen justify-evenly md:items-center">
+        <div className="flex flex-col text-center md:text-left md:flex-row min-h-screen md:justify-evenly md:items-center">
           <div className="lg:flex flex-col w-full hidden lg:mb-80">
             <Logo logoSize="60" textClassName="!text-6xl" />
           </div>
-          <div className="w-full md:w-full lg:w-9/12 mx-auto md:mx-0">
+          <div className="w-full md:w-9/12 mx-auto md:mx-0">
             <div className="bg-white p-10 flex flex-col w-full shadow-xl rounded-xl">
               <h2 className="text-2xl font-bold text-gray-800 text-left mb-5">
                 {register ? "Register" : "Log in"}
