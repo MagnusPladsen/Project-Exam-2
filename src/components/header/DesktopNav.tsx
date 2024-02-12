@@ -55,6 +55,7 @@ function DesktopNav({ links }: { links: NavLink[] }) {
               <ul className="flex flex-col gap-4">
                 <li>
                   <NavLink
+                    onClick={() => setOpen(false)}
                     to={"/profile"}
                     className={({ isActive }) =>
                       isActive ? "underline underline-offset-4" : ""
@@ -64,7 +65,13 @@ function DesktopNav({ links }: { links: NavLink[] }) {
                   </NavLink>
                 </li>
 
-                <li className="cursor-pointer" onClick={logOut}>
+                <li
+                  className="cursor-pointer"
+                  onClick={() => {
+                    setOpen(false);
+                    logOut();
+                  }}
+                >
                   Log out
                 </li>
               </ul>

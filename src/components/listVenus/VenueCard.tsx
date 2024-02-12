@@ -1,10 +1,9 @@
-import StarRatings from "react-star-ratings";
-import formatToDate from "../../formatters/formatToDate";
-import LocationIcon from "../icons/LocationIcon";
-import ProfileIcon from "../icons/Profileicon";
 import Skeleton from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
 import { Link } from "react-router-dom";
+import StarRatings from "react-star-ratings";
+import LocationIcon from "../icons/LocationIcon";
+import ProfileIcon from "../icons/Profileicon";
 
 function VenueCard({
   venue,
@@ -14,7 +13,7 @@ function VenueCard({
   isLoading?: boolean;
 }) {
   return (
-    <article className="p-6 max-w-[90vw] lg:w-[360px] bg-white rounded-lg border border-gray-200 shadow-md dark:bg-gray-800 dark:border-gray-700">
+    <article className="p-6 w-[90vw] lg:w-full xl:max-w-lg xl:mx-auto bg-white rounded-lg border border-gray-200 shadow-md dark:bg-gray-800 dark:border-gray-700">
       <div className="flex justify-between items-center mb-5 text-gray-500">
         {isLoading || !venue ? (
           <Skeleton width={50} height={20} />
@@ -63,7 +62,7 @@ function VenueCard({
                   alt={`${venue.owner.name}'s avatar`}
                 />
               ) : (
-                <ProfileIcon fill="#CCD3E1" size="28" />
+                <ProfileIcon className="!mb-0 !w-7 !h-7" />
               )}
             </>
           )}

@@ -94,11 +94,12 @@ function MobileNav() {
             </NavLink>
           )}
           {profileOpen && (
-            <div className="fixed bottom-[62px] right-0 border-x border-t bg-white border-gray-200 text-gray-500 text-sm w-[122px] z-50 ">
+            <div className="fixed bottom-[62px] right-0 border-x border-t bg-white border-gray-200 text-gray-500 text-sm w-[25%] text-center z-50 ">
               <ul className="flex flex-col gap-5 ">
-                <li className="hover:bg-gray-50 py-5 px-5 cursor-pointer hover:text-primary">
+                <li className="hover:bg-gray-50 py-5  cursor-pointer hover:text-primary">
                   <NavLink
                     to={"/profile"}
+                    onClick={() => setProfileOpen(false)}
                     className={({ isActive }) =>
                       isActive ? "underline underline-offset-4 " : ""
                     }
@@ -107,7 +108,13 @@ function MobileNav() {
                   </NavLink>
                 </li>
 
-                <li className="cursor-pointer hover:bg-gray-50 py-5 px-5" onClick={logOut}>
+                <li
+                  className="cursor-pointer hover:bg-gray-50 py-5 "
+                  onClick={() => {
+                    setProfileOpen(false);
+                    logOut();
+                  }}
+                >
                   Log out
                 </li>
               </ul>
