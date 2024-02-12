@@ -34,13 +34,11 @@ function VenueCard({
         </span>
       </div>
       <h2 className="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white truncate text-ellipsis">
-        <Link to={`/profile/${venue?.owner.name}`}>
-          {isLoading || !venue ? (
-            <Skeleton width={200} height={20} />
-          ) : (
-            venue.name
-          )}
-        </Link>
+        {isLoading || !venue ? (
+          <Skeleton width={200} height={20} />
+        ) : (
+          venue.name
+        )}
       </h2>
       <p className="mb-5 h-[calc(1rem*3)] font-light text-gray-500 dark:text-gray-400 line-clamp-3">
         {isLoading || !venue ? (
@@ -50,30 +48,36 @@ function VenueCard({
         )}
       </p>
       <div className="flex justify-between items-center">
-        <div className="flex items-center space-x-2">
-          {isLoading ? (
-            <Skeleton circle width={28} height={28} />
-          ) : (
-            <>
-              {venue?.owner?.avatar ? (
-                <img
-                  className="w-7 h-7 rounded-full"
-                  src={venue.owner.avatar}
-                  alt={`${venue.owner.name}'s avatar`}
-                />
-              ) : (
-                <ProfileIcon className="!mb-0 !w-7 !h-7" />
-              )}
-            </>
-          )}
-          <span className="font-medium dark:text-white">
-            {isLoading || !venue ? (
-              <Skeleton width={100} height={20} />
+        <Link
+          className="cursor-pointer hover:underline underline-offset-2 hover:text-primary group transition-all"
+          to={`/profile/${venue?.owner.name}`}
+        >
+          <div className="flex items-center space-x-2">
+            {isLoading ? (
+              <Skeleton circle width={28} height={28} />
             ) : (
-              venue.owner.name
+              <>
+                {venue?.owner?.avatar ? (
+                  <img
+                    className="w-7 h-7 rounded-full group-hover:opacity-80 transition-all border-2 group-hover:border-primary border-white"
+                    src={venue.owner.avatar}
+                    alt={`${venue.owner.name}'s avatar`}
+                  />
+                ) : (
+                  <ProfileIcon className="!mb-0 !w-7 !h-7" />
+                )}
+              </>
             )}
-          </span>
-        </div>
+
+            <span className="font-medium dark:text-white ">
+              {isLoading || !venue ? (
+                <Skeleton width={100} height={20} />
+              ) : (
+                venue.owner.name
+              )}
+            </span>
+          </div>
+        </Link>
         <Link
           to={`/venues/${venue?.id}`}
           className="inline-flex items-center font-medium text-primary hover:underline"
