@@ -4,6 +4,9 @@ import { Link } from "react-router-dom";
 import StarRatings from "react-star-ratings";
 import LocationIcon from "../icons/LocationIcon";
 import ProfileIcon from "../icons/Profileicon";
+import ArrowIcon from "../icons/ArrowIcon";
+import { Tooltip } from "react-tooltip";
+import HolidazeTooltip from "../tooltip/HolidazeTooltip";
 
 function VenueCard({
   venue,
@@ -23,7 +26,12 @@ function VenueCard({
           </span>
         )}
 
-        <span className="text-sm">
+        <HolidazeTooltip id="venue-rating" />
+        <span
+          data-tooltip-id="venue-rating"
+          data-tooltip-content={`This venue has gotten an average rating of ${venue?.rating} out of 5`}
+          className="text-sm"
+        >
           <StarRatings
             rating={isLoading || !venue ? 5 : venue.rating}
             numberOfStars={5}
@@ -83,18 +91,7 @@ function VenueCard({
           className="inline-flex items-center font-medium text-primary hover:underline"
         >
           See venue
-          <svg
-            className="ml-2 w-4 h-4"
-            fill="currentColor"
-            viewBox="0 0 20 20"
-            xmlns="http://www.w3.org/2000/svg"
-          >
-            <path
-              fillRule="evenodd"
-              d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z"
-              clipRule="evenodd"
-            ></path>
-          </svg>
+          <ArrowIcon />
         </Link>
       </div>
     </article>

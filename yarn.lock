@@ -1767,7 +1767,7 @@ ci-info@^3.2.0:
   resolved "https://registry.yarnpkg.com/ci-info/-/ci-info-3.9.0.tgz#4279a62028a7b1f262f3473fc9605f5e218c59b4"
   integrity sha512-NIxF55hv4nSqQswkAeiOi1r83xy8JldOFDTWiug55KBu9Jnblncd2U6ViHmYgHf01TPZS77NJBhBMKdWj9HQMQ==
 
-classnames@^2.2.1, classnames@^2.2.6:
+classnames@^2.2.1, classnames@^2.2.6, classnames@^2.3.0:
   version "2.5.1"
   resolved "https://registry.yarnpkg.com/classnames/-/classnames-2.5.1.tgz#ba774c614be0f016da105c858e7159eae8e7687b"
   integrity sha512-saHYOzhIQs6wy2sVxTM6bUDsQO4F50V9RQ22qBpEdCW+I+/Wmke2HOl6lS6dTpdxVhb88/I6+Hs+438c3lfUow==
@@ -5040,6 +5040,14 @@ react-star-ratings@^2.3.0:
     classnames "^2.2.1"
     prop-types "^15.6.0"
     react "^16.1.0"
+
+react-tooltip@^5.26.2:
+  version "5.26.2"
+  resolved "https://registry.yarnpkg.com/react-tooltip/-/react-tooltip-5.26.2.tgz#9af7fac3dcf423a3d6cc811980dc3f24016f0fe1"
+  integrity sha512-C1qHiqWYn6l5c98kL/NKFyJSw5G11vUVJkgOPcKgn306c5iL5317LxMNn5Qg1GSSM7Qvtsd6KA5MvwfgxFF7Dg==
+  dependencies:
+    "@floating-ui/dom" "^1.6.1"
+    classnames "^2.3.0"
 
 react@^16.1.0:
   version "16.14.0"
