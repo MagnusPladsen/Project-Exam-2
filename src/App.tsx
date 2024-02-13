@@ -6,6 +6,7 @@ import LandingPage from "./pages/Landing.page";
 import LoginPage from "./pages/Login.page";
 import VenuesPage from "./pages/Venues.page";
 import ProfilePage from "./pages/Profile.page";
+import SingleVenuePage from "./pages/SingeVenue.page";
 
 function App() {
   return (
@@ -16,10 +17,11 @@ function App() {
           {/* Routes with header and footer */}
           <Route path="/*" element={<AppContainer />}>
             <Route path="login" element={<LoginPage />} />
+            <Route path="venues" element={<VenuesPage />} />
+            <Route path="venues/:id" element={<SingleVenuePage />} />
 
             {/* Routes that require authentication */}
             <Route path="profile" element={<ProfilePage />} />
-            <Route path="venues" element={<VenuesPage />} />
           </Route>
         </Routes>
       </AuthRoute>
