@@ -86,7 +86,7 @@ function VenueCard({
           </div>
         </Link>
         <Link
-          to={`/venues?id=${venue?.id}`}
+          to={`/venues/${venue?.id}`}
           className="inline-flex items-center font-medium text-primary hover:underline"
         >
           See venue
