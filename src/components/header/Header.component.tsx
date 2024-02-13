@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom";
-import Logo from "../logo/Logo";
-import DesktopNav from "./DesktopNav";
-import MobileNav from "./MobileNav";
+import Logo from "../logo/Logo.component";
+import DesktopNav from "./navigation/DesktopNav.component";
+import MobileNav from "./navigation/MobileNav.component";
 
 const headerHeight = "60px";
 

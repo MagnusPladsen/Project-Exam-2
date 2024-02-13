@@ -1,8 +1,8 @@
 import { NavLink } from "react-router-dom";
-import ProfileIcon from "../icons/Profileicon";
-import useAuth from "../../hooks/useAuth";
+import ProfileIcon from "../../icons/Profileicon.component";
+import useAuth from "../../../hooks/useAuth";
 import { useState } from "react";
-import DropDownIcon from "../icons/DropDownIcon";
+import DropDownIcon from "../../icons/DropDownIcon.component";
 import { motion } from "framer-motion";
 
 function DesktopNav({ links }: { links: NavLink[] }) {

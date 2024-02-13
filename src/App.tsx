@@ -1,11 +1,11 @@
 import { BrowserRouter, Outlet, Route, Routes } from "react-router-dom";
-import Footer from "./components/Footer/Footer";
-import Header from "./components/header/Header";
+import Footer from "./components/Footer/Footer.component";
+import Header from "./components/header/Header.component";
 import AuthRoute from "./utils/authWrapper";
-import LandingPage from "./pages/LandingPage";
-import LoginPage from "./pages/LoginPage";
-import VenuesPage from "./pages/VenuesPage";
-import ProfilePage from "./pages/ProfilePage";
+import LandingPage from "./pages/Landing.page";
+import LoginPage from "./pages/Login.page";
+import VenuesPage from "./pages/Venues.page";
+import ProfilePage from "./pages/Profile.page";
 
 function App() {
   return (

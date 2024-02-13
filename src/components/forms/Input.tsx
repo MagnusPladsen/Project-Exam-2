@@ -1,5 +1,5 @@
 import { useFormContext } from "react-hook-form";
-import FormErrorMessage from "../messages/FormErrorMessage";
+import FormErrorMessage from "../messages/FormErrorMessage.component";
 
 function Input({ name, label, className, ...inputProps }: InputProps) {
   const {

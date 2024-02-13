@@ -1,5 +1,5 @@
 import { ErrorMessage as HookFormErrorMessage } from "@hookform/error-message";
-import ErrorMessage from "./ErrorMessage";
+import ErrorMessage from "./ErrorMessage.component";
 
 function FormErrorMessage({ name }: { name: string }) {
   return (

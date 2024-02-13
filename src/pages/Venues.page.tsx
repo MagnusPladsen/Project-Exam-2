@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
-import PrimaryButton from "../components/buttons/PrimaryButton";
-import VenueCard from "../components/listVenus/VenueCard";
+import PrimaryButton from "../components/buttons/PrimaryButton.component";
+import VenueCard from "../components/listVenus/VenueCard.component";
 import { useGetVenuesQuery } from "../services/api/holidazeApi";
-import ErrorMessage from "../components/messages/ErrorMessage";
+import ErrorMessage from "../components/messages/ErrorMessage.component";
 
 function VenuesPage() {
   const [latestVenues, setLatestVenues] = useState<Venue[]>([]);

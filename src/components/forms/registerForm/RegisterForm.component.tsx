@@ -1,9 +1,9 @@
 import { yupResolver } from "@hookform/resolvers/yup";
 import { FormProvider, SubmitHandler, useForm } from "react-hook-form";
 import { useRegisterMutation } from "../../../services/api/authService";
-import PrimaryButton from "../../buttons/PrimaryButton";
-import ErrorMessage from "../../messages/ErrorMessage";
-import FormErrorMessage from "../../messages/FormErrorMessage";
+import PrimaryButton from "../../buttons/PrimaryButton.component";
+import ErrorMessage from "../../messages/ErrorMessage.component";
+import FormErrorMessage from "../../messages/FormErrorMessage.component";
 import Input from "../Input";
 import schema from "./validation";
 import sanitizeUrl from "../../../formatters/sanitizeUrl";

@@ -2,11 +2,10 @@ import Skeleton from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
 import { Link } from "react-router-dom";
 import StarRatings from "react-star-ratings";
-import LocationIcon from "../icons/LocationIcon";
-import ProfileIcon from "../icons/Profileicon";
-import ArrowIcon from "../icons/ArrowIcon";
-import { Tooltip } from "react-tooltip";
-import HolidazeTooltip from "../tooltip/HolidazeTooltip";
+import LocationIcon from "../icons/LocationIcon.component";
+import ProfileIcon from "../icons/Profileicon.component";
+import ArrowIcon from "../icons/ArrowIcon.component";
+import HolidazeTooltip from "../tooltip/HolidazeTooltip.component";
 
 function VenueCard({
   venue,
@@ -58,7 +57,7 @@ function VenueCard({
       <div className="flex justify-between items-center">
         <Link
           className="cursor-pointer hover:underline underline-offset-2 hover:text-primary group transition-all"
-          to={`/profile/${venue?.owner.name}`}
+          to={`/profile?name=${venue?.owner.name}`}
         >
           <div className="flex items-center space-x-2">
             {isLoading ? (
@@ -87,7 +86,7 @@ function VenueCard({
           </div>
         </Link>
         <Link
-          to={`/venues/${venue?.id}`}
+          to={`/venues?id=${venue?.id}`}
           className="inline-flex items-center font-medium text-primary hover:underline"
         >
           See venue

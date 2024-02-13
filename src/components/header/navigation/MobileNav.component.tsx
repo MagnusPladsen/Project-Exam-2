@@ -1,11 +1,11 @@
 import { useState } from "react";
 import { NavLink } from "react-router-dom";
-import InformationIcon from "../icons/InformationIcon";
-import useAuth from "../../hooks/useAuth";
-import ProfileIcon from "../icons/Profileicon";
-import VenueIcon from "../icons/VenueIcon";
-import HomeIcon from "../icons/HomeIcon";
-import DropDownIcon from "../icons/DropDownIcon";
+import InformationIcon from "../../icons/InformationIcon.component";
+import useAuth from "../../../hooks/useAuth";
+import ProfileIcon from "../../icons/Profileicon.component";
+import VenueIcon from "../../icons/VenueIcon.component";
+import HomeIcon from "../../icons/HomeIcon.component";
+import DropDownIcon from "../../icons/DropDownIcon.component";
 import { motion } from "framer-motion";
 
 function MobileNav() {

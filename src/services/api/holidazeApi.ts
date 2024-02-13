@@ -17,6 +17,9 @@ export const holidazeApi = createApi({
         `venues/?limit=${limit}&offset=${offset}&_owner=true&_bookings=true`,
       providesTags: ["venues"],
     }),
+    getVenue: builder.query<Venue, string>({
+      query: (id) => `venues/${id}`,
+    }),
     createVenue: builder.mutation<Venue, Partial<Venue>>({
       query: (body) => ({
         url: `venues`,
@@ -34,4 +37,5 @@ export const {
   useGetLatestVenuesQuery,
   useGetVenuesQuery,
   useCreateVenueMutation,
+  useGetVenueQuery,
 } = holidazeApi;
