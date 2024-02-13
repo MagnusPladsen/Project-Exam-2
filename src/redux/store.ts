@@ -7,18 +7,16 @@ import { authService } from "../services/api/authService";
 import { holidazeApi } from "../services/api/holidazeApi";
 import auth from "./slices/authSlice";
 
-const persistConfig = {
-  key: "root",
+const authPersistConfig = {
+  key: "auth",
   storage,
 };
 
 const combinedReducers = combineReducers({
   [authService.reducerPath]: authService.reducer,
   [holidazeApi.reducerPath]: holidazeApi.reducer,
-  auth,
+  auth: persistReducer(authPersistConfig, auth), // Only persist auth state
 });
-
-const persistedReducer = persistReducer(persistConfig, combinedReducers);
 
 // fixed the issue with the non-serializable value
 const nonSerializableCheckMiddleware: Middleware =
@@ -32,7 +30,7 @@ const nonSerializableCheckMiddleware: Middleware =
 
 export const createStore = () =>
   configureStore({
-    reducer: persistedReducer,
+    reducer: combinedReducers,
     middleware: (getDefaultMiddleware) =>
       getDefaultMiddleware({
         serializableCheck: {
