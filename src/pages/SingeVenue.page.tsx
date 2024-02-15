@@ -6,24 +6,32 @@ import LocationIcon from "../components/icons/LocationIcon.component";
 import ProfileIcon from "../components/icons/Profileicon.component";
 import HolidazeTooltip from "../components/tooltip/HolidazeTooltip.component";
 import { useGetSingleVenueQuery } from "../services/api/holidazeApi";
+import { motion } from "framer-motion";
+import ImageSlider from "../components/imageSlider/ImageSlider.component";
 
 function SingleVenuePage() {
   const { id } = useParams(); // Get the venue ID from URL parameter
 
   const { data: venue, error, isLoading } = useGetSingleVenueQuery(String(id));
   console.log(venue, id);
-  
+
   return (
-    <article className="p-6 w-[90vw] lg:w-full xl:max-w-lg xl:mx-auto bg-white rounded-lg border border-gray-200 shadow-md dark:bg-gray-800 dark:border-gray-700">
-      <div className="flex justify-between items-center mb-5 text-gray-500">
+    <article className="py-8 lg:py-16 lg:px-6 w-[100vw] lg:w-[900px] xl:max-w-lg mx-auto dark:bg-gray-800 dark:border-gray-700">
+      <div className="lg:p-0 px-[5vw] flex justify-between items-center mb-5 text-gray-500">
         {isLoading || !venue ? (
           <Skeleton width={50} height={20} />
         ) : (
-          <span className="bg-primary-light text-primary text-xs font-medium inline-flex items-center px-2.5 py-1 rounded dark:bg-primary-light dark:text-primary gap-2">
+          <span className=" bg-primary-light text-primary text-xs font-medium inline-flex items-center px-2.5 py-1 rounded dark:bg-primary-light dark:text-primary gap-2">
             <LocationIcon /> {venue.location.country}
           </span>
         )}
-
+        <h1 className="mb-4 text-3xl lg:text-4xl tracking-tight font-extrabold text-gray-900 dark:text-white">
+          {isLoading || !venue ? (
+            <Skeleton width={200} height={20} />
+          ) : (
+            venue.name
+          )}
+        </h1>
         <HolidazeTooltip id="venue-rating" />
         <span
           data-tooltip-id="venue-rating"
@@ -39,21 +47,27 @@ function SingleVenuePage() {
           />
         </span>
       </div>
-      <h2 className="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white truncate text-ellipsis">
-        {isLoading || !venue ? (
-          <Skeleton width={200} height={20} />
-        ) : (
-          venue.name
-        )}
-      </h2>
-      <p className="mb-5 h-[calc(1rem*3)] font-light text-gray-500 dark:text-gray-400 line-clamp-3">
+
+      <p className="lg:p-0 px-[5vw] mb-5 h-[calc(1rem*3)] font-light text-gray-500 dark:text-gray-400 line-clamp-3">
         {isLoading || !venue ? (
           <Skeleton width={300} height={20} />
         ) : (
           venue.description
         )}
       </p>
-      <div className="flex justify-between items-center">
+      {venue?.media && venue?.media.length > 0 && (
+        <ImageSlider images={[...venue?.media, ...venue?.media, ...venue?.media]} />
+      )}
+      <div className="lg:p-0 px-[5vw] flex justify-between items-center">
+        <Link
+          to={`/venues`}
+          className="inline-flex items-center font-medium text-primary hover:underline"
+        >
+          <motion.div style={{ rotate: -180 }}>
+            <ArrowIcon />
+          </motion.div>
+          All venues
+        </Link>
         <Link
           className="cursor-pointer hover:underline underline-offset-2 hover:text-primary group transition-all"
           to={`/profile?name=${venue?.owner.name}`}
@@ -83,13 +97,6 @@ function SingleVenuePage() {
               )}
             </span>
           </div>
-        </Link>
-        <Link
-          to={`/venues/${venue?.id}`}
-          className="inline-flex items-center font-medium text-primary hover:underline"
-        >
-          See venue
-          <ArrowIcon />
         </Link>
       </div>
     </article>
