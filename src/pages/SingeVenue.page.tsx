@@ -11,13 +11,17 @@ import ImageSlider from "../components/imageSlider/ImageSlider.component";
 import { useState } from "react";
 import DropDownIcon from "../components/icons/DropDownIcon.component";
 import capitalizeFirstLetter from "../formatters/capitalizeFirstLetter";
+import BreakfastIcon from "../components/icons/BreakfastIcon.component";
+import ParkingIcon from "../components/icons/ParkingIcon.component";
+import PetsIcon from "../components/icons/PetsIcon.component";
+import WifiIcon from "../components/icons/WifiIcon.component";
 
 function SingleVenuePage() {
   const { id } = useParams(); // Get the venue ID from URL parameter
 
   const [descriptionOpen, setDescriptionOpen] = useState<boolean>(true);
-  const [facilitiesOpen, setFacilitiesOpen] = useState<boolean>(false);
-  const [locationOpen, setLocationOpen] = useState<boolean>(false);
+  const [facilitiesOpen, setFacilitiesOpen] = useState<boolean>(true);
+  const [locationOpen, setLocationOpen] = useState<boolean>(true);
 
   const { data: venue, error, isLoading } = useGetSingleVenueQuery(String(id));
   console.log(venue, id);
@@ -119,15 +123,31 @@ function SingleVenuePage() {
               transition={{ duration: 0.3 }}
               className=" border-b border-gray-200 dark:border-gray-700"
             >
-              <div className="mb-2 p-5 text-gray-500 dark:text-gray-400">
+              <div className="mb-2 flex flex-col gap-2 p-5 text-gray-900 dark:text-gray-400">
                 {isLoading || !venue ? (
                   <Skeleton width={300} height={20} />
                 ) : (
                   <>
-                    <p>Breakfast: {venue.meta.breakfast ? "Yes" : "No"}</p>
-                    <p>Parking: {venue.meta.parking ? "Yes" : "No"}</p>
-                    <p>Pets: {venue.meta.pets ? "Yes" : "No"}</p>
-                    <p>Wifi: {venue.meta.wifi ? "Yes" : "No"}</p>
+                    <div className="flex items-center">
+                      <BreakfastIcon className="!w-6 !h-6 mr-4" />
+                      <p className="w-24">Breakfast:</p>
+                      <p> {venue.meta.breakfast ? "Yes" : "No"}</p>
+                    </div>
+                    <div className="flex items-center">
+                      <ParkingIcon className="!w-6 !h-6 mr-4" />
+                      <p className="w-24">Parking:</p>{" "}
+                      <p>{venue.meta.parking ? "Yes" : "No"}</p>
+                    </div>
+                    <div className="flex items-center">
+                      <PetsIcon className="!w-6 !h-6 mr-4" />
+                      <p className="w-24">Pets:</p>{" "}
+                      <p>{venue.meta.pets ? "Yes" : "No"}</p>
+                    </div>
+                    <div className="flex items-center">
+                      <WifiIcon className="!w-6 !h-6 mr-4" />
+                      <p className="w-24">Wifi:</p>{" "}
+                      <p>{venue.meta.wifi ? "Yes" : "No"}</p>
+                    </div>
                   </>
                 )}
               </div>
