@@ -6,6 +6,7 @@ import LocationIcon from "../icons/LocationIcon.component";
 import ProfileIcon from "../icons/Profileicon.component";
 import ArrowIcon from "../icons/ArrowIcon.component";
 import HolidazeTooltip from "../tooltip/HolidazeTooltip.component";
+import capitalizeFirstLetter from "../../formatters/capitalizeFirstLetter";
 
 function VenueCard({
   venue,
@@ -44,14 +45,14 @@ function VenueCard({
         {isLoading || !venue ? (
           <Skeleton width={200} height={20} />
         ) : (
-          venue.name
+          capitalizeFirstLetter(venue.name)
         )}
       </h2>
       <p className="mb-5 h-[calc(1rem*3)] font-light text-gray-500 dark:text-gray-400 line-clamp-3">
         {isLoading || !venue ? (
           <Skeleton width={300} height={20} />
         ) : (
-          venue.description
+          capitalizeFirstLetter(venue.description)
         )}
       </p>
       <div className="flex justify-between items-center">
@@ -80,7 +81,7 @@ function VenueCard({
               {isLoading || !venue ? (
                 <Skeleton width={100} height={20} />
               ) : (
-                venue.owner.name
+                capitalizeFirstLetter(venue.owner.name)
               )}
             </span>
           </div>

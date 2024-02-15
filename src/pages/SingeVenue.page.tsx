@@ -10,24 +10,25 @@ import { motion, AnimatePresence } from "framer-motion";
 import ImageSlider from "../components/imageSlider/ImageSlider.component";
 import { useState } from "react";
 import DropDownIcon from "../components/icons/DropDownIcon.component";
+import capitalizeFirstLetter from "../formatters/capitalizeFirstLetter";
 
 function SingleVenuePage() {
   const { id } = useParams(); // Get the venue ID from URL parameter
 
-  const [descriptionOpen, setDescriptionOpen] = useState<boolean>();
-  const [facilitiesOpen, setFacilitiesOpen] = useState<boolean>();
-  const [locationOpen, setLocationOpen] = useState<boolean>();
+  const [descriptionOpen, setDescriptionOpen] = useState<boolean>(true);
+  const [facilitiesOpen, setFacilitiesOpen] = useState<boolean>(false);
+  const [locationOpen, setLocationOpen] = useState<boolean>(false);
 
   const { data: venue, error, isLoading } = useGetSingleVenueQuery(String(id));
   console.log(venue, id);
 
   return (
-    <article className="py-8 lg:py-16 lg:px-6 w-[100vw] lg:w-[900px] xl:max-w-lg mx-auto dark:bg-gray-800 dark:border-gray-700">
+    <article className="py-8 lg:py-16 lg:px-6 w-[100vw] lg:w-[900px] mx-auto dark:bg-gray-800 dark:border-gray-700">
       <h1 className="mb-5 text-3xl text-center tracking-tight font-extrabold text-gray-900 dark:text-white">
         {isLoading || !venue ? (
           <Skeleton width={200} height={20} />
         ) : (
-          venue.name
+          capitalizeFirstLetter(venue.name)
         )}
       </h1>
       <div className="lg:p-0 px-[5vw] flex justify-between items-center mb-5 text-gray-500">
@@ -35,7 +36,10 @@ function SingleVenuePage() {
           <Skeleton width={50} height={20} />
         ) : (
           <span className=" bg-primary-light text-primary text-xs font-medium inline-flex items-center px-2.5 py-1 rounded dark:bg-primary-light dark:text-primary gap-2">
-            <LocationIcon /> {venue.location.country}
+            <LocationIcon />
+            {venue.location.country &&
+              capitalizeFirstLetter(venue.location.country)}
+            {!venue.location.country && "Unknown"}
           </span>
         )}
         <HolidazeTooltip id="venue-rating" />
@@ -54,23 +58,28 @@ function SingleVenuePage() {
         </span>
       </div>
 
-      {venue?.media && venue?.media.length > 0 && (
-        <ImageSlider
-          images={[...venue?.media, ...venue?.media, ...venue?.media]}
-        />
+      {isLoading || !venue ? (
+        <Skeleton width={"100%"} height={600} />
+      ) : (
+        venue.media && (
+          <ImageSlider
+            images={[...venue?.media, ...venue?.media, ...venue?.media]}
+          />
+        )
       )}
+
       <div className="px-[5vw] lg:p-0 mb-10">
-        <h2>
+        <div>
           <button
             onClick={() => setDescriptionOpen((prev) => !prev)}
-            className="flex items-center justify-between w-full py-5 font-medium rtl:text-right text-gray-500 border-b border-gray-200 dark:border-gray-700 dark:text-gray-400 gap-3"
+            className="flex items-center justify-between w-full py-5 font-medium rtl:text-right text-gray-900 border-b border-gray-200 dark:border-gray-700 dark:text-gray-400 gap-3"
           >
-            <span>Description</span>
+            <h2>Description</h2>
             <motion.div animate={{ rotate: descriptionOpen ? 180 : 0 }}>
               <DropDownIcon />
             </motion.div>
           </button>
-        </h2>
+        </div>
         <AnimatePresence initial={false}>
           {descriptionOpen && (
             <motion.div
@@ -84,7 +93,7 @@ function SingleVenuePage() {
                 {isLoading || !venue ? (
                   <Skeleton width={300} height={20} />
                 ) : (
-                  venue.description
+                  capitalizeFirstLetter(venue.description)
                 )}
               </p>
             </motion.div>
@@ -93,10 +102,10 @@ function SingleVenuePage() {
         <div onClick={() => setFacilitiesOpen((prev) => !prev)}>
           <button
             type="button"
-            className="flex items-center justify-between w-full py-5 font-medium rtl:text-right text-gray-500 border-b border-gray-200 dark:border-gray-700 dark:text-gray-400 gap-3"
+            className="flex items-center justify-between w-full py-5 font-medium rtl:text-right text-gray-900 border-b border-gray-200 dark:border-gray-700 dark:text-gray-400 gap-3"
           >
             <h2>Facilities</h2>
-            <motion.div animate={{ rotate: descriptionOpen ? 180 : 0 }}>
+            <motion.div animate={{ rotate: facilitiesOpen ? 180 : 0 }}>
               <DropDownIcon />
             </motion.div>
           </button>
@@ -110,18 +119,23 @@ function SingleVenuePage() {
               transition={{ duration: 0.3 }}
               className=" border-b border-gray-200 dark:border-gray-700"
             >
-              <p className="mb-2 p-5 text-gray-500 dark:text-gray-400">
+              <div className="mb-2 p-5 text-gray-500 dark:text-gray-400">
                 {isLoading || !venue ? (
                   <Skeleton width={300} height={20} />
                 ) : (
-                  venue.description
+                  <>
+                    <p>Breakfast: {venue.meta.breakfast ? "Yes" : "No"}</p>
+                    <p>Parking: {venue.meta.parking ? "Yes" : "No"}</p>
+                    <p>Pets: {venue.meta.pets ? "Yes" : "No"}</p>
+                    <p>Wifi: {venue.meta.wifi ? "Yes" : "No"}</p>
+                  </>
                 )}
-              </p>
+              </div>
             </motion.div>
           )}
         </AnimatePresence>
         <div onClick={() => setLocationOpen((prev) => !prev)}>
-          <button className="flex items-center justify-between w-full py-5 font-medium rtl:text-right text-gray-500 border-b border-gray-200 dark:border-gray-700 dark:text-gray-400 gap-3">
+          <button className="flex items-center justify-between w-full py-5 font-medium rtl:text-right text-gray-900 border-b border-gray-200 dark:border-gray-700 dark:text-gray-400 gap-3">
             <h2>Location</h2>
             <motion.div animate={{ rotate: locationOpen ? 180 : 0 }}>
               <DropDownIcon />
@@ -137,25 +151,30 @@ function SingleVenuePage() {
               transition={{ duration: 0.3 }}
               className=" border-b border-gray-200 dark:border-gray-700"
             >
-              <p className="mb-2 p-5 text-gray-500 dark:text-gray-400">
+              <div className="mb-2 p-5 text-gray-500 dark:text-gray-400 flex flex-col gap-2">
                 {isLoading || !venue ? (
                   <Skeleton width={300} height={20} />
                 ) : (
-                  venue.description
+                  <>
+                    <p>
+                      {capitalizeFirstLetter(venue.location.address)}
+                      {capitalizeFirstLetter(venue.location.zip) &&
+                        ", " + capitalizeFirstLetter(venue.location.zip)}
+                    </p>
+                    <p>
+                      {capitalizeFirstLetter(venue.location.city)}
+                      {capitalizeFirstLetter(venue.location.country) &&
+                        ", " + capitalizeFirstLetter(venue.location.country)}
+                      {capitalizeFirstLetter(venue.location.continent) &&
+                        ", " + capitalizeFirstLetter(venue.location.continent)}
+                    </p>
+                  </>
                 )}
-              </p>
+              </div>
             </motion.div>
           )}
         </AnimatePresence>
       </div>
-
-      {/*  <p className="lg:p-0 px-[5vw] mb-5 font-light text-gray-500 dark:text-gray-400">
-        {isLoading || !venue ? (
-          <Skeleton width={300} height={20} />
-        ) : (
-          venue.description
-        )}
-      </p> */}
 
       <div className="lg:p-0 px-[5vw] flex justify-between items-center">
         <Link
@@ -192,7 +211,7 @@ function SingleVenuePage() {
               {isLoading || !venue ? (
                 <Skeleton width={100} height={20} />
               ) : (
-                venue.owner.name
+                capitalizeFirstLetter(venue.owner.name)
               )}
             </span>
           </div>
