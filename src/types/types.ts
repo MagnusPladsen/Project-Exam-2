@@ -90,6 +90,7 @@ interface Venue {
   meta: Meta;
   location: Location;
   owner: Owner;
+  bookings: Booking[];
 }
 
 interface CreateVenue {

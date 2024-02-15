@@ -64,24 +64,24 @@ function SingleVenuePage() {
       ) : venue.media.length > 0 ? (
         <ImageSlider
           images={venue.media}
-          className="rounded-lg"
-          imageClassName="rounded-lg"
+          className="rounded"
+          imageClassName="rounded"
         />
       ) : (
         <img
           src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/1255/image-not-found.svg"
           alt="Venue"
-          className="max-h-[600px] lg:max-h-[800px] w-full border bg-primary-light rounded-lg"
+          className="max-h-[600px] lg:max-h-[800px] w-full border bg-primary-light rounded"
         />
       )}
 
-      <div className="px-[5vw] lg:p-0 mb-10">
+      <div className="mb-10">
         <div>
           <button
             onClick={() => setDescriptionOpen((prev) => !prev)}
-            className="flex items-center justify-between w-full py-5 font-medium rtl:text-right text-gray-900 border-b border-gray-200 dark:border-gray-700 dark:text-gray-400 gap-3"
+            className="px-[5vw] lg:px-0 flex items-center justify-between w-full py-5 font-medium rtl:text-right text-gray-900 border-b border-gray-200 dark:border-gray-700 dark:text-gray-400 gap-3"
           >
-            <h2>Description</h2>
+            <h2>Information</h2>
             <motion.div animate={{ rotate: descriptionOpen ? 180 : 0 }}>
               <DropDownIcon />
             </motion.div>
@@ -94,22 +94,34 @@ function SingleVenuePage() {
               animate={{ opacity: 1, height: "auto" }}
               exit={{ opacity: 0, height: 0 }} // Add exit animation
               transition={{ duration: 0.3 }}
-              className=" border-b border-gray-200 dark:border-gray-700"
+              className="bg-gray-50 border-b border-gray-200 dark:border-gray-700"
             >
-              <p className="mb-2 p-5 text-gray-900 dark:text-gray-400">
+              <div className="mb-2 p-5 flex flex-col gap-2 text-gray-900 dark:text-gray-400">
                 {isLoading || !venue ? (
                   <Skeleton width={300} height={20} />
                 ) : (
-                  capitalizeFirstLetter(venue.description)
+                  <>
+                    <p className="mb-2">{capitalizeFirstLetter(venue.description)}</p>
+                    <p className="text-sm">
+                      {venue.bookings.length === 0
+                        ? "Never rented before! Be the first one!"
+                        : `Rented ${venue.bookings.length} times before`}
+                    </p>
+                    <p className="text-sm">Max guests: {venue.maxGuests}</p>
+                    <p className="text-sm">
+                      Created:{" "}
+                      {new Date(venue.created).toISOString().split("T")[0]}
+                    </p>
+                  </>
                 )}
-              </p>
+              </div>
             </motion.div>
           )}
         </AnimatePresence>
         <div onClick={() => setFacilitiesOpen((prev) => !prev)}>
           <button
             type="button"
-            className="flex items-center justify-between w-full py-5 font-medium rtl:text-right text-gray-900 border-b border-gray-200 dark:border-gray-700 dark:text-gray-400 gap-3"
+            className="px-[5vw] lg:px-0 flex items-center justify-between w-full py-5 font-medium rtl:text-right text-gray-900 border-b border-gray-200 dark:border-gray-700 dark:text-gray-400 gap-3"
           >
             <h2>Facilities</h2>
             <motion.div animate={{ rotate: facilitiesOpen ? 180 : 0 }}>
@@ -124,7 +136,7 @@ function SingleVenuePage() {
               animate={{ opacity: 1, height: "auto" }}
               exit={{ opacity: 0, height: 0 }} // Add exit animation
               transition={{ duration: 0.3 }}
-              className=" border-b border-gray-200 dark:border-gray-700"
+              className="bg-gray-50 border-b border-gray-200 dark:border-gray-700"
             >
               <div className="mb-2 flex flex-col gap-2 p-5 text-gray-900 dark:text-gray-400">
                 {isLoading || !venue ? (
@@ -166,7 +178,7 @@ function SingleVenuePage() {
           )}
         </AnimatePresence>
         <div onClick={() => setLocationOpen((prev) => !prev)}>
-          <button className="flex items-center justify-between w-full py-5 font-medium rtl:text-right text-gray-900 border-b border-gray-200 dark:border-gray-700 dark:text-gray-400 gap-3">
+          <button className="px-[5vw] lg:px-0 flex items-center justify-between w-full py-5 font-medium rtl:text-right text-gray-900 border-b border-gray-200 dark:border-gray-700 dark:text-gray-400 gap-3">
             <h2>Location</h2>
             <motion.div animate={{ rotate: locationOpen ? 180 : 0 }}>
               <DropDownIcon />
@@ -180,7 +192,7 @@ function SingleVenuePage() {
               animate={{ opacity: 1, height: "auto" }}
               exit={{ opacity: 0, height: 0 }} // Add exit animation
               transition={{ duration: 0.3 }}
-              className=" border-b border-gray-200 dark:border-gray-700"
+              className="bg-gray-50 border-b border-gray-200 dark:border-gray-700"
             >
               <div className="mb-2 p-5 text-gray-900 dark:text-gray-400 flex flex-col gap-2">
                 {isLoading || !venue ? (
