@@ -4,15 +4,21 @@ import "react-responsive-carousel/lib/styles/carousel.min.css"; // requires a lo
 function ImageSlider({
   images,
   className,
+  imageClassName,
 }: {
   images: string[];
   className?: string;
+  imageClassName?: string;
 }) {
   return (
     <Carousel className={className}>
       {images.map((image, index) => (
         <div key={image}>
-          <img src={image} alt={`Venue Image ${index}`} className="max-h-[600px] lg:max-h-[800px] object-cover" />
+          <img
+            src={image}
+            alt={`Venue Image ${index}`}
+            className={`${imageClassName} max-h-[600px] lg:max-h-[800px] object-cover`}
+          />
         </div>
       ))}
     </Carousel>

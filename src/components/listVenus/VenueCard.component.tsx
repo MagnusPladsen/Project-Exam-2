@@ -7,6 +7,7 @@ import ProfileIcon from "../icons/Profileicon.component";
 import ArrowIcon from "../icons/ArrowIcon.component";
 import HolidazeTooltip from "../tooltip/HolidazeTooltip.component";
 import capitalizeFirstLetter from "../../formatters/capitalizeFirstLetter";
+import ImageSlider from "../imageSlider/ImageSlider.component";
 
 function VenueCard({
   venue,
@@ -21,8 +22,8 @@ function VenueCard({
         {isLoading || !venue ? (
           <Skeleton width={50} height={20} />
         ) : (
-          <span className="bg-primary-light text-primary text-xs font-medium inline-flex items-center px-2.5 py-1 rounded dark:bg-primary-light dark:text-primary gap-2">
-            <LocationIcon /> {venue.location.country}
+          <span className="font-bold bg-green-200 text-green-600 text-xs inline-flex items-center px-2.5 py-1 rounded dark:bg-primary-light gap-2">
+            $ {venue.price}
           </span>
         )}
 
@@ -45,16 +46,23 @@ function VenueCard({
         {isLoading || !venue ? (
           <Skeleton width={200} height={20} />
         ) : (
-          capitalizeFirstLetter(venue.name)
+          <>
+            <span>{capitalizeFirstLetter(venue.name)}</span>
+            <span className="text-sm text-gray-400 ml-2">
+              {" "}
+              - ${venue.price}
+            </span>
+          </>
         )}
       </h2>
-      <p className="mb-5 h-[calc(1rem*3)] font-light text-gray-500 dark:text-gray-400 line-clamp-3">
+      <div className="mb-5 h-[calc(1rem*3)] font-light text-gray-500 dark:text-gray-400 line-clamp-3">
         {isLoading || !venue ? (
           <Skeleton width={300} height={20} />
         ) : (
           capitalizeFirstLetter(venue.description)
         )}
-      </p>
+      </div>
+
       <div className="flex justify-between items-center">
         <Link
           className="cursor-pointer hover:underline underline-offset-2 hover:text-primary group transition-all"

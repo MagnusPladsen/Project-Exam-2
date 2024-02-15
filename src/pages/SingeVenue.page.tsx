@@ -28,7 +28,7 @@ function SingleVenuePage() {
 
   return (
     <article className="py-8 lg:py-16 lg:px-6 w-[100vw] lg:w-[900px] mx-auto dark:bg-gray-800 dark:border-gray-700">
-      <h1 className="mb-5 text-3xl text-center tracking-tight font-extrabold text-gray-900 dark:text-white">
+      <h1 className="mb-5 text-3xl text-center tracking-tight font-extrabold text-gray-900 dark:text-white truncate text-ellipsis p-[5vw]">
         {isLoading || !venue ? (
           <Skeleton width={200} height={20} />
         ) : (
@@ -39,11 +39,8 @@ function SingleVenuePage() {
         {isLoading || !venue ? (
           <Skeleton width={50} height={20} />
         ) : (
-          <span className=" bg-primary-light text-primary text-xs font-medium inline-flex items-center px-2.5 py-1 rounded dark:bg-primary-light dark:text-primary gap-2">
-            <LocationIcon />
-            {venue.location.country &&
-              capitalizeFirstLetter(venue.location.country)}
-            {!venue.location.country && "Unknown"}
+          <span className="bg-green-200 text-green-600 font-medium inline-flex items-center px-2.5 py-1 rounded dark:bg-primary-light gap-2">
+            Price: <span className="font-bold">$ {venue.price}</span>
           </span>
         )}
         <HolidazeTooltip id="venue-rating" />
@@ -64,12 +61,18 @@ function SingleVenuePage() {
 
       {isLoading || !venue ? (
         <Skeleton width={"100%"} height={600} />
+      ) : venue.media.length > 0 ? (
+        <ImageSlider
+          images={venue.media}
+          className="rounded-lg"
+          imageClassName="rounded-lg"
+        />
       ) : (
-        venue.media && (
-          <ImageSlider
-            images={[...venue?.media, ...venue?.media, ...venue?.media]}
-          />
-        )
+        <img
+          src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/1255/image-not-found.svg"
+          alt="Venue"
+          className="max-h-[600px] lg:max-h-[800px] w-full border bg-primary-light rounded-lg"
+        />
       )}
 
       <div className="px-[5vw] lg:p-0 mb-10">
@@ -93,7 +96,7 @@ function SingleVenuePage() {
               transition={{ duration: 0.3 }}
               className=" border-b border-gray-200 dark:border-gray-700"
             >
-              <p className="mb-2 p-5 text-gray-500 dark:text-gray-400">
+              <p className="mb-2 p-5 text-gray-900 dark:text-gray-400">
                 {isLoading || !venue ? (
                   <Skeleton width={300} height={20} />
                 ) : (
@@ -131,22 +134,30 @@ function SingleVenuePage() {
                     <div className="flex items-center">
                       <BreakfastIcon className="!w-6 !h-6 mr-4" />
                       <p className="w-24">Breakfast:</p>
-                      <p> {venue.meta.breakfast ? "Yes" : "No"}</p>
+                      <p className="font-bold">
+                        {venue.meta.breakfast ? "Yes" : "No"}
+                      </p>
                     </div>
                     <div className="flex items-center">
                       <ParkingIcon className="!w-6 !h-6 mr-4" />
                       <p className="w-24">Parking:</p>{" "}
-                      <p>{venue.meta.parking ? "Yes" : "No"}</p>
+                      <p className="font-bold">
+                        {venue.meta.parking ? "Yes" : "No"}
+                      </p>
                     </div>
                     <div className="flex items-center">
                       <PetsIcon className="!w-6 !h-6 mr-4" />
                       <p className="w-24">Pets:</p>{" "}
-                      <p>{venue.meta.pets ? "Yes" : "No"}</p>
+                      <p className="font-bold">
+                        {venue.meta.pets ? "Yes" : "No"}
+                      </p>
                     </div>
                     <div className="flex items-center">
                       <WifiIcon className="!w-6 !h-6 mr-4" />
                       <p className="w-24">Wifi:</p>{" "}
-                      <p>{venue.meta.wifi ? "Yes" : "No"}</p>
+                      <p className="font-bold">
+                        {venue.meta.wifi ? "Yes" : "No"}
+                      </p>
                     </div>
                   </>
                 )}
@@ -171,7 +182,7 @@ function SingleVenuePage() {
               transition={{ duration: 0.3 }}
               className=" border-b border-gray-200 dark:border-gray-700"
             >
-              <div className="mb-2 p-5 text-gray-500 dark:text-gray-400 flex flex-col gap-2">
+              <div className="mb-2 p-5 text-gray-900 dark:text-gray-400 flex flex-col gap-2">
                 {isLoading || !venue ? (
                   <Skeleton width={300} height={20} />
                 ) : (
@@ -215,6 +226,7 @@ function SingleVenuePage() {
               <Skeleton circle width={28} height={28} />
             ) : (
               <>
+                <p className="mr-2">Posted by:</p>
                 {venue?.owner?.avatar ? (
                   <img
                     className="w-7 h-7 rounded-full group-hover:opacity-80 transition-all border-2 group-hover:border-primary border-white"
