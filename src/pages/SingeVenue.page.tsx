@@ -6,17 +6,30 @@ import LocationIcon from "../components/icons/LocationIcon.component";
 import ProfileIcon from "../components/icons/Profileicon.component";
 import HolidazeTooltip from "../components/tooltip/HolidazeTooltip.component";
 import { useGetSingleVenueQuery } from "../services/api/holidazeApi";
-import { motion } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 import ImageSlider from "../components/imageSlider/ImageSlider.component";
+import { useState } from "react";
+import DropDownIcon from "../components/icons/DropDownIcon.component";
 
 function SingleVenuePage() {
   const { id } = useParams(); // Get the venue ID from URL parameter
+
+  const [descriptionOpen, setDescriptionOpen] = useState<boolean>();
+  const [facilitiesOpen, setFacilitiesOpen] = useState<boolean>();
+  const [locationOpen, setLocationOpen] = useState<boolean>();
 
   const { data: venue, error, isLoading } = useGetSingleVenueQuery(String(id));
   console.log(venue, id);
 
   return (
     <article className="py-8 lg:py-16 lg:px-6 w-[100vw] lg:w-[900px] xl:max-w-lg mx-auto dark:bg-gray-800 dark:border-gray-700">
+      <h1 className="mb-5 text-3xl text-center tracking-tight font-extrabold text-gray-900 dark:text-white">
+        {isLoading || !venue ? (
+          <Skeleton width={200} height={20} />
+        ) : (
+          venue.name
+        )}
+      </h1>
       <div className="lg:p-0 px-[5vw] flex justify-between items-center mb-5 text-gray-500">
         {isLoading || !venue ? (
           <Skeleton width={50} height={20} />
@@ -25,13 +38,6 @@ function SingleVenuePage() {
             <LocationIcon /> {venue.location.country}
           </span>
         )}
-        <h1 className="mb-4 text-3xl lg:text-4xl tracking-tight font-extrabold text-gray-900 dark:text-white">
-          {isLoading || !venue ? (
-            <Skeleton width={200} height={20} />
-          ) : (
-            venue.name
-          )}
-        </h1>
         <HolidazeTooltip id="venue-rating" />
         <span
           data-tooltip-id="venue-rating"
@@ -48,16 +54,109 @@ function SingleVenuePage() {
         </span>
       </div>
 
-      <p className="lg:p-0 px-[5vw] mb-5 h-[calc(1rem*3)] font-light text-gray-500 dark:text-gray-400 line-clamp-3">
+      {venue?.media && venue?.media.length > 0 && (
+        <ImageSlider
+          images={[...venue?.media, ...venue?.media, ...venue?.media]}
+        />
+      )}
+      <div className="px-[5vw] lg:p-0 mb-10">
+        <h2>
+          <button
+            onClick={() => setDescriptionOpen((prev) => !prev)}
+            className="flex items-center justify-between w-full py-5 font-medium rtl:text-right text-gray-500 border-b border-gray-200 dark:border-gray-700 dark:text-gray-400 gap-3"
+          >
+            <span>Description</span>
+            <motion.div animate={{ rotate: descriptionOpen ? 180 : 0 }}>
+              <DropDownIcon />
+            </motion.div>
+          </button>
+        </h2>
+        <AnimatePresence initial={false}>
+          {descriptionOpen && (
+            <motion.div
+              initial={{ opacity: 0, height: 0 }}
+              animate={{ opacity: 1, height: "auto" }}
+              exit={{ opacity: 0, height: 0 }} // Add exit animation
+              transition={{ duration: 0.3 }}
+              className=" border-b border-gray-200 dark:border-gray-700"
+            >
+              <p className="mb-2 p-5 text-gray-500 dark:text-gray-400">
+                {isLoading || !venue ? (
+                  <Skeleton width={300} height={20} />
+                ) : (
+                  venue.description
+                )}
+              </p>
+            </motion.div>
+          )}
+        </AnimatePresence>
+        <div onClick={() => setFacilitiesOpen((prev) => !prev)}>
+          <button
+            type="button"
+            className="flex items-center justify-between w-full py-5 font-medium rtl:text-right text-gray-500 border-b border-gray-200 dark:border-gray-700 dark:text-gray-400 gap-3"
+          >
+            <h2>Facilities</h2>
+            <motion.div animate={{ rotate: descriptionOpen ? 180 : 0 }}>
+              <DropDownIcon />
+            </motion.div>
+          </button>
+        </div>
+        <AnimatePresence initial={false}>
+          {facilitiesOpen && (
+            <motion.div
+              initial={{ opacity: 0, height: 0 }}
+              animate={{ opacity: 1, height: "auto" }}
+              exit={{ opacity: 0, height: 0 }} // Add exit animation
+              transition={{ duration: 0.3 }}
+              className=" border-b border-gray-200 dark:border-gray-700"
+            >
+              <p className="mb-2 p-5 text-gray-500 dark:text-gray-400">
+                {isLoading || !venue ? (
+                  <Skeleton width={300} height={20} />
+                ) : (
+                  venue.description
+                )}
+              </p>
+            </motion.div>
+          )}
+        </AnimatePresence>
+        <div onClick={() => setLocationOpen((prev) => !prev)}>
+          <button className="flex items-center justify-between w-full py-5 font-medium rtl:text-right text-gray-500 border-b border-gray-200 dark:border-gray-700 dark:text-gray-400 gap-3">
+            <h2>Location</h2>
+            <motion.div animate={{ rotate: locationOpen ? 180 : 0 }}>
+              <DropDownIcon />
+            </motion.div>
+          </button>
+        </div>
+        <AnimatePresence initial={false}>
+          {locationOpen && (
+            <motion.div
+              initial={{ opacity: 0, height: 0 }}
+              animate={{ opacity: 1, height: "auto" }}
+              exit={{ opacity: 0, height: 0 }} // Add exit animation
+              transition={{ duration: 0.3 }}
+              className=" border-b border-gray-200 dark:border-gray-700"
+            >
+              <p className="mb-2 p-5 text-gray-500 dark:text-gray-400">
+                {isLoading || !venue ? (
+                  <Skeleton width={300} height={20} />
+                ) : (
+                  venue.description
+                )}
+              </p>
+            </motion.div>
+          )}
+        </AnimatePresence>
+      </div>
+
+      {/*  <p className="lg:p-0 px-[5vw] mb-5 font-light text-gray-500 dark:text-gray-400">
         {isLoading || !venue ? (
           <Skeleton width={300} height={20} />
         ) : (
           venue.description
         )}
-      </p>
-      {venue?.media && venue?.media.length > 0 && (
-        <ImageSlider images={[...venue?.media, ...venue?.media, ...venue?.media]} />
-      )}
+      </p> */}
+
       <div className="lg:p-0 px-[5vw] flex justify-between items-center">
         <Link
           to={`/venues`}
