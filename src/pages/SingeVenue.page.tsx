@@ -1,20 +1,22 @@
+import { AnimatePresence, motion } from "framer-motion";
+import { useState } from "react";
 import Skeleton from "react-loading-skeleton";
 import { Link, useParams } from "react-router-dom";
 import StarRatings from "react-star-ratings";
 import ArrowIcon from "../components/icons/ArrowIcon.component";
-import LocationIcon from "../components/icons/LocationIcon.component";
-import ProfileIcon from "../components/icons/Profileicon.component";
-import HolidazeTooltip from "../components/tooltip/HolidazeTooltip.component";
-import { useGetSingleVenueQuery } from "../services/api/holidazeApi";
-import { motion, AnimatePresence } from "framer-motion";
-import ImageSlider from "../components/imageSlider/ImageSlider.component";
-import { useState } from "react";
-import DropDownIcon from "../components/icons/DropDownIcon.component";
-import capitalizeFirstLetter from "../formatters/capitalizeFirstLetter";
 import BreakfastIcon from "../components/icons/BreakfastIcon.component";
+import DropDownIcon from "../components/icons/DropDownIcon.component";
 import ParkingIcon from "../components/icons/ParkingIcon.component";
 import PetsIcon from "../components/icons/PetsIcon.component";
+import ProfileIcon from "../components/icons/Profileicon.component";
 import WifiIcon from "../components/icons/WifiIcon.component";
+import ImageSlider from "../components/imageSlider/ImageSlider.component";
+import HolidazeTooltip from "../components/tooltip/HolidazeTooltip.component";
+import capitalizeFirstLetter from "../formatters/capitalizeFirstLetter";
+import { useGetSingleVenueQuery } from "../services/api/holidazeApi";
+import HolidazeDatePicker from "../components/HolidazeDatePicker/HolidazeDatePicker.component";
+import formatBookingsForDatePicker from "../components/HolidazeDatePicker/formatters";
+import { DayRange } from "react-modern-calendar-datepicker";
 
 function SingleVenuePage() {
   const { id } = useParams(); // Get the venue ID from URL parameter
@@ -22,13 +24,19 @@ function SingleVenuePage() {
   const [descriptionOpen, setDescriptionOpen] = useState<boolean>(true);
   const [facilitiesOpen, setFacilitiesOpen] = useState<boolean>(true);
   const [locationOpen, setLocationOpen] = useState<boolean>(true);
+  const [selectedDays, setSelectedDays] = useState<DayRange>({
+    from: null,
+    to: null,
+  });
 
   const { data: venue, error, isLoading } = useGetSingleVenueQuery(String(id));
   console.log(venue, id);
 
+  const disabledDays = formatBookingsForDatePicker(venue?.bookings || []);
+
   return (
     <article className="py-8 lg:py-16 lg:px-6 w-[100vw] lg:w-[900px] mx-auto dark:bg-gray-800 dark:border-gray-700">
-      <h1 className="mb-5 text-3xl text-center tracking-tight font-extrabold text-gray-900 dark:text-white truncate text-ellipsis p-[5vw]">
+      <h1 className="mb-5 text-3xl text-center tracking-tight font-extrabold text-gray-900 dark:text-white truncate text-ellipsis">
         {isLoading || !venue ? (
           <Skeleton width={200} height={20} />
         ) : (
@@ -101,7 +109,9 @@ function SingleVenuePage() {
                   <Skeleton width={300} height={20} />
                 ) : (
                   <>
-                    <p className="mb-2">{capitalizeFirstLetter(venue.description)}</p>
+                    <p className="mb-2">
+                      {capitalizeFirstLetter(venue.description)}
+                    </p>
                     <p className="text-sm">
                       {venue.bookings.length === 0
                         ? "Never rented before! Be the first one!"
@@ -119,10 +129,7 @@ function SingleVenuePage() {
           )}
         </AnimatePresence>
         <div onClick={() => setFacilitiesOpen((prev) => !prev)}>
-          <button
-            type="button"
-            className="px-[5vw] lg:px-0 flex items-center justify-between w-full py-5 font-medium rtl:text-right text-gray-900 border-b border-gray-200 dark:border-gray-700 dark:text-gray-400 gap-3"
-          >
+          <button className="px-[5vw] lg:px-0 flex items-center justify-between w-full py-5 font-medium rtl:text-right text-gray-900 border-b border-gray-200 dark:border-gray-700 dark:text-gray-400 gap-3">
             <h2>Facilities</h2>
             <motion.div animate={{ rotate: facilitiesOpen ? 180 : 0 }}>
               <DropDownIcon />
@@ -218,6 +225,12 @@ function SingleVenuePage() {
           )}
         </AnimatePresence>
       </div>
+
+      <HolidazeDatePicker
+        value={selectedDays}
+        onChange={setSelectedDays}
+        disabledDays={disabledDays}
+      />
 
       <div className="lg:p-0 px-[5vw] flex justify-between items-center">
         <Link
