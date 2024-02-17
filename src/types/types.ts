@@ -1,3 +1,5 @@
+import { DatePickerProps, DayRange } from "react-modern-calendar-datepicker";
+
 interface NavLink {
   name: string;
   path: string;
@@ -109,3 +111,28 @@ interface InputProps extends React.InputHTMLAttributes<HTMLInputElement> {
   label?: string;
   className?: string;
 }
+
+interface HolidazeDatePickerProps extends DatePickerProps<DayRange> {
+  value: any;
+  onChange: any;
+  inputLabel: string;
+  inputPlaceholder?: string;
+}
+
+export type {
+  NavLink,
+  Customer,
+  User,
+  LoginRequest,
+  RegisterRequest,
+  ServerErrorResponse,
+  ServerError,
+  Owner,
+  Meta,
+  Location,
+  Booking,
+  Venue,
+  CreateVenue,
+  InputProps,
+  HolidazeDatePickerProps,
+};
