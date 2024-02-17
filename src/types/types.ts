@@ -1,4 +1,7 @@
-import { DatePickerProps, DayRange } from "react-modern-calendar-datepicker";
+import {
+  DatePickerProps,
+  DayRange,
+} from "@sentisso/react-modern-calendar-datepicker";
 
 interface NavLink {
   name: string;
@@ -115,7 +118,7 @@ interface InputProps extends React.InputHTMLAttributes<HTMLInputElement> {
 interface HolidazeDatePickerProps extends DatePickerProps<DayRange> {
   value: any;
   onChange: any;
-  inputLabel: string;
+  inputLabel?: string;
   inputPlaceholder?: string;
 }
 
