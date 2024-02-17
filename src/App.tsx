@@ -7,11 +7,13 @@ import LoginPage from "./pages/Login.page";
 import VenuesPage from "./pages/Venues.page";
 import ProfilePage from "./pages/Profile.page";
 import SingleVenuePage from "./pages/SingeVenue.page";
+import ScrollToTop from "./utils/ScrollToTop";
 
 function App() {
   return (
     <BrowserRouter>
       <AuthRoute>
+        <ScrollToTop />
         <Routes>
           <Route path="" element={<LandingPage />} />
           {/* Routes with header and footer */}
