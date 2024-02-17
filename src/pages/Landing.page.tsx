@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
-import PrimaryButton from "../components/buttons/PrimaryButton";
-import Logo from "../components/logo/Logo";
+import PrimaryButton from "../components/buttons/PrimaryButton.component";
+import Logo from "../components/logo/Logo.component";
 
 function LandingPage() {
   return (

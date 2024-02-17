@@ -1,7 +1,9 @@
 import { NavLink } from "react-router-dom";
-import ProfileIcon from "../icons/Profileicon";
-import useAuth from "../../hooks/useAuth";
+import ProfileIcon from "../../icons/Profileicon.component";
+import useAuth from "../../../hooks/useAuth";
 import { useState } from "react";
+import DropDownIcon from "../../icons/DropDownIcon.component";
+import { motion } from "framer-motion";
 
 function DesktopNav({ links }: { links: NavLink[] }) {
   const { isLoggedIn, logOut, user } = useAuth();
@@ -25,8 +27,16 @@ function DesktopNav({ links }: { links: NavLink[] }) {
         <>
           <div
             onClick={() => setOpen((prev) => !prev)}
-            className="flex gap-2 items-center cursor-pointer"
+            className="flex gap-2 items-center cursor-pointer justify-center"
           >
+            <motion.div
+              animate={{
+                rotate: open ? 180 : 0,
+              }}
+              transition={{ duration: 0.2 }}
+            >
+              <DropDownIcon className="text-white !h-3 !w-3" />
+            </motion.div>
             <p>{user?.name}</p>{" "}
             {user?.avatar ? (
               <img
@@ -36,15 +46,16 @@ function DesktopNav({ links }: { links: NavLink[] }) {
                 alt="Profile picture"
               />
             ) : (
-              <ProfileIcon />
+              <ProfileIcon className="!h-[34px] !w-[34px] !text-white" />
             )}
           </div>
 
           {open && (
-            <div className="absolute bg-primary rounded">
-              <ul className="flex flex-col gap-2">
+            <div className="absolute right-0 top-[60px] bg-primary px-10 pb-5 rounded-bl">
+              <ul className="flex flex-col gap-4">
                 <li>
                   <NavLink
+                    onClick={() => setOpen(false)}
                     to={"/profile"}
                     className={({ isActive }) =>
                       isActive ? "underline underline-offset-4" : ""
@@ -53,8 +64,20 @@ function DesktopNav({ links }: { links: NavLink[] }) {
                     My profile
                   </NavLink>
                 </li>
+                {user?.venueManager && (
+                  <>
+                    <li className="cursor-pointer">My venues</li>
+                    <li className="cursor-pointer">New venue</li>
+                  </>
+                )}
 
-                <li className="cursor-pointer" onClick={logOut}>
+                <li
+                  className="cursor-pointer"
+                  onClick={() => {
+                    setOpen(false);
+                    logOut();
+                  }}
+                >
                   Log out
                 </li>
               </ul>

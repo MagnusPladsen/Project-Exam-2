@@ -1,9 +1,10 @@
 import { useEffect, useState } from "react";
-import PrimaryButton from "../components/buttons/PrimaryButton";
-import VenueCard from "../components/listVenus/VenueCard";
-import {
-  useGetVenuesQuery 
-} from "../services/api/holidazeApi";
+import PrimaryButton from "../components/buttons/PrimaryButton.component";
+import VenueCard from "../components/venue/VenueCard.component";
+import { useGetVenuesQuery } from "../services/api/holidazeApi";
+import ErrorMessage from "../components/messages/ErrorMessage.component";
+import { Venue } from "../types/types";
+import H1 from "../components/common/H1.component";
 
 function VenuesPage() {
   const [latestVenues, setLatestVenues] = useState<Venue[]>([]);
@@ -28,7 +29,6 @@ function VenuesPage() {
   }
 
   function getMoreVenues() {
-    if (venues) alert("No more venues to load");
     if (!!venues) {
       setLatestVenues((prev) => [...prev, ...venues]);
     }
@@ -40,16 +40,14 @@ function VenuesPage() {
 
   return (
     <section className="py-8 mx-auto xl:max-w-screen-xl lg:py-16 lg:px-6">
-      <div className="mx-auto max-w-screen-sm text-center lg:mb-16 mb-8">
-        <h1 className="mb-4 text-3xl lg:text-4xl tracking-tight font-extrabold text-gray-900 dark:text-white">
-          Venues
-        </h1>
+      <div className="mx-auto lg:max-w-screen-sm text-center lg:mb-16 mb-8">
+        <H1>Venues</H1>
         <p className="font-light text-gray-500 sm:text-xl dark:text-gray-400">
           Find venues posted by our community
         </p>
       </div>
-      <div className="grid gap-8 lg:grid-cols-2 mb-4">
-        {isLoading ? (
+      <div className="grid gap-8 lg:grid-cols-2 xl:grid-cols-3 mb-4 justify-center w-full">
+        {isLoading && !error && (
           <>
             <VenueCard isLoading />
             <VenueCard isLoading />
@@ -57,11 +55,13 @@ function VenuesPage() {
             <VenueCard isLoading />
             <VenueCard isLoading />
           </>
-        ) : (
+        )}
+        {latestVenues.length &&
+          !error &&
           latestVenues.map((venue, index) => (
             <VenueCard venue={venue} key={index} />
-          ))
-        )}
+          ))}
+        {error && <ErrorMessage />}
       </div>
       <div className="w-fit mx-auto my-10">
         <PrimaryButton onClick={incrementStep}>Load more</PrimaryButton>

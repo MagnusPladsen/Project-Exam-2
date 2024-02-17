@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
-import LoginForm from "../components/forms/loginForm/LoginForm";
-import RegisterForm from "../components/forms/registerForm/RegisterForm";
-import Logo from "../components/logo/Logo";
+import LoginForm from "../components/forms/loginForm/LoginForm.component";
+import RegisterForm from "../components/forms/registerForm/RegisterForm.component";
+import Logo from "../components/logo/Logo.component";
 
 function LoginPage() {
   const [register, setRegister] = useState(false);

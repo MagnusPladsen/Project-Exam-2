@@ -1,4 +1,4 @@
-import LogoIcon from "../icons/LogoIcon";
+import LogoIcon from "../icons/LogoIcon.component";
 
 function Logo({
   textClassName = "",

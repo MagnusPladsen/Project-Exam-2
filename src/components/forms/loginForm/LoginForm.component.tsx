@@ -2,10 +2,11 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import { FormProvider, SubmitHandler, useForm } from "react-hook-form";
 import useAuth from "../../../hooks/useAuth";
 import { useLoginMutation } from "../../../services/api/authService";
-import PrimaryButton from "../../buttons/PrimaryButton";
-import ErrorMessage from "../../messages/ErrorMessage";
+import PrimaryButton from "../../buttons/PrimaryButton.component";
+import ErrorMessage from "../../messages/ErrorMessage.component";
 import Input from "../Input";
 import schema from "./validation";
+import { LoginRequest } from "../../../types/types";
 
 function LoginForm() {
   const { saveUser } = useAuth();
