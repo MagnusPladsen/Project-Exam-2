@@ -34,7 +34,7 @@ function SingleVenuePage() {
   const [guests, setGuests] = useState<number>(1);
 
   function incrementGuests() {
-    if (guests < venue.maxGuests) {
+    if (guests < venue!.maxGuests) {
       setGuests((prev) => prev + 1);
     }
   }
@@ -85,8 +85,8 @@ function SingleVenuePage() {
       ) : venue.media.length > 0 ? (
         <ImageSlider
           images={venue.media}
-          className="rounded"
-          imageClassName="rounded"
+          className="lg:rounded"
+          imageClassName="lg:rounded"
         />
       ) : (
         <img
@@ -96,7 +96,7 @@ function SingleVenuePage() {
         />
       )}
 
-      <VenueAccordion venue={venue} isLoading={isLoading} />
+      <VenueAccordion venue={venue!} isLoading={isLoading} />
       <AnimatePresence initial={false}>
         <div className="flex flex-col gap-4 mb-10 mt-5 lg:p-0 px-[5vw]">
           {isLoggedIn ? (
@@ -175,7 +175,7 @@ function SingleVenuePage() {
         </div>
       </AnimatePresence>
 
-      <VenueFooter venue={venue} isLoading={isLoading} />
+      <VenueFooter venue={venue!} isLoading={isLoading} />
     </article>
   );
 }
