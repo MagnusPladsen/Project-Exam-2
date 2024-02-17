@@ -14,7 +14,7 @@ function VenueFooter({
   isLoading: boolean;
 }) {
   return (
-    <>
+    <div className="lg:p-0 px-[5vw] flex justify-between items-center">
       <Link
         to={`/venues`}
         className="inline-flex items-center font-medium text-primary hover:underline"
@@ -55,7 +55,7 @@ function VenueFooter({
           </span>
         </div>
       </Link>
-    </>
+    </div>
   );
 }
 

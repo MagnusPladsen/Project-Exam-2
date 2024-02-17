@@ -21,6 +21,7 @@ import useAuth from "../hooks/useAuth";
 import VenueAccordion from "../components/venue/VenueAccordion.component";
 import VenueFooter from "../components/venue/VenueFooter.component";
 import H1 from "../components/common/H1.component";
+import H2 from "../components/common/H2.component";
 
 function SingleVenuePage() {
   const { id } = useParams();
@@ -36,8 +37,7 @@ function SingleVenuePage() {
   console.log(venue, id);
 
   return (
-    <article className="py-8 lg:py-16 lg:px-6 w-[100vw] lg:w-[900px] mx-auto dark:bg-gray-800 dark:border-gray-700">
-      
+    <article className="py-8 lg:py-16 lg:px-6 w-[100vw] lg:w-[900px] mx-auto dark:bg-gray-800 dark:border-gray-700 flex flex-col gap-5">
       <H1>
         {isLoading || !venue ? (
           <Skeleton width={200} height={20} />
@@ -46,7 +46,7 @@ function SingleVenuePage() {
         )}
       </H1>
 
-      <div className="lg:p-0 px-[5vw] flex justify-between items-center mb-5 text-gray-500">
+      <div className="lg:p-0 px-[5vw] flex justify-between items-center  text-gray-500">
         {isLoading || !venue ? (
           <Skeleton width={50} height={20} />
         ) : (
@@ -87,22 +87,26 @@ function SingleVenuePage() {
         />
       )}
 
-      <div className="mb-5">
-        <VenueAccordion venue={venue} isLoading={isLoading} />
-      </div>
+      <VenueAccordion venue={venue} isLoading={isLoading} />
 
-      <div className="mb-5">
-        <HolidazeDatePicker
-          value={selectedDays}
-          onChange={setSelectedDays}
-          disabledDays={disabledDays}
-          inputLabel={"Check availability"}
-        />
-      </div>
+      <HolidazeDatePicker
+        value={selectedDays}
+        onChange={setSelectedDays}
+        disabledDays={disabledDays}
+        inputLabel={"Check availability"}
+      />
 
-      <div className="lg:p-0 px-[5vw] flex justify-between items-center">
-        <VenueFooter venue={venue} isLoading={isLoading} />
-      </div>
+      {isLoggedIn ? (
+        <H2>Create booking</H2>
+      ) : (
+        <Link to="/login">
+          <H2 className="hover:text-primary hover:underline underline-offset-2">
+            Log in to create a booking
+          </H2>
+        </Link>
+      )}
+
+      <VenueFooter venue={venue} isLoading={isLoading} />
     </article>
   );
 }

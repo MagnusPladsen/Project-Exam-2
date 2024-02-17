@@ -6,7 +6,7 @@ import DropDownIcon from "../icons/DropDownIcon.component";
 import ParkingIcon from "../icons/ParkingIcon.component";
 import PetsIcon from "../icons/PetsIcon.component";
 import WifiIcon from "../icons/WifiIcon.component";
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import { Venue } from "../../types/types";
 import H2 from "../common/H2.component";
 
@@ -20,6 +20,16 @@ function VenueAccordion({
   const [descriptionOpen, setDescriptionOpen] = useState<boolean>(true);
   const [facilitiesOpen, setFacilitiesOpen] = useState<boolean>(true);
   const [locationOpen, setLocationOpen] = useState<boolean>(true);
+
+  const venueLocationEmpty = useMemo(
+    () =>
+      !venue ||
+      Object.values(venue.location).every(
+        (value) => value === "" || value === 0
+      ),
+    [venue]
+  );
+
   return (
     <>
       <div>
@@ -144,18 +154,25 @@ function VenueAccordion({
                 <Skeleton width={300} height={20} />
               ) : (
                 <>
-                  <p>
-                    {capitalizeFirstLetter(venue.location.address)}
-                    {capitalizeFirstLetter(venue.location.zip) &&
-                      ", " + capitalizeFirstLetter(venue.location.zip)}
-                  </p>
-                  <p>
-                    {capitalizeFirstLetter(venue.location.city)}
-                    {capitalizeFirstLetter(venue.location.country) &&
-                      ", " + capitalizeFirstLetter(venue.location.country)}
-                    {capitalizeFirstLetter(venue.location.continent) &&
-                      ", " + capitalizeFirstLetter(venue.location.continent)}
-                  </p>
+                  {!venueLocationEmpty ? (
+                    <>
+                      <p>
+                        {capitalizeFirstLetter(venue.location.address)}
+                        {capitalizeFirstLetter(venue.location.zip) &&
+                          ", " + capitalizeFirstLetter(venue.location.zip)}
+                      </p>
+                      <p>
+                        {capitalizeFirstLetter(venue.location.city)}
+                        {capitalizeFirstLetter(venue.location.country) &&
+                          ", " + capitalizeFirstLetter(venue.location.country)}
+                        {capitalizeFirstLetter(venue.location.continent) &&
+                          ", " +
+                            capitalizeFirstLetter(venue.location.continent)}
+                      </p>
+                    </>
+                  ) : (
+                    <p>No location data available for this venue..</p>
+                  )}
                 </>
               )}
             </div>
