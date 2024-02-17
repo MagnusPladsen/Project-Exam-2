@@ -9,6 +9,7 @@ import WifiIcon from "../icons/WifiIcon.component";
 import { useMemo, useState } from "react";
 import { Venue } from "../../types/types";
 import H2 from "../common/H2.component";
+import formatDate from "../../formatters/formatToDate";
 
 function VenueAccordion({
   venue,
@@ -57,19 +58,23 @@ function VenueAccordion({
                 <Skeleton width={300} height={20} />
               ) : (
                 <>
-                  <p className="mb-2">
+                  <p className="mb-4">
                     {capitalizeFirstLetter(venue.description)}
                   </p>
-                  <p className="text-sm">
-                    {venue.bookings.length === 0
-                      ? "Never rented before! Be the first one!"
-                      : `Rented ${venue.bookings.length} times before`}
-                  </p>
-                  <p className="text-sm">Max guests: {venue.maxGuests}</p>
-                  <p className="text-sm">
-                    Created:{" "}
-                    {new Date(venue.created).toISOString().split("T")[0]}
-                  </p>
+                  <div className="flex justify-between gap-1 text-xs">
+                    <div className="flex flex-col">
+                      <p>Max guests: {venue.maxGuests}</p>
+                      <p>
+                        {venue.bookings.length === 0
+                          ? "Never booked before! Be the first one!"
+                          : `Booked ${venue.bookings.length} times before`}
+                      </p>
+                    </div>
+                    <div className="flex flex-col">
+                      <p>Updated: {formatDate(venue.updated)}</p>
+                      <p>Created: {formatDate(venue.created)}</p>
+                    </div>
+                  </div>
                 </>
               )}
             </div>

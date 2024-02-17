@@ -46,7 +46,7 @@ function VenuesPage() {
           Find venues posted by our community
         </p>
       </div>
-      <div className="grid gap-8 lg:grid-cols-2 mb-4 justify-center w-full">
+      <div className="grid gap-8 lg:grid-cols-2 xl:grid-cols-3 mb-4 justify-center w-full">
         {isLoading && !error && (
           <>
             <VenueCard isLoading />
