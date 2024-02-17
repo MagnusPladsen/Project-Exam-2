@@ -8,6 +8,8 @@ import ArrowIcon from "../icons/ArrowIcon.component";
 import HolidazeTooltip from "../tooltip/HolidazeTooltip.component";
 import capitalizeFirstLetter from "../../formatters/capitalizeFirstLetter";
 import ImageSlider from "../imageSlider/ImageSlider.component";
+import { Venue } from "../../types/types";
+import H2 from "../common/H2.component";
 
 function VenueCard({
   venue,
@@ -42,7 +44,7 @@ function VenueCard({
           />
         </span>
       </div>
-      <h2 className="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white truncate text-ellipsis">
+      <H2 className="mb-2 text-xl font-bold tracking-tight text-gray-900 dark:text-white truncate text-ellipsis">
         {isLoading || !venue ? (
           <Skeleton width={200} height={20} />
         ) : (
@@ -54,7 +56,7 @@ function VenueCard({
             </span>
           </>
         )}
-      </h2>
+      </H2>
       <div className="mb-5 h-[calc(1rem*3)] font-light text-gray-500 dark:text-gray-400 line-clamp-3">
         {isLoading || !venue ? (
           <Skeleton width={300} height={20} />

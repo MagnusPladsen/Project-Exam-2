@@ -1,8 +1,10 @@
 import { useEffect, useState } from "react";
 import PrimaryButton from "../components/buttons/PrimaryButton.component";
-import VenueCard from "../components/listVenus/VenueCard.component";
+import VenueCard from "../components/venue/VenueCard.component";
 import { useGetVenuesQuery } from "../services/api/holidazeApi";
 import ErrorMessage from "../components/messages/ErrorMessage.component";
+import { Venue } from "../types/types";
+import H1 from "../components/common/H1.component";
 
 function VenuesPage() {
   const [latestVenues, setLatestVenues] = useState<Venue[]>([]);
@@ -39,9 +41,7 @@ function VenuesPage() {
   return (
     <section className="py-8 mx-auto xl:max-w-screen-xl lg:py-16 lg:px-6">
       <div className="mx-auto lg:max-w-screen-sm text-center lg:mb-16 mb-8">
-        <h1 className="mb-4 text-3xl lg:text-4xl tracking-tight font-extrabold text-gray-900 dark:text-white">
-          Venues
-        </h1>
+        <H1>Venues</H1>
         <p className="font-light text-gray-500 sm:text-xl dark:text-gray-400">
           Find venues posted by our community
         </p>
