@@ -33,23 +33,21 @@ function VenueAccordion({
 
   return (
     <>
-      <div>
-        <button
-          onClick={() => setDescriptionOpen((prev) => !prev)}
-          className="px-[5vw] lg:px-0 flex items-center justify-between w-full py-5 font-medium rtl:text-right text-gray-900 border-b border-gray-200 dark:border-gray-700 dark:text-gray-400 gap-3"
-        >
-          <H2>Information</H2>
-          <motion.div animate={{ rotate: descriptionOpen ? 180 : 0 }}>
-            <DropDownIcon />
-          </motion.div>
-        </button>
+      <div
+        onClick={() => setDescriptionOpen((prev) => !prev)}
+        className="px-[5vw] lg:px-0 flex items-center justify-between w-full py-5 font-medium rtl:text-right text-gray-900 border-b border-gray-200 dark:border-gray-700 dark:text-gray-400 "
+      >
+        <H2>Information</H2>
+        <motion.div animate={{ rotate: descriptionOpen ? 180 : 0 }}>
+          <DropDownIcon />
+        </motion.div>
       </div>
       <AnimatePresence initial={false}>
         {descriptionOpen && (
           <motion.div
             initial={{ opacity: 0, height: 0 }}
             animate={{ opacity: 1, height: "auto" }}
-            exit={{ opacity: 0, height: 0 }} // Add exit animation
+            exit={{ opacity: 0, height: 0 }}
             transition={{ duration: 0.3 }}
             className="bg-gray-50 border-b border-gray-200 dark:border-gray-700"
           >
@@ -81,14 +79,17 @@ function VenueAccordion({
           </motion.div>
         )}
       </AnimatePresence>
-      <div onClick={() => setFacilitiesOpen((prev) => !prev)}>
-        <button className="px-[5vw] lg:px-0 flex items-center justify-between w-full py-5 font-medium rtl:text-right text-gray-900 border-b border-gray-200 dark:border-gray-700 dark:text-gray-400 gap-3">
-          <H2>Facilities</H2>
-          <motion.div animate={{ rotate: facilitiesOpen ? 180 : 0 }}>
-            <DropDownIcon />
-          </motion.div>
-        </button>
+
+      <div
+        onClick={() => setFacilitiesOpen((prev) => !prev)}
+        className="px-[5vw] lg:px-0 flex items-center justify-between w-full py-5 font-medium rtl:text-right text-gray-900 border-b border-gray-200 dark:border-gray-700 dark:text-gray-400"
+      >
+        <H2>Facilities</H2>
+        <motion.div animate={{ rotate: facilitiesOpen ? 180 : 0 }}>
+          <DropDownIcon />
+        </motion.div>
       </div>
+
       <AnimatePresence initial={false}>
         {facilitiesOpen && (
           <motion.div
@@ -137,14 +138,17 @@ function VenueAccordion({
           </motion.div>
         )}
       </AnimatePresence>
-      <div onClick={() => setLocationOpen((prev) => !prev)}>
-        <button className="px-[5vw] lg:px-0 flex items-center justify-between w-full py-5 font-medium rtl:text-right text-gray-900 border-b border-gray-200 dark:border-gray-700 dark:text-gray-400 gap-3">
-          <H2>Location</H2>
-          <motion.div animate={{ rotate: locationOpen ? 180 : 0 }}>
-            <DropDownIcon />
-          </motion.div>
-        </button>
+
+      <div
+        onClick={() => setLocationOpen((prev) => !prev)}
+        className="px-[5vw] lg:px-0 flex items-center justify-between w-full py-5 font-medium rtl:text-right text-gray-900 border-b border-gray-200 dark:border-gray-700 dark:text-gray-400"
+      >
+        <H2>Location</H2>
+        <motion.div animate={{ rotate: locationOpen ? 180 : 0 }}>
+          <DropDownIcon />
+        </motion.div>
       </div>
+
       <AnimatePresence initial={false}>
         {locationOpen && (
           <motion.div
