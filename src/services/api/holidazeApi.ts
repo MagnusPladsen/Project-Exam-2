@@ -1,10 +1,27 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
+import { useSelector } from "react-redux";
+import useAuth from "../../hooks/useAuth";
+import { selectToken } from "../../redux/slices/authSlice";
+import { User, Venue } from "../../types/types";
 
 // Define a service using a base URL and expected endpoints
 export const holidazeApi = createApi({
   reducerPath: "organizerApi",
   baseQuery: fetchBaseQuery({
     baseUrl: "https://api.noroff.dev/api/v1/holidaze/",
+    prepareHeaders: (headers, { getState }) => {
+      const { user, token } = (
+        getState() as { auth: { user: null | User; token: null | string } }
+      ).auth;
+
+      if (token) {
+        if (token) {
+          headers.set("Authorization", `Bearer ${token}`);
+        }
+      }
+
+      return headers;
+    },
   }),
   tagTypes: ["venues"],
   endpoints: (builder) => ({

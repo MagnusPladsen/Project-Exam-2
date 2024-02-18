@@ -6,6 +6,7 @@ import {
   selectToken,
   setCredentials,
 } from "../redux/slices/authSlice";
+import { User } from "../types/types";
 
 function useAuth() {
   const dispatch = useDispatch();
