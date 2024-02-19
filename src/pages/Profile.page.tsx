@@ -1,22 +1,20 @@
+import { AnimatePresence, motion } from "framer-motion";
 import { useEffect, useState } from "react";
 import Skeleton from "react-loading-skeleton";
-import { Link, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
+import PrimaryButton from "../components/buttons/PrimaryButton.component";
 import H1 from "../components/common/H1.component";
 import H2 from "../components/common/H2.component";
 import Toggle from "../components/forms/Toggle.component";
 import ProfileIcon from "../components/icons/Profileicon.component";
 import ConfirmModal from "../components/modals/ConfirmModal.component";
+import VenueCard from "../components/venue/VenueCard.component";
 import useAuth from "../hooks/useAuth";
 import {
   useGetProfileQuery,
   useUpdateVenueManagerStatusMutation,
 } from "../services/api/holidazeApi";
-import { UpdateVenueManagerStatusRequest } from "../types/types";
-import PrimaryButton from "../components/buttons/PrimaryButton.component";
-import { AnimatePresence, motion } from "framer-motion";
-import H3 from "../components/common/H3.component";
-import capitalizeFirstLetter from "../formatters/capitalizeFirstLetter";
-import VenueCard from "../components/venue/VenueCard.component";
+import { UpdateVenueManagerStatusRequest, Venue } from "../types/types";
 
 function ProfilePage() {
   const { name } = useParams();
@@ -33,6 +31,13 @@ function ProfilePage() {
 
   const [venueManagerModalOpen, setVenueManagerModalOpen] = useState(false);
   const [openVenues, setOpenVenues] = useState(false);
+  const [venuesStepper, setVenuesStepper] = useState(5);
+
+  const showMoreVenues = () => {
+    setVenuesStepper((prev) => prev + 5);
+  };
+
+  const [venuesToShow, setVenuesToShow] = useState<Venue[]>([]);
 
   const toggleVenueManager = () => {
     setVenueManagerModalOpen(true);
@@ -68,15 +73,21 @@ function ProfilePage() {
     }
   }, [data]);
 
+  useEffect(() => {
+    if (data) {
+      setVenuesToShow(data.venues!.slice(0, venuesStepper));
+    }
+  }, [venuesStepper, data]);
+
   return (
     <>
       {data && !error && (
-        <article className="pt-[50px] lg:pt-[80px] antialiased bg-gradient-to-b from-primary to-white h-full w-full mb-40">
-          <div className="w-full lg:w-[900px] px-4 mx-auto">
-            <div className="relative flex flex-col min-w-0 break-words bg-white w-full mb-6 shadow-xl rounded-lg mt-20 lg:mt-24">
-              <div className="px-6">
+        <article className="pt-[50px] lg:pt-[80px] antialiased bg-gradient-to-b from-primary to-white h-full w-full pb-40">
+          <div className="w-full lg:w-[900px] lg:px-4 mx-auto">
+            <div className=" relative flex flex-col min-w-0 break-words bg-white w-full mb-6 shadow-xl lg:rounded-lg mt-20 lg:mt-24">
+              <div className="lg:px-6">
                 <div className="flex flex-wrap justify-center">
-                  <div className="w-full px-4 flex justify-center">
+                  <div className="px-4 flex justify-center">
                     <div className="relative">
                       {isLoading ? (
                         <Skeleton circle width={28} height={28} />
@@ -86,10 +97,10 @@ function ProfilePage() {
                             <img
                               src={data.avatar}
                               alt="Profile picture"
-                              className="shadow-xl rounded-full align-middle absolute -my-16 left-1/2 transform -translate-x-1/2 max-w-[150px] h-[150px] border border-white"
+                              className="shadow-xl rounded-full align-middle absolute -my-16 left-1/2 transform -translate-x-1/2 max-w-[150px] h-[150px] border border-white object-cover"
                             />
                           ) : (
-                            <ProfileIcon className="shadow-xl rounded-full h-auto align-middle border-none absolute -my-16 left-1/2 transform -translate-x-1/2 !max-w-[150px]" />
+                            <ProfileIcon className="shadow-xl rounded-full align-middle absolute -my-16 left-1/2 transform -translate-x-1/2 max-w-[150px] h-[150px] border border-white object-cover bg-white" />
                           )}
                         </>
                       )}
@@ -140,37 +151,34 @@ function ProfilePage() {
                     )}
                   </div>
                 </div>
-                {userIsManager && (
-                  <div className="mt-2 py-10 border-t border-blueGray-200 text-center">
-                    <PrimaryButton
-                      className="mb-5"
-                      onClick={() => setOpenVenues((prev) => !prev)}
-                    >
-                      {openVenues ? "Hide users venues" : "See users venues"}
-                    </PrimaryButton>
+                {userIsManager && venuesToShow.length > 0 && (
+                  <div className="mt-2 py-10 border-t border-blueGray-200 text-center w-full">
                     <AnimatePresence initial={false}>
+                      {!openVenues && (
+                        <PrimaryButton
+                          className="mb-5"
+                          onClick={() => setOpenVenues((prev) => !prev)}
+                        >
+                          See users venues
+                        </PrimaryButton>
+                      )}
                       {openVenues && (
                         <motion.div
                           initial={{ opacity: 0, height: 0 }}
-                          animate={{ opacity: 1, height: "auto" }}
+                          animate={{
+                            opacity: 1,
+                            height: "auto",
+                          }}
                           exit={{ opacity: 0, height: 0 }}
                           transition={{ duration: 0.3 }}
-                          className="mt-5 flex flex-col gap-4 lg:max-w-[500px] lg:mx-auto"
+                          className="flex flex-col gap-4 lg:max-w-[500px] mx-auto"
                         >
-                       {/*    {data.venues?.map((venue) => (
-                            <Link key={venue.id} to={`/venue/${venue.id}`}>
-                              <div className="flex flex-col w-full items-center gap-2 bg-white rounded-lg border border-gray-200 shadow-md py-8">
-                                <H3 className="font-bold underline underline-offset-2 ">
-                                  {capitalizeFirstLetter(venue.name)}
-                                </H3>
-                                <p className="text-xs">
-                                  {capitalizeFirstLetter(venue.description)}
-                                </p>
-                              </div>
-                            </Link>
-                          ))} */}
-                          {data.venues?.map((venue) => (
-                            <VenueCard key={venue.id} venue={venue!} />
+                          {venuesToShow?.map((venue) => (
+                            <VenueCard
+                              key={venue.id}
+                              venue={venue!}
+                              className="!mx-auto"
+                            />
                           ))}
                         </motion.div>
                       )}

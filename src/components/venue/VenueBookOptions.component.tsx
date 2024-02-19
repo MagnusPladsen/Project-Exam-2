@@ -14,6 +14,7 @@ import H2 from "../common/H2.component";
 import H3 from "../common/H3.component";
 import MinusIcon from "../icons/MinusIcon.component";
 import PlusIcon from "../icons/PlusIcon.component";
+import HolidazeTooltip from "../tooltip/HolidazeTooltip.component";
 
 function VenueBookOptions({
   venue,
@@ -107,11 +108,17 @@ function VenueBookOptions({
                   </p>
                 </div>
               </div>
+
+              {!(selectedDays.to && selectedDays.from) && (
+                <HolidazeTooltip id="venue-booking" />
+              )}
               <PrimaryButton
+                data-tooltip-id="venue-booking"
+                data-tooltip-content={`You need to select a date range to create a booking.`}
                 onClick={handleCreateVenue}
                 disabled={!(selectedDays.to && selectedDays.from)}
               >
-                Book
+                Create booking
               </PrimaryButton>
             </>
           ) : (

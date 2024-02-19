@@ -33,7 +33,7 @@ function SingleVenuePage() {
           <Skeleton width={50} height={20} />
         ) : (
           <span className="bg-green-200 text-green-600 font-medium inline-flex items-center px-2.5 py-1 rounded dark:bg-primary-light gap-2">
-            Price: <span className="font-bold">$ {venue.price}</span>
+            Price per night: <span className="font-bold">$ {venue.price}</span>
           </span>
         )}
 

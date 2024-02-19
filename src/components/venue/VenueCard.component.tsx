@@ -13,13 +13,15 @@ import useGetPath from "../../hooks/useGetPath";
 function VenueCard({
   venue,
   isLoading = false,
+  className,
 }: {
   venue?: Venue;
   isLoading?: boolean;
+  className?: string;
 }) {
-  const {isOnProfileRoute} = useGetPath()
+  const { isOnProfileRoute } = useGetPath();
   return (
-    <article className="p-6 w-[90vw] lg:w-full xl:max-w-lg xl:mx-auto bg-white rounded-lg border border-gray-200 shadow-md ">
+    <article className={`${className} p-6 w-[90vw] lg:w-full xl:max-w-lg xl:mx-auto bg-white rounded-lg border border-gray-200 shadow-md`}>
       <div className="flex justify-between items-center mb-5 text-gray-500">
         {isLoading || !venue ? (
           <Skeleton width={50} height={20} />
