@@ -34,7 +34,7 @@ function ProfilePage() {
   const [venuesStepper, setVenuesStepper] = useState(5);
 
   const showMoreVenues = () => {
-    setVenuesStepper((prev) => prev + 5);
+    setVenuesStepper((prev) => prev + prev);
   };
 
   const [venuesToShow, setVenuesToShow] = useState<Venue[]>([]);
@@ -180,6 +180,14 @@ function ProfilePage() {
                               className="!mx-auto"
                             />
                           ))}
+                          {data!.venues!.length !== venuesToShow.length && (
+                            <PrimaryButton
+                              className="mx-auto"
+                              onClick={showMoreVenues}
+                            >
+                              See more
+                            </PrimaryButton>
+                          )}
                         </motion.div>
                       )}
                     </AnimatePresence>
