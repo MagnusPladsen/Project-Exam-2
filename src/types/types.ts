@@ -41,6 +41,11 @@ interface RegisterRequest {
   venueManager: boolean;
 }
 
+interface UpdateVenueManagerStatusRequest {
+  name: string;
+  status: boolean;
+}
+
 interface CreateBookingRequest {
   dateFrom: Date;
   dateTo: Date;
@@ -150,4 +155,5 @@ export type {
   InputProps,
   HolidazeDatePickerProps,
   CreateBookingRequest,
+  UpdateVenueManagerStatusRequest
 };

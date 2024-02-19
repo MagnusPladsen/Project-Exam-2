@@ -23,7 +23,7 @@ function App() {
             <Route path="venues/:id" element={<SingleVenuePage />} />
 
             {/* Routes that require authentication */}
-            <Route path="profile" element={<ProfilePage />} />
+            <Route path="profile/:name" element={<ProfilePage />} />
           </Route>
         </Routes>
       </AuthRoute>
@@ -35,9 +35,7 @@ const AppContainer = () => {
   return (
     <>
       <Header />
-
       <Outlet />
-
       <Footer />
     </>
   );

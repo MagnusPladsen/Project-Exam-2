@@ -7,8 +7,10 @@ import ErrorMessage from "../../messages/ErrorMessage.component";
 import Input from "../Input.component";
 import schema from "./validation";
 import { LoginRequest } from "../../../types/types";
+import { useNavigate } from "react-router-dom";
 
 function LoginForm() {
+  const navigate = useNavigate();
   const { saveUser } = useAuth();
 
   const formMethods = useForm<LoginRequest>({
@@ -24,8 +26,8 @@ function LoginForm() {
   const submitForm = async (data: LoginRequest) => {
     try {
       const res = await login(data).unwrap();
-      console.log(res);
       saveUser(res);
+      navigate("/venues");
     } catch (err) {
       console.log(err);
     }

@@ -1,6 +1,12 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import { RootState } from "../../redux/store";
-import { Booking, CreateBookingRequest, User, Venue } from "../../types/types";
+import {
+  Booking,
+  CreateBookingRequest,
+  UpdateVenueManagerStatusRequest,
+  User,
+  Venue,
+} from "../../types/types";
 
 // Define a service using a base URL and expected endpoints
 export const holidazeApi = createApi({
@@ -53,6 +59,26 @@ export const holidazeApi = createApi({
     }),
     getProfile: builder.query<User, string>({
       query: (name) => `profiles/${name}?_bookings=true&_venues=true`,
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      transformErrorResponse: (response: any) => {
+        if (!response.ok) throw new Error(response.data.status);
+        return response.json();
+      },
+    }),
+    updateVenueManagerStatus: builder.mutation<
+      User,
+      UpdateVenueManagerStatusRequest
+    >({
+      query: ({ status, name }) => ({
+        url: `profiles/${name}`,
+        method: "PUT",
+        body: { venueManager: status },
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        transformErrorResponse: (response: any) => {
+          if (!response.ok) throw new Error(response.data.status);
+          return response.json();
+        },
+      }),
     }),
   }),
 });
@@ -66,4 +92,5 @@ export const {
   useGetSingleVenueQuery,
   useCreateBookingMutation,
   useGetProfileQuery,
+  useUpdateVenueManagerStatusMutation,
 } = holidazeApi;

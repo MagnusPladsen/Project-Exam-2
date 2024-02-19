@@ -60,7 +60,7 @@ function VenueCard({
       <div className="flex justify-between items-center">
         <Link
           className="cursor-pointer hover:underline underline-offset-2 hover:text-primary group transition-all"
-          to={`/profile?name=${venue?.owner.name}`}
+          to={`/profile/${venue?.owner.name}`}
         >
           <div className="flex items-center space-x-2">
             {isLoading ? (

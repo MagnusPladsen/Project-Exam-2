@@ -34,7 +34,15 @@ export const createStore = () =>
     middleware: (getDefaultMiddleware) =>
       getDefaultMiddleware({
         serializableCheck: {
-          ignoredActions: ["persist/PERSIST"], // Ignore specific actions
+          ignoredActions: [
+            "FLUSH",
+            "REHYDRATE",
+            "PAUSE",
+            "persist/PERSIST",
+            "PERSIST",
+            "PURGE",
+            "REGISTER",
+          ],
         },
       }).concat([
         authService.middleware,

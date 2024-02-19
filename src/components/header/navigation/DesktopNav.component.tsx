@@ -57,7 +57,7 @@ function DesktopNav({ links }: { links: NavigationLink[] }) {
                 <li>
                   <NavLink
                     onClick={() => setOpen(false)}
-                    to={"/profile"}
+                    to={`/profile/${user!.name}`}
                     className={({ isActive }) =>
                       isActive ? "underline underline-offset-4" : ""
                     }
