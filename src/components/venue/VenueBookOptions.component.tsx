@@ -3,17 +3,17 @@ import { AnimatePresence } from "framer-motion";
 import { useState } from "react";
 import Skeleton from "react-loading-skeleton";
 import { Link } from "react-router-dom";
+import formatBookingsForDatePicker from "../../formatters/formatBookingsForDatePicker";
+import formatNewBooking from "../../formatters/formatToApi/formatNewBooking";
 import useAuth from "../../hooks/useAuth";
 import { useCreateBookingMutation } from "../../services/api/holidazeApi";
-import { CreateBookingRequest, Venue } from "../../types/types";
+import { Venue } from "../../types/types";
 import HolidazeDatePicker from "../HolidazeDatePicker/HolidazeDatePicker.component";
-import formatBookingsForDatePicker from "../../formatters/formatBookingsForDatePicker";
 import PrimaryButton from "../buttons/PrimaryButton.component";
 import H2 from "../common/H2.component";
 import H3 from "../common/H3.component";
 import MinusIcon from "../icons/MinusIcon.component";
 import PlusIcon from "../icons/PlusIcon.component";
-import formatNewBooking from "../../formatters/formatToApi/formatNewBooking";
 
 function VenueBookOptions({
   venue,
@@ -44,7 +44,7 @@ function VenueBookOptions({
     }
   }
 
-  const [createVenue, { error }] = useCreateBookingMutation();
+  const [createVenue] = useCreateBookingMutation();
 
   const handleCreateVenue = async () => {
     try {
@@ -52,7 +52,7 @@ function VenueBookOptions({
       const body = formatNewBooking(venue.id, selectedDays, guests);
       if (!body) return;
       const res = await createVenue(body).unwrap();
-      console.log(res)
+      console.log(res);
     } catch (err) {
       console.log(err);
     }

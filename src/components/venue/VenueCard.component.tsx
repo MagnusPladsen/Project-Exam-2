@@ -2,14 +2,12 @@ import Skeleton from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
 import { Link } from "react-router-dom";
 import StarRatings from "react-star-ratings";
-import LocationIcon from "../icons/LocationIcon.component";
-import ProfileIcon from "../icons/Profileicon.component";
-import ArrowIcon from "../icons/ArrowIcon.component";
-import HolidazeTooltip from "../tooltip/HolidazeTooltip.component";
 import capitalizeFirstLetter from "../../formatters/capitalizeFirstLetter";
-import ImageSlider from "../imageSlider/ImageSlider.component";
 import { Venue } from "../../types/types";
 import H2 from "../common/H2.component";
+import ArrowIcon from "../icons/ArrowIcon.component";
+import ProfileIcon from "../icons/Profileicon.component";
+import HolidazeTooltip from "../tooltip/HolidazeTooltip.component";
 
 function VenueCard({
   venue,

@@ -123,8 +123,6 @@ interface InputProps extends React.InputHTMLAttributes<HTMLInputElement> {
 }
 
 interface HolidazeDatePickerProps extends DatePickerProps<DayRange> {
-  value: any;
-  onChange: any;
   inputLabel?: string;
   inputPlaceholder?: string;
 }

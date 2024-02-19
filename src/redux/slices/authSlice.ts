@@ -1,6 +1,6 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { RootState } from "../store";
 import { User } from "../../types/types";
+import { RootState } from "../store";
 
 const auth = createSlice({
   name: "auth",
@@ -23,7 +23,7 @@ const auth = createSlice({
       return state;
     },
   },
-  extraReducers: (builder) => {},
+  extraReducers: () => {},
 });
 
 export const { setCredentials, removeCredentials } = auth.actions;

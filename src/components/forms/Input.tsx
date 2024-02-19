@@ -1,5 +1,6 @@
 import { useFormContext } from "react-hook-form";
 import FormErrorMessage from "../messages/FormErrorMessage.component";
+import { InputProps } from "../../types/types";
 
 function Input({ name, label, className, ...inputProps }: InputProps) {
   const {
@@ -11,7 +12,9 @@ function Input({ name, label, className, ...inputProps }: InputProps) {
       {!!label && (
         <label
           htmlFor={name}
-          className={` ${errors[name] && "!text-red-500 "} text-left text-gray-500`}
+          className={` ${
+            errors[name] && "!text-red-500 "
+          } text-left text-gray-500`}
         >
           {label}
         </label>
