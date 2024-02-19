@@ -35,7 +35,9 @@ const AppContainer = () => {
   return (
     <>
       <Header />
-      <Outlet />
+      <div className="pt-[80px]">
+        <Outlet />
+      </div>
       <Footer />
     </>
   );

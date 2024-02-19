@@ -2,7 +2,6 @@ import DatePicker from "@sentisso/react-modern-calendar-datepicker";
 import "@sentisso/react-modern-calendar-datepicker/lib/DatePicker.css";
 import { HolidazeDatePickerProps } from "../../types/types";
 import H3 from "../common/H3.component";
-import formatDate from "../../formatters/formatToDate";
 
 function HolidazeDatePicker({
   value,

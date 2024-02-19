@@ -2,14 +2,12 @@ import Skeleton from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
 import { Link } from "react-router-dom";
 import StarRatings from "react-star-ratings";
-import LocationIcon from "../icons/LocationIcon.component";
-import ProfileIcon from "../icons/Profileicon.component";
-import ArrowIcon from "../icons/ArrowIcon.component";
-import HolidazeTooltip from "../tooltip/HolidazeTooltip.component";
 import capitalizeFirstLetter from "../../formatters/capitalizeFirstLetter";
-import ImageSlider from "../imageSlider/ImageSlider.component";
 import { Venue } from "../../types/types";
 import H2 from "../common/H2.component";
+import ArrowIcon from "../icons/ArrowIcon.component";
+import ProfileIcon from "../icons/Profileicon.component";
+import HolidazeTooltip from "../tooltip/HolidazeTooltip.component";
 
 function VenueCard({
   venue,
@@ -48,13 +46,7 @@ function VenueCard({
         {isLoading || !venue ? (
           <Skeleton width={200} height={20} />
         ) : (
-          <>
-            <span>{capitalizeFirstLetter(venue.name)}</span>
-            <span className="text-sm text-gray-400 ml-2">
-              {" "}
-              - ${venue.price}
-            </span>
-          </>
+          <span>{capitalizeFirstLetter(venue.name)}</span>
         )}
       </H2>
       <div className="mb-5 h-[calc(1rem*3)] font-light text-gray-500 dark:text-gray-400 line-clamp-3">

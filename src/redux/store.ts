@@ -20,7 +20,7 @@ const combinedReducers = combineReducers({
 
 // fixed the issue with the non-serializable value
 const nonSerializableCheckMiddleware: Middleware =
-  (store) => (next) => (action: any) => {
+  () => (next) => (action: any) => {
     if (action.type === "persist/PERSIST") {
       // Exclude specific actions from the check
       return next(action);

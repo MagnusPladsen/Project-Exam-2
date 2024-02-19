@@ -13,24 +13,35 @@ function MobileNav() {
 
   const [open, setOpen] = useState(false);
 
+  const navLinkStyles =
+    "inline-flex flex-col items-center justify-center px-5 hover:bg-gray-50 group";
+
   return (
     <div className="lg:hidden">
-      <div className="fixed bottom-0 left-0 z-50 w-full h-16 bg-white border-t border-gray-200 ">
+      <div className="fixed bottom-0 left-0 z-50 w-full h-16 bg-white border-t border-gray-50 ">
         <div className="grid h-full max-w-lg grid-cols-4 mx-auto font-medium">
           <NavLink
             to={"/"}
             type="button"
-            className="inline-flex flex-col items-center justify-center px-5 hover:bg-gray-50 dark:hover:bg-gray-800 group"
+            className={({ isActive }) =>
+              isActive
+                ? ` !bg-gray-100 !text-primary ${navLinkStyles}`
+                : `text-gray-500  ${navLinkStyles}`
+            }
           >
             <HomeIcon />
-            <span className="text-sm text-gray-500 dark:text-gray-400 group-hover:text-primary dark:group-hover:text-blue-500">
+            <span className="text-sm text-gray-500 group-hover:text-primary">
               Home
             </span>
           </NavLink>
           <NavLink
             to="/venues"
             type="button"
-            className="inline-flex flex-col items-center justify-center px-5 hover:bg-gray-50 dark:hover:bg-gray-800 group"
+            className={({ isActive }) =>
+              isActive
+                ? ` !bg-gray-100 !text-primary ${navLinkStyles}`
+                : `text-gray-500  ${navLinkStyles}`
+            }
           >
             <VenueIcon />
             <span className="text-sm text-gray-500 dark:text-gray-400 group-hover:text-primary dark:group-hover:text-blue-500">
@@ -40,10 +51,14 @@ function MobileNav() {
           <NavLink
             to={"/about"}
             type="button"
-            className="inline-flex flex-col items-center justify-center px-5 hover:bg-gray-50 dark:hover:bg-gray-800 group"
+            className={({ isActive }) =>
+              isActive
+                ? ` !bg-gray-100 !text-primary ${navLinkStyles}`
+                : `text-gray-500  ${navLinkStyles}`
+            }
           >
             <InformationIcon />
-            <span className="text-sm text-gray-500 dark:text-gray-400 group-hover:text-primary dark:group-hover:text-blue-500">
+            <span className="text-sm text-gray ">
               About
             </span>
           </NavLink>
@@ -79,7 +94,11 @@ function MobileNav() {
             <NavLink
               to="login"
               type="button"
-              className="inline-flex flex-col items-center justify-center px-5 hover:bg-gray-50 dark:hover:bg-gray-800 group"
+              className={({ isActive }) =>
+                isActive
+                  ? `underline underline-offset-4 ${navLinkStyles}`
+                  : navLinkStyles
+              }
             >
               <ProfileIcon className="w-5 h-5 mb-2 text-gray-500 dark:text-gray-400 group-hover:text-primary dark:group-hover:text-blue-500" />
               <span className="text-sm text-gray-500 dark:text-gray-400 group-hover:text-primary dark:group-hover:text-blue-500">

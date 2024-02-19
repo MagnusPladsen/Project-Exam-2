@@ -3,7 +3,7 @@ import {
   DayRange,
 } from "@sentisso/react-modern-calendar-datepicker";
 
-interface NavLink {
+interface NavigationLink {
   name: string;
   path: string;
 }
@@ -123,14 +123,12 @@ interface InputProps extends React.InputHTMLAttributes<HTMLInputElement> {
 }
 
 interface HolidazeDatePickerProps extends DatePickerProps<DayRange> {
-  value: any;
-  onChange: any;
   inputLabel?: string;
   inputPlaceholder?: string;
 }
 
 export type {
-  NavLink,
+  NavigationLink,
   Customer,
   User,
   LoginRequest,

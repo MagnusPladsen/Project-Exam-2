@@ -29,7 +29,7 @@ function VenuesPage() {
   }
 
   function getMoreVenues() {
-    if (!!venues) {
+    if (venues) {
       setLatestVenues((prev) => [...prev, ...venues]);
     }
   }

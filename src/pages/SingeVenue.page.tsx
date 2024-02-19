@@ -14,6 +14,9 @@ function SingleVenuePage() {
   const { id } = useParams();
   const { data: venue, error, isLoading } = useGetSingleVenueQuery(String(id));
 
+  if (error) {
+    return <div>Error! Could not find the venue requested... Please try again.</div>;
+  }
   return (
     <article className="py-8 lg:py-16 lg:px-6 w-[100vw] lg:w-[900px] mx-auto dark:bg-gray-800 dark:border-gray-700 flex flex-col gap-5">
       <H1>
@@ -70,7 +73,6 @@ function SingleVenuePage() {
       <VenueBookOptions venue={venue} isLoading={isLoading} />
 
       <VenueFooter venue={venue} isLoading={isLoading} />
-      
     </article>
   );
 }

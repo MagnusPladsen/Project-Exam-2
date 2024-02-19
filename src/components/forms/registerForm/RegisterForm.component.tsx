@@ -1,15 +1,15 @@
 import { yupResolver } from "@hookform/resolvers/yup";
 import { FormProvider, SubmitHandler, useForm } from "react-hook-form";
-import { useRegisterMutation } from "../../../services/api/authService";
-import PrimaryButton from "../../buttons/PrimaryButton.component";
-import ErrorMessage from "../../messages/ErrorMessage.component";
-import FormErrorMessage from "../../messages/FormErrorMessage.component";
-import Input from "../Input";
-import schema from "./validation";
 import sanitizeUrl from "../../../formatters/sanitizeUrl";
 import useAuth from "../../../hooks/useAuth";
+import { useRegisterMutation } from "../../../services/api/authService";
+import { RegisterRequest } from "../../../types/types";
+import PrimaryButton from "../../buttons/PrimaryButton.component";
+import ErrorMessage from "../../messages/ErrorMessage.component";
+import Input from "../Input";
+import schema from "./validation";
 
-function RegisterForm({}: {}) {
+function RegisterForm() {
   const { saveUser } = useAuth();
 
   const formMethods = useForm<RegisterRequest>({

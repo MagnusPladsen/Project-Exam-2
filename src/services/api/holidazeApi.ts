@@ -1,9 +1,6 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
-import { useSelector } from "react-redux";
-import useAuth from "../../hooks/useAuth";
-import { selectToken } from "../../redux/slices/authSlice";
-import { Booking, CreateBookingRequest, User, Venue } from "../../types/types";
 import { RootState } from "../../redux/store";
+import { Booking, CreateBookingRequest, Venue } from "../../types/types";
 
 // Define a service using a base URL and expected endpoints
 export const holidazeApi = createApi({

@@ -4,8 +4,9 @@ import useAuth from "../../../hooks/useAuth";
 import { useState } from "react";
 import DropDownIcon from "../../icons/DropDownIcon.component";
 import { motion } from "framer-motion";
+import { NavigationLink } from "../../../types/types";
 
-function DesktopNav({ links }: { links: NavLink[] }) {
+function DesktopNav({ links }: { links: NavigationLink[] }) {
   const { isLoggedIn, logOut, user } = useAuth();
   const [open, setOpen] = useState(false);
   return (
