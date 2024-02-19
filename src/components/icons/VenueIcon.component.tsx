@@ -1,7 +1,7 @@
 function VenueIcon({ className }: { className?: string }) {
   return (
     <svg
-      className={`${className} w-5 h-5 mb-2 text-gray-500 dark:text-gray-400 group-hover:text-primary dark:group-hover:text-blue-500`}
+      className={`${className} w-5 h-5 mb-2`}
       aria-hidden="true"
       xmlns="http://www.w3.org/2000/svg"
       fill="currentColor"
