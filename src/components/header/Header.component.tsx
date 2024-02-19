@@ -22,7 +22,7 @@ function Header() {
   const [lastScrollY, setLastScrollY] = useState(0);
 
   const controlNavbar = () => {
-    if (window.scrollY < 10) {
+    if (window.scrollY < (isMobile ? 40 : 50)) {
       setShow(true);
     } else if (typeof window !== "undefined") {
       setShow(true);
