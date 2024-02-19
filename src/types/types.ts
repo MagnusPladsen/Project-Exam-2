@@ -138,6 +138,11 @@ interface HolidazeDatePickerProps extends DatePickerProps<DayRange> {
   inputPlaceholder?: string;
 }
 
+interface HolidazeHeaderProps extends React.HTMLAttributes<HTMLHeadingElement> {
+  children: React.ReactNode;
+  className?: string;
+}
+
 export type {
   NavigationLink,
   Customer,
@@ -155,5 +160,6 @@ export type {
   InputProps,
   HolidazeDatePickerProps,
   CreateBookingRequest,
-  UpdateVenueManagerStatusRequest
+  UpdateVenueManagerStatusRequest,
+  HolidazeHeaderProps,
 };

@@ -1,12 +1,11 @@
-function H2({
-  children,
-  className,
-}: {
-  children: React.ReactNode;
-  className?: string;
-}) {
+import { HolidazeHeaderProps } from "../../types/types";
+
+function H2({ children, className, ...otherProps }: HolidazeHeaderProps) {
   return (
-    <h2 className={`${className} font-medium rtl:text-right text-gray-900`}>
+    <h2
+      {...otherProps}
+      className={`${className} font-medium rtl:text-right text-gray-900`}
+    >
       {children}
     </h2>
   );
