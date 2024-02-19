@@ -15,13 +15,14 @@ import {
   useUpdateVenueManagerStatusMutation,
 } from "../services/api/holidazeApi";
 import { UpdateVenueManagerStatusRequest, Venue } from "../types/types";
+import CreateVenueModal from "../components/modals/venue/CreateVenueModal.component";
 
 function ProfilePage() {
   const { name } = useParams();
   const { user, saveUser } = useAuth();
   const { data, error, isLoading } = useGetProfileQuery(name!);
 
-  const loggedInProfile = name === user!.name;
+  const isProfileLoggedIn = name === user!.name;
 
   const [updateStatus] = useUpdateVenueManagerStatusMutation();
 
@@ -30,6 +31,8 @@ function ProfilePage() {
   );
 
   const [venueManagerModalOpen, setVenueManagerModalOpen] = useState(false);
+  const [createVenueModalOpen, setCreateVenueModalOpen] = useState(false);
+
   const [openVenues, setOpenVenues] = useState(false);
   const [venuesStepper, setVenuesStepper] = useState(5);
 
@@ -50,8 +53,10 @@ function ProfilePage() {
     try {
       const res = await updateStatus(body).unwrap();
       saveUser(res);
-      setUserIsManager(!userIsManager);
+      setUserIsManager(res.venueManager);
       setVenueManagerModalOpen(false);
+      // solves bug with state not updated even tho user has relogged
+      window.location.reload();
     } catch (err) {
       console.log(err);
     }
@@ -63,9 +68,6 @@ function ProfilePage() {
     }
     return "Are you sure you want to register as a venue manager? You will be asked to log in again for the changes to apply!";
   };
-
-  console.log(loggedInProfile);
-  console.log(data);
 
   useEffect(() => {
     if (data) {
@@ -111,7 +113,7 @@ function ProfilePage() {
                   <H1 className="!mb-2">{data.name}</H1>
 
                   <div className="flex gap-2 w-fit mx-auto">
-                    {loggedInProfile ? (
+                    {isProfileLoggedIn ? (
                       <H2
                         className={`${
                           userIsManager ? "!text-primary" : "!text-gray-300"
@@ -127,7 +129,7 @@ function ProfilePage() {
                       </H2>
                     )}
 
-                    {loggedInProfile && (
+                    {isProfileLoggedIn && (
                       <Toggle
                         onChange={toggleVenueManager}
                         value={userIsManager!}
@@ -136,20 +138,30 @@ function ProfilePage() {
                   </div>
                   <div className="flex gap-10 w-fit mx-auto mb-6">
                     <div className="text-xs flex flex-col gap-2">
-                      <p> Bookings </p>
+                      <p>{isProfileLoggedIn ? "Your bookings" : "Bookings"}</p>
                       <p className="font-bold text-2xl">
                         {data._count?.bookings}
                       </p>
                     </div>
                     {userIsManager && (
                       <div className="text-xs flex flex-col gap-2">
-                        <p>Venues</p>
+                        <p>{isProfileLoggedIn ? "Your venues" : "Venues"}</p>
                         <p className="font-bold text-2xl">
                           {data._count?.venues}
                         </p>
                       </div>
                     )}
                   </div>
+                  {isProfileLoggedIn && userIsManager && (
+                    <div className="flex flex-col gap-4 w-full">
+                      <PrimaryButton
+                        onClick={() => setCreateVenueModalOpen(true)}
+                        className="!mx-auto !mb-7"
+                      >
+                        Create venue
+                      </PrimaryButton>
+                    </div>
+                  )}
                 </div>
                 {userIsManager && venuesToShow.length > 0 && (
                   <div className="mt-2 py-10 border-t border-blueGray-200 text-center w-full">
@@ -159,7 +171,7 @@ function ProfilePage() {
                           className="mb-5"
                           onClick={() => setOpenVenues((prev) => !prev)}
                         >
-                          See users venues
+                          See venues
                         </PrimaryButton>
                       )}
                       {openVenues && (
@@ -206,6 +218,11 @@ function ProfilePage() {
         onConfirm={() =>
           sendVenueManagerChange({ name: data!.name, status: !userIsManager })
         }
+      />
+
+      <CreateVenueModal
+        setOpen={setCreateVenueModalOpen}
+        open={createVenueModalOpen}
       />
     </>
   );
