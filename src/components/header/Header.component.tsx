@@ -9,6 +9,8 @@ import useIsMobile from "../../hooks/useIsMobile";
 
 const headerHeight = "80px";
 
+const mobileHeaderHeight = "50px";
+
 const navLinks: NavigationLink[] = [
   { name: "Home", path: "/" },
   { name: "Venues", path: "/venues" },
@@ -20,29 +22,25 @@ function Header() {
   const [lastScrollY, setLastScrollY] = useState(0);
 
   const controlNavbar = () => {
-    if (isMobile) return;
     if (window.scrollY < 10) {
       setShow(true);
-    } else {
-      if (typeof window !== "undefined") {
+    } else if (typeof window !== "undefined") {
+      setShow(true);
+      if (window.scrollY > lastScrollY) {
+        // if scroll down hide the navbar
+        setShow(false);
+      } else {
+        // if scroll up show the navbar
         setShow(true);
-        if (window.scrollY > lastScrollY) {
-          // if scroll down hide the navbar
-          setShow(false);
-        } else {
-          // if scroll up show the navbar
-          setShow(true);
-        }
-
-        // remember current page location to use in the next move
-
-        setLastScrollY(window.scrollY);
       }
+
+      // remember current page location to use in the next move
+
+      setLastScrollY(window.scrollY);
     }
   };
 
   useEffect(() => {
-    if (isMobile) return;
     if (typeof window !== "undefined") {
       window.addEventListener("scroll", controlNavbar);
 
@@ -51,7 +49,7 @@ function Header() {
         window.removeEventListener("scroll", controlNavbar);
       };
     }
-  }, [lastScrollY, isMobile]);
+  }, [lastScrollY]);
 
   return (
     <header>
@@ -63,19 +61,19 @@ function Header() {
             exit={{ y: -80 }}
             transition={{ duration: 0.2 }}
             // style bevause of tailwindcss not working properly with variables sometimes
-            style={{ height: headerHeight }}
+            style={{ height: isMobile ? mobileHeaderHeight : headerHeight }}
             className={` bg-primary text-white fixed w-full z-40`}
           >
             <div className="px-4 lg:mx-auto lg:max-w-[1800px] flex items-center justify-center lg:justify-between h-full gap-2 relative">
               <Link to="/">
-                <Logo />
+                <Logo isMobile={isMobile} />
               </Link>
-              <MobileNav />
               <DesktopNav links={navLinks} />
             </div>
           </motion.nav>
         )}
       </AnimatePresence>
+      <MobileNav />
     </header>
   );
 }

@@ -3,7 +3,7 @@ import Logo from "../logo/Logo.component";
 
 function Footer() {
   return (
-    <footer className="bg-primary mt-10">
+    <footer className="bg-primary mt-10 hidden lg:block">
       <div className="w-full max-w-screen-xl mx-auto p-4 md:py-8">
         <div className="sm:flex sm:items-center sm:justify-between">
           <Link
