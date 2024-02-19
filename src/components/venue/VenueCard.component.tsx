@@ -48,13 +48,7 @@ function VenueCard({
         {isLoading || !venue ? (
           <Skeleton width={200} height={20} />
         ) : (
-          <>
-            <span>{capitalizeFirstLetter(venue.name)}</span>
-            <span className="text-sm text-gray-400 ml-2">
-              {" "}
-              - ${venue.price}
-            </span>
-          </>
+          <span>{capitalizeFirstLetter(venue.name)}</span>
         )}
       </H2>
       <div className="mb-5 h-[calc(1rem*3)] font-light text-gray-500 dark:text-gray-400 line-clamp-3">
