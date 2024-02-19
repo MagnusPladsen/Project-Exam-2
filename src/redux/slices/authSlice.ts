@@ -1,5 +1,6 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { RootState } from "../store";
+import { User } from "../../types/types";
 
 const auth = createSlice({
   name: "auth",
@@ -31,3 +32,4 @@ export default auth.reducer;
 
 export const selectCurrentUser = (state: RootState) => state.auth.user;
 export const selectToken = (state: RootState) => state.auth.token;
+export const selectIsLoggedIn = (state: RootState) => !!state.auth.token;

@@ -3,7 +3,7 @@ function PlusIcon({ className }: { className?: string }) {
     <svg
       stroke="currentColor"
       fill="currentColor"
-      stroke-width="0"
+      strokeWidth="0"
       viewBox="0 0 24 24"
       className={`${className} fill-primary hover:fill-primary-light transition-all h-8 w-8`}
       height="1em"

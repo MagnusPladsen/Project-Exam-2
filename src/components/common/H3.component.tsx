@@ -5,7 +5,11 @@ function H3({
   children: React.ReactNode;
   className?: string;
 }) {
-  return <h3 className="text-sm font rtl:text-right text-gray-900">{children}</h3>;
+  return (
+    <h3 className={`${className} text-sm font rtl:text-right text-gray-900`}>
+      {children}
+    </h3>
+  );
 }
 
 export default H3;

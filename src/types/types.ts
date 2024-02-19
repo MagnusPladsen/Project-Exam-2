@@ -35,6 +35,13 @@ interface RegisterRequest {
   venueManager: boolean;
 }
 
+interface CreateBookingRequest {
+  dateFrom: Date;
+  dateTo: Date;
+  guests: number;
+  venueId: string;
+}
+
 interface ServerErrorResponse {
   errors: ServerError[];
   status: string;
@@ -138,4 +145,5 @@ export type {
   CreateVenue,
   InputProps,
   HolidazeDatePickerProps,
+  CreateBookingRequest,
 };

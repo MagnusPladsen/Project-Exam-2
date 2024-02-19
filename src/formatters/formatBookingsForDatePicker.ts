@@ -1,4 +1,4 @@
-import { Booking } from "../../types/types";
+import { Booking } from "../types/types";
 
 function formatBookingsForDatePicker(bookings: Booking[]):
   | {

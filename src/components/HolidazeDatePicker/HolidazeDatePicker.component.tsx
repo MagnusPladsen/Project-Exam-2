@@ -29,7 +29,7 @@ function HolidazeDatePicker({
       value={value}
       onChange={onChange}
       renderInput={holidazeStyleInput}
-      wrapperClassName="!w-full"
+      wrapperClassName="!w-full z-0"
     />
   );
 }

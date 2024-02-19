@@ -1,10 +1,24 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
+import { useSelector } from "react-redux";
+import useAuth from "../../hooks/useAuth";
+import { selectToken } from "../../redux/slices/authSlice";
+import { Booking, CreateBookingRequest, User, Venue } from "../../types/types";
+import { RootState } from "../../redux/store";
 
 // Define a service using a base URL and expected endpoints
 export const holidazeApi = createApi({
   reducerPath: "organizerApi",
   baseQuery: fetchBaseQuery({
     baseUrl: "https://api.noroff.dev/api/v1/holidaze/",
+    prepareHeaders: (headers, { getState }) => {
+      const token = (getState() as RootState).auth.token;
+
+      if (token) {
+        headers.set("Authorization", `Bearer ${token}`);
+      }
+
+      return headers;
+    },
   }),
   tagTypes: ["venues"],
   endpoints: (builder) => ({
@@ -28,6 +42,17 @@ export const holidazeApi = createApi({
       }),
       invalidatesTags: ["venues"],
     }),
+    createBooking: builder.mutation<Booking, CreateBookingRequest>({
+      query: (body) => ({
+        url: "bookings",
+        method: "POST",
+        body,
+      }),
+      transformErrorResponse: (response: any) => {
+        if (!response.ok) throw new Error(response.data.status);
+        return response.json();
+      },
+    }),
   }),
 });
 
@@ -38,4 +63,5 @@ export const {
   useGetVenuesQuery,
   useCreateVenueMutation,
   useGetSingleVenueQuery,
+  useCreateBookingMutation
 } = holidazeApi;
