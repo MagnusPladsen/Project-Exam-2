@@ -27,12 +27,12 @@ function LandingPage() {
                   or Host, Where Every Occasion Finds Its Perfect Space.
                 </p>
                 <Link to="/venues">
-                  <PrimaryButton className="mb-2 py-5 px-8 text-sm font-bold uppercase ">
+                  <PrimaryButton className="mb-4 py-5 px-8 text-sm font-bold uppercase ">
                     See venues
                   </PrimaryButton>
                 </Link>
                 <Link to="/login">
-                  <p className="mb-4 text-sm font-bold max-w-3xl w-fit mx-auto text-gray-300 hover:text-white hover:underline transition-all">
+                  <p className="mb-4 text-sm py-5 px-8 font-bold max-w-3xl w-fit mx-auto text-gray-300 hover:text-white hover:underline transition-all">
                     Log in
                   </p>
                 </Link>
