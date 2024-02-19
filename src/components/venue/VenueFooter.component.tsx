@@ -10,10 +10,10 @@ function VenueFooter({
   venue,
   isLoading,
 }: {
-  venue: Venue;
+  venue: Venue | undefined;
   isLoading: boolean;
 }) {
-  return (
+  return venue ? (
     <div className="lg:p-0 px-[5vw] flex justify-between items-center">
       <Link
         to={`/venues`}
@@ -56,7 +56,7 @@ function VenueFooter({
         </div>
       </Link>
     </div>
-  );
+  ) : <></>
 }
 
 export default VenueFooter;
