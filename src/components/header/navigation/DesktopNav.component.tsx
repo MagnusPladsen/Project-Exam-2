@@ -52,7 +52,7 @@ function DesktopNav({ links }: { links: NavigationLink[] }) {
           </div>
 
           {open && (
-            <div className="absolute right-0 top-[60px] bg-primary px-10 pb-5 rounded-bl">
+            <div className="absolute right-0 top-[80px] bg-primary px-10 pb-5 rounded-bl">
               <ul className="flex flex-col gap-4">
                 <li>
                   <NavLink

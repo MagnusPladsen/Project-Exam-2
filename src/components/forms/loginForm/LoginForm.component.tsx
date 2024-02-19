@@ -4,7 +4,7 @@ import useAuth from "../../../hooks/useAuth";
 import { useLoginMutation } from "../../../services/api/authService";
 import PrimaryButton from "../../buttons/PrimaryButton.component";
 import ErrorMessage from "../../messages/ErrorMessage.component";
-import Input from "../Input";
+import Input from "../Input.component";
 import schema from "./validation";
 import { LoginRequest } from "../../../types/types";
 
@@ -24,6 +24,7 @@ function LoginForm() {
   const submitForm = async (data: LoginRequest) => {
     try {
       const res = await login(data).unwrap();
+      console.log(res);
       saveUser(res);
     } catch (err) {
       console.log(err);

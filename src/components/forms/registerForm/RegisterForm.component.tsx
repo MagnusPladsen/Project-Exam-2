@@ -6,7 +6,7 @@ import { useRegisterMutation } from "../../../services/api/authService";
 import { RegisterRequest } from "../../../types/types";
 import PrimaryButton from "../../buttons/PrimaryButton.component";
 import ErrorMessage from "../../messages/ErrorMessage.component";
-import Input from "../Input";
+import Input from "../Input.component";
 import schema from "./validation";
 
 function RegisterForm() {

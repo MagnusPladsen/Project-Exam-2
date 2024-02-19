@@ -18,7 +18,7 @@ function LoginPage() {
     <section
       className={`pt-[50px] lg:pt-[80px] antialiased bg-gradient-to-b from-primary to-white h-full w-full `}
     >
-      <div className="container px-6 mx-auto py-10">
+      <div className="container px-6 mx-auto pt-5 pb-10">
         <div className="flex flex-col text-center md:text-left md:flex-row min-h-screen md:justify-evenly md:items-center">
           <div className="lg:flex flex-col w-full hidden lg:mb-80">
             <Logo logoSize="60" textClassName="!text-6xl" />

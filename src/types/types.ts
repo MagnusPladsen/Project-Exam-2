@@ -20,6 +20,12 @@ interface User {
   avatar?: string;
   venueManager?: boolean;
   accessToken: string;
+  venues?: Venue[];
+  bookings?: Booking[];
+  _count?: {
+    bookings: number;
+    venues: number;
+  };
 }
 
 interface LoginRequest {

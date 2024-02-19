@@ -1,6 +1,6 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import { RootState } from "../../redux/store";
-import { Booking, CreateBookingRequest, Venue } from "../../types/types";
+import { Booking, CreateBookingRequest, User, Venue } from "../../types/types";
 
 // Define a service using a base URL and expected endpoints
 export const holidazeApi = createApi({
@@ -20,7 +20,7 @@ export const holidazeApi = createApi({
   tagTypes: ["venues"],
   endpoints: (builder) => ({
     getLatestVenues: builder.query<Venue[], void>({
-      query: () => "venues/?limit=5&offset=0&_owner=true&_bookings=true`",
+      query: () => "venues/?limit=5&offset=0&_owner=true&_bookings=true",
       providesTags: ["venues"],
     }),
     getVenues: builder.query<Venue[], { limit: number; offset: number }>({
@@ -45,10 +45,14 @@ export const holidazeApi = createApi({
         method: "POST",
         body,
       }),
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       transformErrorResponse: (response: any) => {
         if (!response.ok) throw new Error(response.data.status);
         return response.json();
       },
+    }),
+    getProfile: builder.query<User, string>({
+      query: (name) => `profiles/${name}?_bookings=true&_venues=true`,
     }),
   }),
 });
@@ -60,5 +64,6 @@ export const {
   useGetVenuesQuery,
   useCreateVenueMutation,
   useGetSingleVenueQuery,
-  useCreateBookingMutation
+  useCreateBookingMutation,
+  useGetProfileQuery,
 } = holidazeApi;
