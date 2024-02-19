@@ -38,7 +38,6 @@ const AppContainer = () => {
       <div className="pt-[80px]">
         <Outlet />
       </div>
-
       <Footer />
     </>
   );
