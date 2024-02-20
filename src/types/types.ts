@@ -136,15 +136,21 @@ interface CreateVenue {
 interface CreateVenueRequest {
   name: string;
   description: string;
-  media?: string[];
   price: number;
   maxGuests: number;
+  media?: string[];
   rating?: number;
   meta?: Meta;
   location?: Location;
 }
 
 interface InputProps extends React.InputHTMLAttributes<HTMLInputElement> {
+  name: string;
+  label?: string;
+  className?: string;
+}
+
+interface TextAreaProps extends React.TextareaHTMLAttributes<HTMLTextAreaElement> {
   name: string;
   label?: string;
   className?: string;
@@ -180,4 +186,5 @@ export type {
   CreateBookingRequest,
   UpdateVenueManagerStatusRequest,
   HolidazeHeaderProps,
+  TextAreaProps
 };

@@ -64,7 +64,7 @@ function Header() {
             style={{ height: isMobile ? mobileHeaderHeight : headerHeight }}
             className={` bg-primary text-white fixed w-full z-40`}
           >
-            <div className="px-4 lg:mx-auto lg:max-w-[1800px] flex items-center justify-center lg:justify-between h-full gap-2 relative">
+            <div className="px-4 lg:mx-auto lg:max-w-[1800px] flex items-center justify-center lg:justify-between h-full gap-2 relative shadow-md">
               <Link to="/">
                 <Logo isMobile={isMobile} />
               </Link>

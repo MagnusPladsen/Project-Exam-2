@@ -8,19 +8,21 @@ import H2 from "../components/common/H2.component";
 import Toggle from "../components/forms/Toggle.component";
 import ProfileIcon from "../components/icons/Profileicon.component";
 import ConfirmModal from "../components/modals/ConfirmModal.component";
+import CreateVenueModal from "../components/modals/venue/CreateVenueModal.component";
 import VenueCard from "../components/venue/VenueCard.component";
 import useAuth from "../hooks/useAuth";
 import {
   useGetProfileQuery,
+  useLazyGetProfileQuery,
   useUpdateVenueManagerStatusMutation,
 } from "../services/api/holidazeApi";
 import { UpdateVenueManagerStatusRequest, Venue } from "../types/types";
-import CreateVenueModal from "../components/modals/venue/CreateVenueModal.component";
 
 function ProfilePage() {
   const { name } = useParams();
-  const { user, saveUser } = useAuth();
+  const { user } = useAuth();
   const { data, error, isLoading } = useGetProfileQuery(name!);
+  const [fetchProfile] = useLazyGetProfileQuery();
 
   const isProfileLoggedIn = name === user!.name;
 
@@ -31,7 +33,7 @@ function ProfilePage() {
   );
 
   const [venueManagerModalOpen, setVenueManagerModalOpen] = useState(false);
-  const [createVenueModalOpen, setCreateVenueModalOpen] = useState(true);
+  const [createVenueModalOpen, setCreateVenueModalOpen] = useState(false);
 
   const [openVenues, setOpenVenues] = useState(false);
   const [venuesStepper, setVenuesStepper] = useState(5);
@@ -52,7 +54,7 @@ function ProfilePage() {
   ) => {
     try {
       const res = await updateStatus(body).unwrap();
-      saveUser(res);
+      fetchProfile(res.name)
       setUserIsManager(res.venueManager);
       setVenueManagerModalOpen(false);
       // solves bug with state not updated even tho user has relogged
@@ -64,9 +66,9 @@ function ProfilePage() {
 
   const toggleVenueManagerText = () => {
     if (userIsManager) {
-      return "Are you sure you want to unregister as a venue manager? You will be asked to log in again for the changes to apply!";
+      return "Are you sure you want to unregister as a venue manager?";
     }
-    return "Are you sure you want to register as a venue manager? You will be asked to log in again for the changes to apply!";
+    return "Are you sure you want to register as a venue manager?";
   };
 
   useEffect(() => {
@@ -84,7 +86,7 @@ function ProfilePage() {
   return (
     <>
       {data && !error && (
-        <article className="pt-[50px] lg:pt-[80px] antialiased bg-gradient-to-b from-primary to-white h-full w-full pb-40">
+        <article className="pt-[50px] lg:pt-[80px] antialiased bg-gradient-to-b from-primary to-white h-full w-full pb-40 shadow-md">
           <div className="w-full lg:w-[900px] lg:px-4 mx-auto">
             <div className=" relative flex flex-col min-w-0 break-words bg-white w-full mb-6 shadow-xl lg:rounded-lg mt-20 lg:mt-24">
               <div className="lg:px-6">

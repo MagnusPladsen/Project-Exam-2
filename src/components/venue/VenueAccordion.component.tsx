@@ -59,8 +59,8 @@ function VenueAccordion({
                   <p className="mb-4">
                     {capitalizeFirstLetter(venue.description)}
                   </p>
-                  <div className="flex justify-between gap-1 text-xs">
-                    <div className="flex flex-col">
+                  <div className="flex justify-between items-end gap-1 text-xs">
+                    <div className="flex flex-col lg:gap-1  gap-2">
                       <p>Max guests: {venue.maxGuests}</p>
                       <p>
                         {venue.bookings.length === 0
@@ -68,9 +68,15 @@ function VenueAccordion({
                           : `Booked ${venue.bookings.length} times before`}
                       </p>
                     </div>
-                    <div className="flex flex-col">
-                      <p>Updated: {formatDate(venue.updated)}</p>
-                      <p>Created: {formatDate(venue.created)}</p>
+                    <div className="flex flex-col lg:gap-1 gap-2">
+                      <div className="flex flex-col lg:flex-row lg:gap-1">
+                        <p>Updated: </p>
+                        <p>{formatDate(venue.updated)}</p>
+                      </div>
+                      <div className="flex flex-col lg:flex-row lg:gap-1">
+                        <p>Created: </p>
+                        <p>{formatDate(venue.created)}</p>
+                      </div>
                     </div>
                   </div>
                 </>

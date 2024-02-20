@@ -98,5 +98,6 @@ export const {
   useGetSingleVenueQuery,
   useCreateBookingMutation,
   useGetProfileQuery,
+  useLazyGetProfileQuery,
   useUpdateVenueManagerStatusMutation,
 } = holidazeApi;
