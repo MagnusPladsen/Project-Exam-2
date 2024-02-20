@@ -119,14 +119,14 @@ interface Venue {
 interface CreateVenue {
   name: string;
   description: string;
-  media?: string;
   price: number;
   maxGuests: number;
+  media?: string;
   rating?: number;
-  wifi: boolean;
-  parking: boolean;
-  breakfast: boolean;
-  pets: boolean;
+  wifi?: boolean;
+  parking?: boolean;
+  breakfast?: boolean;
+  pets?: boolean;
   address?: string;
   city?: string;
   zip?: string;

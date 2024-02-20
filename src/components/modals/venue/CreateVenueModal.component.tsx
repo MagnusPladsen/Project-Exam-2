@@ -5,7 +5,7 @@ import { useNavigate } from "react-router-dom";
 import sanitizeUrl from "../../../formatters/sanitizeUrl";
 import useAuth from "../../../hooks/useAuth";
 import { useCreateVenueMutation } from "../../../services/api/holidazeApi";
-import { CreateVenue, CreateVenueRequest } from "../../../types/types";
+import { CreateVenue } from "../../../types/types";
 import PrimaryButton from "../../buttons/PrimaryButton.component";
 import SecondaryButton from "../../buttons/SecondaryButton.component";
 import Input from "../../forms/Input.component";

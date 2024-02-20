@@ -7,12 +7,12 @@ const schema = yup.object().shape({
     .min(3, "Name must be at least 3 characters"),
   description: yup
     .string()
-    .required("description is required")
-    .min(3, "description must be at least 3 characters"),
+    .required("Description is required")
+    .min(3, "Description must be at least 3 characters"),
   price: yup.number().required("Price is required"),
-  media: yup.string(),
   maxGuests: yup.number().required("Max guests is required"),
-  rating: yup.number(),
+  media: yup.string(),
+  rating: yup.number().max(5, "Rating must be between 0 and 5").min(0),
   wifi: yup.boolean(),
   parking: yup.boolean(),
   breakfast: yup.boolean(),
@@ -21,9 +21,6 @@ const schema = yup.object().shape({
   city: yup.string(),
   zip: yup.string(),
   country: yup.string(),
-  continent: yup.string(),
-  lat: yup.number(),
-  lng: yup.number(),
 });
 
 export default schema;

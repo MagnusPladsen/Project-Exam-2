@@ -3,10 +3,10 @@ import { RootState } from "../../redux/store";
 import {
   Booking,
   CreateBookingRequest,
-  CreateVenueRequest,
+  CreateVenue,
   UpdateVenueManagerStatusRequest,
   User,
-  Venue,
+  Venue
 } from "../../types/types";
 
 // Define a service using a base URL and expected endpoints
@@ -38,7 +38,7 @@ export const holidazeApi = createApi({
     getSingleVenue: builder.query<Venue, string>({
       query: (id) => `venues/${id}?_owner=true&_bookings=true`,
     }),
-    createVenue: builder.mutation<Venue, CreateVenueRequest>({
+    createVenue: builder.mutation<Venue, CreateVenue>({
       query: (body) => ({
         url: `venues`,
         method: "POST",
