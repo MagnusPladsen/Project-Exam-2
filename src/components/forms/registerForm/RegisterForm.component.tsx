@@ -44,7 +44,6 @@ function RegisterForm() {
           onBlur={(e) => {
             if (!e.target.value) return;
             const sanitizedUrl = sanitizeUrl(e.target.value);
-            console.log(sanitizedUrl);
             setValue("avatar", sanitizedUrl);
           }}
         />

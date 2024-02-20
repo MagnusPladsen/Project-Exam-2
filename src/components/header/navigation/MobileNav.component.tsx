@@ -18,7 +18,7 @@ function MobileNav() {
 
   return (
     <div className="lg:hidden">
-      <div className="fixed bottom-0 left-0 z-50 w-full h-16 bg-white border-t border-gray-50 ">
+      <div className="fixed bottom-0 shadow left-0 z-50 w-full h-16 bg-white border-t border-gray-200 ">
         <div className="grid h-full max-w-lg grid-cols-4 mx-auto font-medium">
           <NavLink
             to={"/"}

@@ -31,7 +31,7 @@ function ProfilePage() {
   );
 
   const [venueManagerModalOpen, setVenueManagerModalOpen] = useState(false);
-  const [createVenueModalOpen, setCreateVenueModalOpen] = useState(false);
+  const [createVenueModalOpen, setCreateVenueModalOpen] = useState(true);
 
   const [openVenues, setOpenVenues] = useState(false);
   const [venuesStepper, setVenuesStepper] = useState(5);

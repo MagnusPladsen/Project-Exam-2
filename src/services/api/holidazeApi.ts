@@ -3,6 +3,7 @@ import { RootState } from "../../redux/store";
 import {
   Booking,
   CreateBookingRequest,
+  CreateVenueRequest,
   UpdateVenueManagerStatusRequest,
   User,
   Venue,
@@ -37,13 +38,18 @@ export const holidazeApi = createApi({
     getSingleVenue: builder.query<Venue, string>({
       query: (id) => `venues/${id}?_owner=true&_bookings=true`,
     }),
-    createVenue: builder.mutation<Venue, Partial<Venue>>({
+    createVenue: builder.mutation<Venue, CreateVenueRequest>({
       query: (body) => ({
         url: `venues`,
         method: "POST",
         body,
       }),
       invalidatesTags: ["venues"],
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      transformErrorResponse: (response: any) => {
+        if (!response.ok) throw new Error(response.data.status);
+        return response.json();
+      },
     }),
     createBooking: builder.mutation<Booking, CreateBookingRequest>({
       query: (body) => ({

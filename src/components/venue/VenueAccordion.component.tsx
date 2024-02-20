@@ -166,17 +166,14 @@ function VenueAccordion({
                   {!venueLocationEmpty ? (
                     <>
                       <p>
-                        {capitalizeFirstLetter(venue.location.address)}
-                        {capitalizeFirstLetter(venue.location.zip) &&
-                          ", " + capitalizeFirstLetter(venue.location.zip)}
+                        {capitalizeFirstLetter(venue.location.address!)}
+                        {capitalizeFirstLetter(venue.location.zip!) &&
+                          ", " + capitalizeFirstLetter(venue.location.zip!)}
                       </p>
                       <p>
-                        {capitalizeFirstLetter(venue.location.city)}
-                        {capitalizeFirstLetter(venue.location.country) &&
-                          ", " + capitalizeFirstLetter(venue.location.country)}
-                        {capitalizeFirstLetter(venue.location.continent) &&
-                          ", " +
-                            capitalizeFirstLetter(venue.location.continent)}
+                        {capitalizeFirstLetter(venue.location.city!)}
+                        {capitalizeFirstLetter(venue.location.country!) &&
+                          ", " + capitalizeFirstLetter(venue.location.country!)}
                       </p>
                     </>
                   ) : (
