@@ -17,8 +17,9 @@ function SingleVenuePage() {
   if (error) {
     return <div>Error! Could not find the venue requested... Please try again.</div>;
   }
+  
   return (
-    <article className="py-8 lg:py-16 lg:px-6 w-[100vw] lg:w-[900px] mx-auto dark:bg-gray-800 dark:border-gray-700 flex flex-col gap-5">
+    <article className="pt-[80px] lg:pt-[120px] pb-8 lg:pb-16 lg:px-6 w-[100vw] lg:w-[900px] mx-auto dark:bg-gray-800 dark:border-gray-700 flex flex-col gap-5">
       <H1>
         {isLoading || !venue ? (
           <Skeleton width={200} height={20} />
@@ -32,7 +33,7 @@ function SingleVenuePage() {
           <Skeleton width={50} height={20} />
         ) : (
           <span className="bg-green-200 text-green-600 font-medium inline-flex items-center px-2.5 py-1 rounded dark:bg-primary-light gap-2">
-            Price: <span className="font-bold">$ {venue.price}</span>
+            Price per night: <span className="font-bold">$ {venue.price}</span>
           </span>
         )}
 

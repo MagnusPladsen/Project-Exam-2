@@ -18,7 +18,7 @@ function MobileNav() {
 
   return (
     <div className="lg:hidden">
-      <div className="fixed bottom-0 left-0 z-50 w-full h-16 bg-white border-t border-gray-50 ">
+      <div className="fixed bottom-0 shadow left-0 z-50 w-full h-16 bg-white border-t border-gray-200 ">
         <div className="grid h-full max-w-lg grid-cols-4 mx-auto font-medium">
           <NavLink
             to={"/"}
@@ -30,7 +30,7 @@ function MobileNav() {
             }
           >
             <HomeIcon />
-            <span className="text-sm text-gray-500 group-hover:text-primary">
+            <span className="text-sm">
               Home
             </span>
           </NavLink>
@@ -44,7 +44,7 @@ function MobileNav() {
             }
           >
             <VenueIcon />
-            <span className="text-sm text-gray-500 dark:text-gray-400 group-hover:text-primary dark:group-hover:text-blue-500">
+            <span className="text-sm">
               Venues
             </span>
           </NavLink>
@@ -58,7 +58,7 @@ function MobileNav() {
             }
           >
             <InformationIcon />
-            <span className="text-sm text-gray ">
+            <span className="text-sm">
               About
             </span>
           </NavLink>
@@ -111,7 +111,7 @@ function MobileNav() {
               <ul className="flex flex-col ">
                 <li className="hover:bg-gray-50 py-5  cursor-pointer hover:text-primary">
                   <NavLink
-                    to={"/profile"}
+                    to={`/profile/${user!.name}`}
                     onClick={() => setOpen(false)}
                     className={({ isActive }) =>
                       isActive ? "underline underline-offset-4 " : ""

@@ -12,6 +12,7 @@ export const authService = createApi({
         method: "POST",
         body,
       }),
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       transformErrorResponse: (response: any) => {
         if (!response.ok) throw new Error(response.data.status);
         return response.json();
@@ -23,6 +24,7 @@ export const authService = createApi({
         method: "POST",
         body,
       }),
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       transformErrorResponse: (response: any) => {
         if (!response.ok) throw new Error(response.data.status);
         return response.json();

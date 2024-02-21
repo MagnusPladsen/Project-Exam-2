@@ -39,9 +39,13 @@ function VenuesPage() {
   }, [isLoading]);
 
   return (
-    <section className="py-8 mx-auto xl:max-w-screen-xl lg:py-16 lg:px-6">
+    <section className=" pt-[80px] lg:pt-[120px] pb-8 mx-auto xl:max-w-screen-xl lg:pb-16 lg:px-6">
       <div className="mx-auto lg:max-w-screen-sm text-center lg:mb-16 mb-8">
-        <H1>Venues</H1>
+        {error ? (
+          <p>No venues where found... Please try again!</p>
+        ) : (
+          <H1>Venues</H1>
+        )}
         <p className="font-light text-gray-500 sm:text-xl dark:text-gray-400">
           Find venues posted by our community
         </p>
@@ -63,6 +67,7 @@ function VenuesPage() {
           ))}
         {error && <ErrorMessage />}
       </div>
+
       <div className="w-fit mx-auto my-10">
         <PrimaryButton onClick={incrementStep}>Load more</PrimaryButton>
       </div>

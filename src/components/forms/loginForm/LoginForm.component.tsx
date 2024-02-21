@@ -4,11 +4,13 @@ import useAuth from "../../../hooks/useAuth";
 import { useLoginMutation } from "../../../services/api/authService";
 import PrimaryButton from "../../buttons/PrimaryButton.component";
 import ErrorMessage from "../../messages/ErrorMessage.component";
-import Input from "../Input";
+import Input from "../Input.component";
 import schema from "./validation";
 import { LoginRequest } from "../../../types/types";
+import { useNavigate } from "react-router-dom";
 
 function LoginForm() {
+  const navigate = useNavigate();
   const { saveUser } = useAuth();
 
   const formMethods = useForm<LoginRequest>({
@@ -25,6 +27,7 @@ function LoginForm() {
     try {
       const res = await login(data).unwrap();
       saveUser(res);
+      navigate("/venues");
     } catch (err) {
       console.log(err);
     }

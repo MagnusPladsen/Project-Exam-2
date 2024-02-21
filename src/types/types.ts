@@ -20,6 +20,12 @@ interface User {
   avatar?: string;
   venueManager?: boolean;
   accessToken: string;
+  venues?: Venue[];
+  bookings?: Booking[];
+  _count?: {
+    bookings: number;
+    venues: number;
+  };
 }
 
 interface LoginRequest {
@@ -33,6 +39,11 @@ interface RegisterRequest {
   password: string;
   avatar?: string;
   venueManager: boolean;
+}
+
+interface UpdateVenueManagerStatusRequest {
+  name: string;
+  status: boolean;
 }
 
 interface CreateBookingRequest {
@@ -69,13 +80,13 @@ interface Meta {
 }
 
 interface Location {
-  address: string;
-  city: string;
-  zip: string;
-  country: string;
-  continent: string;
-  lat: number;
-  lng: number;
+  address?: string;
+  city?: string;
+  zip?: string;
+  country?: string;
+  continent?: string;
+  lat?: number;
+  lng?: number;
 }
 
 interface Booking {
@@ -108,9 +119,26 @@ interface Venue {
 interface CreateVenue {
   name: string;
   description: string;
-  media?: string[];
   price: number;
   maxGuests: number;
+  media?: string;
+  rating?: number;
+  wifi?: boolean;
+  parking?: boolean;
+  breakfast?: boolean;
+  pets?: boolean;
+  address?: string;
+  city?: string;
+  zip?: string;
+  country?: string;
+}
+
+interface CreateVenueRequest {
+  name: string;
+  description: string;
+  price: number;
+  maxGuests: number;
+  media?: string[];
   rating?: number;
   meta?: Meta;
   location?: Location;
@@ -122,9 +150,20 @@ interface InputProps extends React.InputHTMLAttributes<HTMLInputElement> {
   className?: string;
 }
 
+interface TextAreaProps extends React.TextareaHTMLAttributes<HTMLTextAreaElement> {
+  name: string;
+  label?: string;
+  className?: string;
+}
+
 interface HolidazeDatePickerProps extends DatePickerProps<DayRange> {
   inputLabel?: string;
   inputPlaceholder?: string;
+}
+
+interface HolidazeHeaderProps extends React.HTMLAttributes<HTMLHeadingElement> {
+  children: React.ReactNode;
+  className?: string;
 }
 
 export type {
@@ -141,7 +180,11 @@ export type {
   Booking,
   Venue,
   CreateVenue,
+  CreateVenueRequest,
   InputProps,
   HolidazeDatePickerProps,
   CreateBookingRequest,
+  UpdateVenueManagerStatusRequest,
+  HolidazeHeaderProps,
+  TextAreaProps
 };
