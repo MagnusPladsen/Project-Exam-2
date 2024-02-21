@@ -1,6 +1,6 @@
 import { yupResolver } from "@hookform/resolvers/yup";
 import { AnimatePresence, motion } from "framer-motion";
-import { useEffect, useRef } from "react";
+import { useEffect } from "react";
 import { FormProvider, SubmitHandler, useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import sanitizeUrl from "../../../formatters/sanitizeUrl";
@@ -10,6 +10,7 @@ import {
   useUpdateVenueMutation,
 } from "../../../services/api/holidazeApi";
 import { CreateVenue, CreateVenueRequest, Venue } from "../../../types/types";
+import isImageValid from "../../../utils/isImageValid";
 import PrimaryButton from "../../buttons/PrimaryButton.component";
 import SecondaryButton from "../../buttons/SecondaryButton.component";
 import H2 from "../../common/H2.component";
@@ -18,7 +19,6 @@ import TextArea from "../../forms/TextArea.component";
 import Crossicon from "../../icons/CrossIcon.component";
 import ErrorMessage from "../../messages/ErrorMessage.component";
 import schema from "./validation";
-import isImageValid from "../../../utils/isImageValid";
 
 function CreateVenueModal({
   open,

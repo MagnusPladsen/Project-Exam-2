@@ -43,7 +43,7 @@ function LoginForm() {
           <PrimaryButton type="submit" className="w-full">
             Log in
           </PrimaryButton>
-          {error && <ErrorMessage />}
+          <ErrorMessage show={!!error} />
         </div>
       </form>
     </FormProvider>
