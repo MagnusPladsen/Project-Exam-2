@@ -10,7 +10,7 @@ function useGetPath() {
   // Check if the second segment of the path is in protectedRoutes
   const isProtectedRoute =
     pathSegments.length > 1 && protectedRoutes.includes(pathSegments[1]);
-  const isOnProfileRoute = path.includes("profile");
+  const isOnProfileRoute = path.startsWith("profile");
 
   return { venueIdParam, url, path, isProtectedRoute, isOnProfileRoute };
 }

@@ -9,15 +9,19 @@ import VenueBookOptions from "../components/venue/VenueBookOptions.component";
 import VenueFooter from "../components/venue/VenueFooter.component";
 import capitalizeFirstLetter from "../formatters/capitalizeFirstLetter";
 import { useGetSingleVenueQuery } from "../services/api/holidazeApi";
+import useAuth from "../hooks/useAuth";
 
 function SingleVenuePage() {
   const { id } = useParams();
+  const { isLoggedIn, user } = useAuth();
   const { data: venue, error, isLoading } = useGetSingleVenueQuery(String(id));
 
   if (error) {
-    return <div>Error! Could not find the venue requested... Please try again.</div>;
+    return (
+      <div>Error! Could not find the venue requested... Please try again.</div>
+    );
   }
-  
+
   return (
     <article className="pt-[80px] lg:pt-[120px] pb-8 lg:pb-16 lg:px-6 w-[100vw] lg:w-[900px] mx-auto dark:bg-gray-800 dark:border-gray-700 flex flex-col gap-5">
       <H1>
@@ -71,7 +75,9 @@ function SingleVenuePage() {
 
       <VenueAccordion venue={venue!} isLoading={isLoading} />
 
-      <VenueBookOptions venue={venue} isLoading={isLoading} />
+      {user!.name !== venue?.owner.name && (
+        <VenueBookOptions venue={venue} isLoading={isLoading} />
+      )}
 
       <VenueFooter venue={venue} isLoading={isLoading} />
     </article>
