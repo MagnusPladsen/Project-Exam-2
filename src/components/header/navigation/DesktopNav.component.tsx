@@ -1,24 +1,17 @@
-import { NavLink, useNavigate } from "react-router-dom";
-import ProfileIcon from "../../icons/Profileicon.component";
-import useAuth from "../../../hooks/useAuth";
-import { useEffect, useState } from "react";
-import DropDownIcon from "../../icons/DropDownIcon.component";
 import { motion } from "framer-motion";
+import { useState } from "react";
+import { NavLink } from "react-router-dom";
+import useAuth from "../../../hooks/useAuth";
+import useGetPath from "../../../hooks/useGetPath";
 import { NavigationLink } from "../../../types/types";
+import DropDownIcon from "../../icons/DropDownIcon.component";
+import ProfileIcon from "../../icons/Profileicon.component";
 
 function DesktopNav({ links }: { links: NavigationLink[] }) {
   const { isLoggedIn, logOut, user } = useAuth();
-  const navigate = useNavigate();
+  const { isOnProfileRoute } = useGetPath();
 
   const [open, setOpen] = useState(false);
-  const [isOnProfileRoute, setIsOnProfileRoute] = useState(false);
-
-  useEffect(() => {
-    const url = new URL(window.location.href);
-    const path = url.pathname;
-    const isOnProfileRoute = path.startsWith("/profile");
-    setIsOnProfileRoute(isOnProfileRoute);
-  }, [navigate]);
 
   return (
     <ul className="lg:flex gap-5 hidden items-center">
@@ -66,7 +59,10 @@ function DesktopNav({ links }: { links: NavigationLink[] }) {
           </div>
 
           {open && (
-            <div className="absolute right-0 top-[80px] shadow-md bg-primary px-10 pb-5 rounded-bl">
+            <div
+              onMouseLeave={() => setOpen(false)}
+              className="absolute right-0 top-[80px] shadow-md bg-primary px-10 pb-5 rounded-bl"
+            >
               <ul className="flex flex-col gap-4">
                 <li>
                   <NavLink
@@ -80,10 +76,7 @@ function DesktopNav({ links }: { links: NavigationLink[] }) {
                   </NavLink>
                 </li>
                 {user?.venueManager && (
-                  <>
-                    <li className="cursor-pointer">My venues</li>
-                    <li className="cursor-pointer">New venue</li>
-                  </>
+                  <li className="cursor-pointer">My bookings</li>
                 )}
 
                 <li

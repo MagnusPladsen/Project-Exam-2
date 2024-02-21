@@ -184,7 +184,7 @@ function ProfilePage() {
                         }}
                         exit={{ opacity: 0, height: 0 }}
                         transition={{ duration: 0.3 }}
-                        className="flex flex-col gap-4 lg:max-w-[500px] mx-auto"
+                        className="flex text-left flex-col gap-4 lg:max-w-[500px] mx-auto"
                       >
                         {venuesToShow?.map((venue) => (
                           <VenueCard

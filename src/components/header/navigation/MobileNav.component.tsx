@@ -1,7 +1,8 @@
 import { motion } from "framer-motion";
-import { useEffect, useState } from "react";
-import { NavLink, useNavigate } from "react-router-dom";
+import { useEffect, useRef, useState } from "react";
+import { NavLink } from "react-router-dom";
 import useAuth from "../../../hooks/useAuth";
+import useGetPath from "../../../hooks/useGetPath";
 import DropDownIcon from "../../icons/DropDownIcon.component";
 import HomeIcon from "../../icons/HomeIcon.component";
 import InformationIcon from "../../icons/InformationIcon.component";
@@ -10,20 +11,31 @@ import VenueIcon from "../../icons/VenueIcon.component";
 
 function MobileNav() {
   const { isLoggedIn, logOut, user } = useAuth();
-  const navigate = useNavigate();
+  const { isOnProfileRoute } = useGetPath();
 
-  const [isOnProfileRoute, setIsOnProfileRoute] = useState(false);
+  const refMenu = useRef<HTMLDivElement | null>(null);
+
   const [open, setOpen] = useState(false);
 
   const navLinkStyles =
     "inline-flex flex-col items-center justify-center px-5 hover:bg-gray-50 group";
 
+  const closeOpenMenus = (e: MouseEvent) => {
+    if (
+      open &&
+      refMenu.current &&
+      !refMenu.current.contains(e.target as Node)
+    ) {
+      setOpen(false);
+    }
+  };
+
   useEffect(() => {
-    const url = new URL(window.location.href);
-    const path = url.pathname;
-    const isOnProfileRoute = path.startsWith("/profile");
-    setIsOnProfileRoute(isOnProfileRoute);
-  }, [navigate]);
+    document.addEventListener("mousedown", closeOpenMenus);
+    return () => {
+      document.removeEventListener("mousedown", closeOpenMenus);
+    };
+  }, [open]);
 
   return (
     <div className="lg:hidden">
@@ -114,7 +126,10 @@ function MobileNav() {
             </NavLink>
           )}
           {open && (
-            <div className="fixed bottom-[62px] right-0 border-x border-t bg-white border-gray-200 text-gray-500 text-sm w-[50%] px-10 pt-5 z-50 ">
+            <div
+              ref={refMenu}
+              className="fixed bottom-[62px] right-0 border-x border-t bg-white border-gray-200 text-gray-500 text-sm w-[50%] px-10 pt-5 z-50 "
+            >
               <ul className="flex flex-col ">
                 <li className="hover:bg-gray-50 py-5  cursor-pointer hover:text-primary">
                   <NavLink
