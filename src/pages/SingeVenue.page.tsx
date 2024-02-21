@@ -75,9 +75,9 @@ function SingleVenuePage() {
 
       <VenueAccordion venue={venue!} isLoading={isLoading} />
 
-      {user!.name !== venue?.owner.name && (
+      {user?.name !== venue?.owner.name ? (
         <VenueBookOptions venue={venue} isLoading={isLoading} />
-      )}
+      ): (<>THIS IS YOUR VENUE BRO</>)}
 
       <VenueFooter venue={venue} isLoading={isLoading} />
     </article>
