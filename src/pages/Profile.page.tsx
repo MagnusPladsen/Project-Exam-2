@@ -13,18 +13,17 @@ import VenueCard from "../components/venue/VenueCard.component";
 import useAuth from "../hooks/useAuth";
 import {
   useGetProfileQuery,
-  useLazyGetProfileQuery,
-  useUpdateVenueManagerStatusMutation,
+  useUpdateVenueManagerStatusMutation
 } from "../services/api/holidazeApi";
 import { UpdateVenueManagerStatusRequest, Venue } from "../types/types";
+import H3 from "../components/common/H3.component";
 
 function ProfilePage() {
   const { name } = useParams();
   const { user } = useAuth();
   const { data, error, isLoading } = useGetProfileQuery(name!);
-  const [fetchProfile] = useLazyGetProfileQuery();
 
-  const isProfileLoggedIn = name === user!.name;
+  const isProfileLoggedIn = !!user && ((name === user.name) ?? false);
 
   const [updateStatus] = useUpdateVenueManagerStatusMutation();
 
@@ -34,8 +33,7 @@ function ProfilePage() {
 
   const [venueManagerModalOpen, setVenueManagerModalOpen] = useState(false);
   const [createVenueModalOpen, setCreateVenueModalOpen] = useState(false);
-
-  const [openVenues, setOpenVenues] = useState(false);
+  const [updateVenueModalOpen, setUpdateVenueModalOpen] = useState(false);
   const [venuesStepper, setVenuesStepper] = useState(5);
 
   const showMoreVenues = () => {
@@ -43,10 +41,12 @@ function ProfilePage() {
   };
 
   const [venuesToShow, setVenuesToShow] = useState<Venue[]>([]);
+  const [venueToUpdate, setVenueToUpdate] = useState<Venue | undefined>(
+    undefined
+  );
 
   const toggleVenueManager = () => {
     setVenueManagerModalOpen(true);
-    console.log("clicked");
   };
 
   const sendVenueManagerChange = async (
@@ -54,11 +54,8 @@ function ProfilePage() {
   ) => {
     try {
       const res = await updateStatus(body).unwrap();
-      fetchProfile(res.name)
       setUserIsManager(res.venueManager);
       setVenueManagerModalOpen(false);
-      // solves bug with state not updated even tho user has relogged
-      window.location.reload();
     } catch (err) {
       console.log(err);
     }
@@ -82,6 +79,12 @@ function ProfilePage() {
       setVenuesToShow(data.venues!.slice(0, venuesStepper));
     }
   }, [venuesStepper, data]);
+
+  useEffect(() => {
+    if (venueToUpdate) {
+      setUpdateVenueModalOpen(true);
+    }
+  }, [venueToUpdate]);
 
   return (
     <>
@@ -166,44 +169,41 @@ function ProfilePage() {
                   )}
                 </div>
                 {userIsManager && venuesToShow.length > 0 && (
-                  <div className="mt-2 py-10 border-t border-blueGray-200 text-center w-full">
+                  <div className="mt-4 pt-4 pb-10 border-t border-blueGray-200 text-center w-full">
+                    <H3
+                        className={`!text-primary text-lg mt-4 font-medium  leading-normal mb-4 uppercase`}
+                      >
+                        {isProfileLoggedIn ? "Your venues" : "Venues"}
+                      </H3>
                     <AnimatePresence initial={false}>
-                      {!openVenues && (
-                        <PrimaryButton
-                          className="mb-5"
-                          onClick={() => setOpenVenues((prev) => !prev)}
-                        >
-                          See venues
-                        </PrimaryButton>
-                      )}
-                      {openVenues && (
-                        <motion.div
-                          initial={{ opacity: 0, height: 0 }}
-                          animate={{
-                            opacity: 1,
-                            height: "auto",
-                          }}
-                          exit={{ opacity: 0, height: 0 }}
-                          transition={{ duration: 0.3 }}
-                          className="flex flex-col gap-4 lg:max-w-[500px] mx-auto"
-                        >
-                          {venuesToShow?.map((venue) => (
-                            <VenueCard
-                              key={venue.id}
-                              venue={venue!}
-                              className="!mx-auto"
-                            />
-                          ))}
-                          {data!.venues!.length !== venuesToShow.length && (
-                            <PrimaryButton
-                              className="mx-auto"
-                              onClick={showMoreVenues}
-                            >
-                              See more
-                            </PrimaryButton>
-                          )}
-                        </motion.div>
-                      )}
+                      <motion.div
+                        initial={{ opacity: 0, height: 0 }}
+                        animate={{
+                          opacity: 1,
+                          height: "auto",
+                        }}
+                        exit={{ opacity: 0, height: 0 }}
+                        transition={{ duration: 0.3 }}
+                        className="flex flex-col gap-4 lg:max-w-[500px] mx-auto"
+                      >
+                        {venuesToShow?.map((venue) => (
+                          <VenueCard
+                            key={venue.id}
+                            venue={venue}
+                            className="!mx-auto"
+                            profilePage
+                            setVenueToUpdate={setVenueToUpdate}
+                          />
+                        ))}
+                        {data.venues!.length !== venuesToShow.length && (
+                          <PrimaryButton
+                            className="mx-auto"
+                            onClick={showMoreVenues}
+                          >
+                            See more
+                          </PrimaryButton>
+                        )}
+                      </motion.div>
                     </AnimatePresence>
                   </div>
                 )}
@@ -223,8 +223,14 @@ function ProfilePage() {
       />
 
       <CreateVenueModal
-        setOpen={setCreateVenueModalOpen}
-        open={createVenueModalOpen}
+        setOpen={
+          updateVenueModalOpen && venueToUpdate
+            ? setUpdateVenueModalOpen
+            : setCreateVenueModalOpen
+        }
+        open={createVenueModalOpen || updateVenueModalOpen}
+        venue={venueToUpdate}
+        updateMode={updateVenueModalOpen}
       />
     </>
   );

@@ -1,14 +1,25 @@
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 import ProfileIcon from "../../icons/Profileicon.component";
 import useAuth from "../../../hooks/useAuth";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import DropDownIcon from "../../icons/DropDownIcon.component";
 import { motion } from "framer-motion";
 import { NavigationLink } from "../../../types/types";
 
 function DesktopNav({ links }: { links: NavigationLink[] }) {
   const { isLoggedIn, logOut, user } = useAuth();
+  const navigate = useNavigate();
+
   const [open, setOpen] = useState(false);
+  const [isOnProfileRoute, setIsOnProfileRoute] = useState(false);
+
+  useEffect(() => {
+    const url = new URL(window.location.href);
+    const path = url.pathname;
+    const isOnProfileRoute = path.startsWith("/profile");
+    setIsOnProfileRoute(isOnProfileRoute);
+  }, [navigate]);
+
   return (
     <ul className="lg:flex gap-5 hidden items-center">
       {links.map((link) => (
@@ -28,7 +39,9 @@ function DesktopNav({ links }: { links: NavigationLink[] }) {
         <>
           <div
             onClick={() => setOpen((prev) => !prev)}
-            className="flex gap-2 items-center cursor-pointer justify-center"
+            className={`${
+              isOnProfileRoute && "underline underline-offset-4"
+            } flex gap-2 items-center cursor-pointer justify-center`}
           >
             <motion.div
               animate={{
@@ -38,13 +51,14 @@ function DesktopNav({ links }: { links: NavigationLink[] }) {
             >
               <DropDownIcon className="text-white !h-3 !w-3" />
             </motion.div>
-            <p>{user?.name}</p>{" "}
+            <p>{user?.name}</p>
             {user?.avatar ? (
               <img
                 src={user.avatar}
                 height={"34px"}
                 width={"34px"}
                 alt="Profile picture"
+                className="rounded-full"
               />
             ) : (
               <ProfileIcon className="!h-[34px] !w-[34px] !text-white" />

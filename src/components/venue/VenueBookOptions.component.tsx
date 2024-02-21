@@ -95,12 +95,12 @@ function VenueBookOptions({
             <div className="flex flex-col gap-2 ">
               <H3 className="text-secondary text-sm">Guests:</H3>
               <div className="flex gap-2 items-center">
-                <div className="cursor-pointer" onClick={incrementGuests}>
-                  <PlusIcon />
-                </div>
-                <p className="">{guests}</p>
                 <div className="cursor-pointer" onClick={decrementGuests}>
                   <MinusIcon />
+                </div>
+                <p className="">{guests}</p>
+                <div className="cursor-pointer" onClick={incrementGuests}>
+                  <PlusIcon />
                 </div>
                 <p className="font-light text-xs ml-2">
                   Max. {venue?.maxGuests} guests

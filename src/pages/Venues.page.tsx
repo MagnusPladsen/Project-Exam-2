@@ -65,7 +65,7 @@ function VenuesPage() {
           latestVenues.map((venue, index) => (
             <VenueCard venue={venue} key={index} />
           ))}
-        {error && <ErrorMessage />}
+        <ErrorMessage show={!!error} />
       </div>
 
       <div className="w-fit mx-auto my-10">

@@ -1,11 +1,16 @@
 import { yupResolver } from "@hookform/resolvers/yup";
 import { AnimatePresence, motion } from "framer-motion";
+import { useEffect } from "react";
 import { FormProvider, SubmitHandler, useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import sanitizeUrl from "../../../formatters/sanitizeUrl";
 import useIsMobile from "../../../hooks/useIsMobile";
-import { useCreateVenueMutation } from "../../../services/api/holidazeApi";
-import { CreateVenue, CreateVenueRequest } from "../../../types/types";
+import {
+  useCreateVenueMutation,
+  useUpdateVenueMutation,
+} from "../../../services/api/holidazeApi";
+import { CreateVenue, CreateVenueRequest, Venue } from "../../../types/types";
+import isImageValid from "../../../utils/isImageValid";
 import PrimaryButton from "../../buttons/PrimaryButton.component";
 import SecondaryButton from "../../buttons/SecondaryButton.component";
 import H2 from "../../common/H2.component";
@@ -18,25 +23,30 @@ import schema from "./validation";
 function CreateVenueModal({
   open,
   setOpen,
+  venue,
+  updateMode,
 }: {
   open: boolean;
   setOpen: (open: boolean) => void;
+  venue?: Venue;
+  updateMode?: boolean;
 }) {
   const navigate = useNavigate();
   const { isMobile } = useIsMobile();
-  const [createVenue, { error }] = useCreateVenueMutation();
+  const [createVenue, { error: createError }] = useCreateVenueMutation();
+  const [updateVenue, { error: updateError }] = useUpdateVenueMutation();
 
   const formMethods = useForm<CreateVenue>({
     resolver: yupResolver(schema),
   });
 
-  const { handleSubmit, setValue, watch } = formMethods;
+  const { handleSubmit, setValue, watch, reset, setError } = formMethods;
 
   const onSubmit: SubmitHandler<CreateVenue> = (data) => submitForm(data);
 
   const submitForm = async (data: CreateVenue) => {
     try {
-      const request: CreateVenueRequest = {
+      const requestBody: CreateVenueRequest = {
         ...data,
         meta: {
           wifi: data.wifi ?? false,
@@ -48,10 +58,16 @@ function CreateVenueModal({
           address: data.address,
           city: data.city,
           country: data.country,
+          zip: data.zip,
         },
-        media: data.media!.split(",").map((media) => media.trim()) ?? [""],
+        media: data.media
+          ? data.media.split(",").map((media) => media.trim())
+          : undefined,
       };
-      const res = await createVenue(request).unwrap();
+      console.log("submit", requestBody);
+      const res = updateMode
+        ? await updateVenue({ body: requestBody, id: venue?.id ?? "" }).unwrap()
+        : await createVenue(requestBody).unwrap();
       console.log(res);
       if (res) {
         navigate(`/venues/${res.id}`);
@@ -61,7 +77,34 @@ function CreateVenueModal({
     }
   };
 
-  console.log(watch());
+  useEffect(() => {
+    if (venue && updateMode) {
+      reset({
+        ...venue,
+        media: venue.media.join(", "),
+        wifi: venue.meta.wifi,
+        parking: venue.meta.parking,
+        breakfast: venue.meta.breakfast,
+        pets: venue.meta.pets,
+        address: venue.location.address,
+        city: venue.location.city,
+        zip: venue.location.zip,
+        country: venue.location.country,
+      });
+      console.log("venue", venue);
+    }
+  }, [venue, updateMode]);
+
+  useEffect(() => {
+    // Scroll to top when modal is opened and prevent background from scrolling
+    if (open) {
+      document.body.style.overflow = "hidden";
+      window.scrollTo(0, 0);
+    }
+    return () => {
+      document.body.style.overflow = "auto";
+    };
+  }, [open]);
 
   return (
     <FormProvider {...formMethods}>
@@ -76,12 +119,12 @@ function CreateVenueModal({
             exit={{ opacity: 0, height: 0, top: "200%" }}
             transition={{ duration: 0.3 }}
             aria-hidden="true"
-            className="absolute top-0 lg:top-[100px] left-0 lg:left-1/2 lg:-translate-x-1/2 lg:transform w-full lg:max-w-md z-50 lg:z-20 "
+            className="absolute top-0 lg:top-[100px] left-0 lg:left-1/2 lg:-translate-x-1/2 lg:transform w-full lg:max-w-md z-40"
           >
             <div className="relative overflow-y-scroll lg:mt-0 bg-white lg:rounded-lg border border-gray-200 lg:shadow-md dark:bg-gray-700 h-[calc(100vh-64px)] lg:h-[80vh] ">
               <div className="fixed bg-white lg:shadow flex items-center justify-between p-4 border-b lg:rounded-t w-full border-gray-200">
                 <h3 className="text-lg font-semibold text-gray-900 ">
-                  Create new booking
+                  {updateMode ? "Update booking" : "Create new booking"}
                 </h3>
                 <button
                   onClick={() => setOpen(false)}
@@ -132,7 +175,16 @@ function CreateVenueModal({
                         const sanitizedUrlArray = urlArray.map((url) =>
                           sanitizeUrl(url)
                         );
-                        const sanitizedUrls = sanitizedUrlArray.join(", ");
+                        const validImageUrls = sanitizedUrlArray.filter(
+                          async (url) => {
+                            (await isImageValid(url))
+                              ? true
+                              : setError("media", {
+                                  message: "Invalid image url removed",
+                                });
+                          }
+                        );
+                        const sanitizedUrls = validImageUrls.join(", ");
                         setValue("media", sanitizedUrls);
                       }}
                     />
@@ -170,24 +222,28 @@ function CreateVenueModal({
                         label="Wifi"
                         type="checkbox"
                         className="!h-8 !w-8"
+                        defaultChecked={watch("wifi")}
                       />
                       <Input
                         name="parking"
                         label="Parking"
                         type="checkbox"
                         className="!h-8 !w-8"
+                        defaultChecked={watch("parking")}
                       />
                       <Input
                         name="breakfast"
                         label="Breakfast"
                         type="checkbox"
                         className="!h-8 !w-8"
+                        defaultChecked={watch("breakfast")}
                       />
                       <Input
                         name="pets"
                         label="Pets"
                         type="checkbox"
                         className="!h-8 !w-8"
+                        defaultChecked={watch("pets")}
                       />
                     </div>
                   </div>
@@ -206,7 +262,7 @@ function CreateVenueModal({
                   <div className="flex gap-4 justify-between w-full">
                     <div className="w-full flex flex-col gap-2">
                       <Input
-                        name="Zip"
+                        name="zip"
                         label="Zip"
                         type="number"
                         min={0}
@@ -243,12 +299,15 @@ function CreateVenueModal({
                     Cancel
                   </SecondaryButton>
                   <PrimaryButton type="submit" className="text-sm">
-                    Create booking
+                    {updateMode ? "Update booking" : "Create booking"}
                   </PrimaryButton>
                 </div>
-                {error && (
-                  <ErrorMessage message="Something went wrong, please try again" />
-                )}
+
+                <ErrorMessage
+                  show={!!(createError ?? updateError)}
+                  className="mt-4 fixed bottom-36 z-50 lg:left-1/2 lg:-translate-x-1/2 lg:transform lg:w-[80%]"
+                  message="Something went wrong, please try again!"
+                />
               </form>
             </div>
           </motion.div>

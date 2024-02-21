@@ -53,7 +53,7 @@ function RegisterForm() {
           <PrimaryButton type="submit" className="w-full">
             Register
           </PrimaryButton>
-          {error && <ErrorMessage />}
+          <ErrorMessage show={!!error} />
         </div>
       </form>
     </FormProvider>

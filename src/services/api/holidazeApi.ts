@@ -3,15 +3,15 @@ import { RootState } from "../../redux/store";
 import {
   Booking,
   CreateBookingRequest,
-  CreateVenue,
+  CreateVenueRequest,
   UpdateVenueManagerStatusRequest,
   User,
-  Venue
+  Venue,
 } from "../../types/types";
 
 // Define a service using a base URL and expected endpoints
 export const holidazeApi = createApi({
-  reducerPath: "organizerApi",
+  reducerPath: "holidazeApi",
   baseQuery: fetchBaseQuery({
     baseUrl: "https://api.noroff.dev/api/v1/holidaze/",
     prepareHeaders: (headers, { getState }) => {
@@ -24,27 +24,43 @@ export const holidazeApi = createApi({
       return headers;
     },
   }),
-  tagTypes: ["venues"],
+  tagTypes: ["venues", "venue", "profile"],
   endpoints: (builder) => ({
     getLatestVenues: builder.query<Venue[], void>({
-      query: () => "venues/?limit=5&offset=0&_owner=true&_bookings=true",
+      query: () => "venues/?_owner=true&_bookings=true&sort=created",
       providesTags: ["venues"],
     }),
     getVenues: builder.query<Venue[], { limit: number; offset: number }>({
       query: ({ limit, offset }) =>
-        `venues/?limit=${limit}&offset=${offset}&_owner=true&_bookings=true`,
+        `venues/?limit=${limit}&offset=${offset}&_owner=true&_bookings=true&sort=created`,
       providesTags: ["venues"],
     }),
     getSingleVenue: builder.query<Venue, string>({
       query: (id) => `venues/${id}?_owner=true&_bookings=true`,
     }),
-    createVenue: builder.mutation<Venue, CreateVenue>({
+    createVenue: builder.mutation<Venue, CreateVenueRequest>({
       query: (body) => ({
         url: `venues`,
         method: "POST",
         body,
       }),
-      invalidatesTags: ["venues"],
+      invalidatesTags: ["venues", "profile"],
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      transformErrorResponse: (response: any) => {
+        if (!response.ok) throw new Error(response.data.status);
+        return response.json();
+      },
+    }),
+    updateVenue: builder.mutation<
+      Venue,
+      { body: CreateVenueRequest; id: string }
+    >({
+      query: ({ body, id }) => ({
+        url: `venues/${id}`,
+        method: "PUT",
+        body,
+      }),
+      invalidatesTags: ["venues", "profile"],
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       transformErrorResponse: (response: any) => {
         if (!response.ok) throw new Error(response.data.status);
@@ -57,6 +73,7 @@ export const holidazeApi = createApi({
         method: "POST",
         body,
       }),
+      invalidatesTags: ["profile"],
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       transformErrorResponse: (response: any) => {
         if (!response.ok) throw new Error(response.data.status);
@@ -70,6 +87,7 @@ export const holidazeApi = createApi({
         if (!response.ok) throw new Error(response.data.status);
         return response.json();
       },
+      providesTags: ["profile"],
     }),
     updateVenueManagerStatus: builder.mutation<
       User,
@@ -79,6 +97,7 @@ export const holidazeApi = createApi({
         url: `profiles/${name}`,
         method: "PUT",
         body: { venueManager: status },
+        invalidatesTags: ["profile"],
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
         transformErrorResponse: (response: any) => {
           if (!response.ok) throw new Error(response.data.status);
@@ -95,7 +114,9 @@ export const {
   useGetLatestVenuesQuery,
   useGetVenuesQuery,
   useCreateVenueMutation,
+  useUpdateVenueMutation,
   useGetSingleVenueQuery,
+  useLazyGetSingleVenueQuery,
   useCreateBookingMutation,
   useGetProfileQuery,
   useLazyGetProfileQuery,
