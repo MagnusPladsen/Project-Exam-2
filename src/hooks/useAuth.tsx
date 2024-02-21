@@ -6,12 +6,14 @@ import {
   setCredentials,
 } from "../redux/slices/authSlice";
 import { User } from "../types/types";
+import { useGetProfileQuery } from "../services/api/holidazeApi";
 
 function useAuth() {
   const dispatch = useDispatch();
 
   const token = useSelector(selectToken);
-  const user = useSelector(selectCurrentUser);
+  const oldUser = useSelector(selectCurrentUser);
+  const { data: user } = useGetProfileQuery(oldUser!.name);
 
   const saveUser = (user: User) => {
     dispatch(setCredentials({ user: user, token: user.accessToken }));
@@ -21,7 +23,7 @@ function useAuth() {
     dispatch(removeCredentials());
   };
 
-  const isLoggedIn = !!token && !!user;
+  const isLoggedIn = !!token && !!oldUser;
 
   return { isLoggedIn, user, token, saveUser, logOut };
 }

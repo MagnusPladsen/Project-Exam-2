@@ -17,7 +17,6 @@ function DesktopNav({ links }: { links: NavigationLink[] }) {
     const url = new URL(window.location.href);
     const path = url.pathname;
     const isOnProfileRoute = path.startsWith("/profile");
-    console.log(path);
     setIsOnProfileRoute(isOnProfileRoute);
   }, [navigate]);
 
