@@ -6,27 +6,37 @@ import capitalizeFirstLetter from "../../formatters/capitalizeFirstLetter";
 import { Venue } from "../../types/types";
 import H2 from "../common/H2.component";
 import ArrowIcon from "../icons/ArrowIcon.component";
+import EditIcon from "../icons/EditIcon.component";
 import ProfileIcon from "../icons/Profileicon.component";
 import HolidazeTooltip from "../tooltip/HolidazeTooltip.component";
-import useGetPath from "../../hooks/useGetPath";
 
 function VenueCard({
   venue,
   isLoading = false,
   className,
+  profilePage = false,
+  setVenueToUpdate,
 }: {
   venue?: Venue;
   isLoading?: boolean;
   className?: string;
+  profilePage?: boolean;
+  setVenueToUpdate?: React.Dispatch<React.SetStateAction<Venue | undefined>>;
 }) {
-  const { isOnProfileRoute } = useGetPath();
   return (
-    <article className={`${className} p-6 w-[90vw] lg:w-full xl:max-w-lg xl:mx-auto bg-white rounded-lg border border-gray-200 shadow-md`}>
+    <article
+      className={`${className} p-6 w-[90vw] lg:w-full xl:max-w-lg xl:mx-auto bg-white rounded-lg border border-gray-200 shadow-md`}
+    >
+      <HolidazeTooltip id="price-per-night" />
       <div className="flex justify-between items-center mb-5 text-gray-500">
         {isLoading || !venue ? (
           <Skeleton width={50} height={20} />
         ) : (
-          <span className="font-bold bg-green-200 text-green-600 text-xs inline-flex items-center px-2.5 py-1 rounded dark:bg-primary-light gap-2">
+          <span
+            data-tooltip-id="price-per-night"
+            data-tooltip-content={`Price per night: $ ${venue.price}`}
+            className="font-bold bg-green-200 text-green-600 text-xs inline-flex items-center px-2.5 py-1 rounded dark:bg-primary-light gap-2"
+          >
             $ {venue.price}
           </span>
         )}
@@ -63,12 +73,19 @@ function VenueCard({
       <div className="flex justify-between items-center flex-row-reverse">
         <Link
           to={`/venues/${venue?.id}`}
-          className="inline-flex items-center font-medium text-primary hover:underline"
+          className="inline-flex gap-2 items-center font-medium text-primary hover:underline"
         >
           See venue
           <ArrowIcon />
         </Link>
-        {!isOnProfileRoute && (
+        {profilePage ? (
+          <div
+            className="flex items-center text-primary cursor-pointer hover:underline underline-offset-2 transition-all gap-2 font-medium"
+            onClick={() => (setVenueToUpdate ? setVenueToUpdate(venue) : {})}
+          >
+            <EditIcon /> Edit
+          </div>
+        ) : (
           <Link
             className="cursor-pointer hover:underline underline-offset-2 hover:text-primary group transition-all"
             to={`/profile/${venue?.owner.name}`}

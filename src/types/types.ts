@@ -150,7 +150,8 @@ interface InputProps extends React.InputHTMLAttributes<HTMLInputElement> {
   className?: string;
 }
 
-interface TextAreaProps extends React.TextareaHTMLAttributes<HTMLTextAreaElement> {
+interface TextAreaProps
+  extends React.TextareaHTMLAttributes<HTMLTextAreaElement> {
   name: string;
   label?: string;
   className?: string;
@@ -186,5 +187,5 @@ export type {
   CreateBookingRequest,
   UpdateVenueManagerStatusRequest,
   HolidazeHeaderProps,
-  TextAreaProps
+  TextAreaProps,
 };
