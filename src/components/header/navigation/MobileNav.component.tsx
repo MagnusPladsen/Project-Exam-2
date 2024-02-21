@@ -1,20 +1,30 @@
-import { useState } from "react";
-import { NavLink } from "react-router-dom";
-import InformationIcon from "../../icons/InformationIcon.component";
+import { motion } from "framer-motion";
+import { useEffect, useState } from "react";
+import { NavLink, useNavigate } from "react-router-dom";
 import useAuth from "../../../hooks/useAuth";
+import DropDownIcon from "../../icons/DropDownIcon.component";
+import HomeIcon from "../../icons/HomeIcon.component";
+import InformationIcon from "../../icons/InformationIcon.component";
 import ProfileIcon from "../../icons/Profileicon.component";
 import VenueIcon from "../../icons/VenueIcon.component";
-import HomeIcon from "../../icons/HomeIcon.component";
-import DropDownIcon from "../../icons/DropDownIcon.component";
-import { motion } from "framer-motion";
 
 function MobileNav() {
   const { isLoggedIn, logOut, user } = useAuth();
+  const navigate = useNavigate();
 
+  const [isOnProfileRoute, setIsOnProfileRoute] = useState(false);
   const [open, setOpen] = useState(false);
 
   const navLinkStyles =
     "inline-flex flex-col items-center justify-center px-5 hover:bg-gray-50 group";
+
+  useEffect(() => {
+    const url = new URL(window.location.href);
+    const path = url.pathname;
+    const isOnProfileRoute = path.startsWith("/profile");
+    console.log(path);
+    setIsOnProfileRoute(isOnProfileRoute);
+  }, [navigate]);
 
   return (
     <div className="lg:hidden">
@@ -30,9 +40,7 @@ function MobileNav() {
             }
           >
             <HomeIcon />
-            <span className="text-sm">
-              Home
-            </span>
+            <span className="text-sm">Home</span>
           </NavLink>
           <NavLink
             to="/venues"
@@ -44,9 +52,7 @@ function MobileNav() {
             }
           >
             <VenueIcon />
-            <span className="text-sm">
-              Venues
-            </span>
+            <span className="text-sm">Venues</span>
           </NavLink>
           <NavLink
             to={"/about"}
@@ -58,9 +64,7 @@ function MobileNav() {
             }
           >
             <InformationIcon />
-            <span className="text-sm">
-              About
-            </span>
+            <span className="text-sm">About</span>
           </NavLink>
           {isLoggedIn ? (
             <div
@@ -72,13 +76,17 @@ function MobileNav() {
                   src={user.avatar}
                   height={"22px"}
                   width={"22px"}
-                  className="mb-2"
+                  className="mb-2 rounded-full"
                   alt="Profile picture"
                 />
               ) : (
                 <ProfileIcon className="w-5 h-5 mb-2 text-gray-500 dark:text-gray-400 group-hover:text-primary dark:group-hover:text-blue-500" />
               )}
-              <span className="text-sm text-gray-500 dark:text-gray-400 group-hover:text-primary dark:group-hover:text-blue-500 flex gap-2 items-center ">
+              <span
+                className={`${
+                  isOnProfileRoute && "text-primary"
+                } text-sm text-gray-500 dark:text-gray-400 group-hover:text-primary dark:group-hover:text-blue-500 flex gap-2 items-center `}
+              >
                 {isLoggedIn ? user?.name : "Profile"}
                 <motion.div
                   animate={{
