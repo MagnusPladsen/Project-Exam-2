@@ -1,4 +1,4 @@
-import { AnimatePresence } from "framer-motion";
+import { AnimatePresence, motion } from "framer-motion";
 import { useEffect, useRef, useState } from "react";
 import Skeleton from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
@@ -107,9 +107,12 @@ function VenueCard({
             </div>
             <AnimatePresence initial={false}>
               {venueOptionsOpen && (
-                <div
+                <motion.div
+                  initial={{ opacity: 0, y: -50 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: -50 }}
                   ref={refMenu}
-                  className="absolute left-0 -bottom-22 shadow-md py-5 px-10 bg-white  rounded-b-lg border-b border-x border-gray-200 z-50"
+                  className="absolute left-0 -bottom-22 shadow-md py-5 px-10 bg-white  rounded-b-lg border-b border-x border-gray-200 z-10"
                   onMouseLeave={() => setVenueOptionsOpen(false)}
                 >
                   <ul className="flex flex-col gap-4">
@@ -131,7 +134,7 @@ function VenueCard({
                       <p>Delete</p>
                     </li>
                   </ul>
-                </div>
+                </motion.div>
               )}
             </AnimatePresence>
           </div>

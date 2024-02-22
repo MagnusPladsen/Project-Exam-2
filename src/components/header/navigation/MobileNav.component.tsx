@@ -1,4 +1,4 @@
-import { motion } from "framer-motion";
+import { AnimatePresence, motion } from "framer-motion";
 import { useEffect, useRef, useState } from "react";
 import { NavLink } from "react-router-dom";
 import useAuth from "../../../hooks/useAuth";
@@ -125,62 +125,67 @@ function MobileNav() {
               </span>
             </NavLink>
           )}
-          {open && (
-            <div
-              ref={refMenu}
-              className="fixed bottom-[62px] right-0 border-x border-t bg-white border-gray-200 text-gray-500 text-sm w-[50%] px-10 pt-5 z-50 "
-            >
-              <ul className="flex flex-col ">
-                <li className="hover:bg-gray-50 py-5  cursor-pointer hover:text-primary">
-                  <NavLink
-                    to={`/profile/${user!.name}`}
-                    onClick={() => setOpen(false)}
-                    className={({ isActive }) =>
-                      isActive ? "underline underline-offset-4 " : ""
-                    }
-                  >
-                    My profile
-                  </NavLink>
-                </li>
-                {user?.venueManager && (
-                  <>
-                    <li className="hover:bg-gray-50 py-5  cursor-pointer hover:text-primary">
-                      <NavLink
-                        to={"/profile/venues"}
-                        onClick={() => setOpen(false)}
-                        className={({ isActive }) =>
-                          isActive ? "underline underline-offset-4 " : ""
-                        }
-                      >
-                        My venues
-                      </NavLink>
-                    </li>
-                    <li className="hover:bg-gray-50 py-5  cursor-pointer hover:text-primary">
-                      <NavLink
-                        to={"/profile/venues/new"}
-                        onClick={() => setOpen(false)}
-                        className={({ isActive }) =>
-                          isActive ? "underline underline-offset-4 " : ""
-                        }
-                      >
-                        New venue
-                      </NavLink>
-                    </li>
-                  </>
-                )}
+          <AnimatePresence initial={false}>
+            {open && (
+              <motion.div
+                initial={{ opacity: 0, y: 50 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: 50 }}
+                ref={refMenu}
+                className="fixed bottom-[62px] right-0 border-x border-t bg-white border-gray-200 text-gray-500 text-sm w-[50%] px-10 pt-5 z-50 "
+              >
+                <ul className="flex flex-col ">
+                  <li className="hover:bg-gray-50 py-5  cursor-pointer hover:text-primary">
+                    <NavLink
+                      to={`/profile/${user!.name}`}
+                      onClick={() => setOpen(false)}
+                      className={({ isActive }) =>
+                        isActive ? "underline underline-offset-4 " : ""
+                      }
+                    >
+                      My profile
+                    </NavLink>
+                  </li>
+                  {user?.venueManager && (
+                    <>
+                      <li className="hover:bg-gray-50 py-5  cursor-pointer hover:text-primary">
+                        <NavLink
+                          to={"/profile/venues"}
+                          onClick={() => setOpen(false)}
+                          className={({ isActive }) =>
+                            isActive ? "underline underline-offset-4 " : ""
+                          }
+                        >
+                          My venues
+                        </NavLink>
+                      </li>
+                      <li className="hover:bg-gray-50 py-5  cursor-pointer hover:text-primary">
+                        <NavLink
+                          to={"/profile/venues/new"}
+                          onClick={() => setOpen(false)}
+                          className={({ isActive }) =>
+                            isActive ? "underline underline-offset-4 " : ""
+                          }
+                        >
+                          New venue
+                        </NavLink>
+                      </li>
+                    </>
+                  )}
 
-                <li
-                  className="cursor-pointer hover:bg-gray-50 py-5 "
-                  onClick={() => {
-                    setOpen(false);
-                    logOut();
-                  }}
-                >
-                  Log out
-                </li>
-              </ul>
-            </div>
-          )}
+                  <li
+                    className="cursor-pointer hover:bg-gray-50 py-5 "
+                    onClick={() => {
+                      setOpen(false);
+                      logOut();
+                    }}
+                  >
+                    Log out
+                  </li>
+                </ul>
+              </motion.div>
+            )}
+          </AnimatePresence>
         </div>
       </div>
     </div>

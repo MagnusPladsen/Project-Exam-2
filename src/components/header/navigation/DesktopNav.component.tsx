@@ -1,4 +1,4 @@
-import { motion } from "framer-motion";
+import { AnimatePresence, motion } from "framer-motion";
 import { useState } from "react";
 import { NavLink } from "react-router-dom";
 import useAuth from "../../../hooks/useAuth";
@@ -57,40 +57,44 @@ function DesktopNav({ links }: { links: NavigationLink[] }) {
               <ProfileIcon className="!h-[34px] !w-[34px] !text-white" />
             )}
           </div>
+          <AnimatePresence initial={false}>
+            {open && (
+              <motion.div
+                initial={{ opacity: 0, y: -50 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -50 }}
+                transition={{ duration: 0.1 }}
+                className="absolute right-0 top-[80px] shadow-md bg-primary px-10 pb-5 rounded-bl"
+              >
+                <ul className="flex flex-col gap-4">
+                  <li>
+                    <NavLink
+                      onClick={() => setOpen(false)}
+                      to={`/profile/${user!.name}`}
+                      className={({ isActive }) =>
+                        isActive ? "underline underline-offset-4" : ""
+                      }
+                    >
+                      My profile
+                    </NavLink>
+                  </li>
+                  {user?.venueManager && (
+                    <li className="cursor-pointer">My bookings</li>
+                  )}
 
-          {open && (
-            <div
-              onMouseLeave={() => setOpen(false)}
-              className="absolute right-0 top-[80px] shadow-md bg-primary px-10 pb-5 rounded-bl"
-            >
-              <ul className="flex flex-col gap-4">
-                <li>
-                  <NavLink
-                    onClick={() => setOpen(false)}
-                    to={`/profile/${user!.name}`}
-                    className={({ isActive }) =>
-                      isActive ? "underline underline-offset-4" : ""
-                    }
+                  <li
+                    className="cursor-pointer"
+                    onClick={() => {
+                      setOpen(false);
+                      logOut();
+                    }}
                   >
-                    My profile
-                  </NavLink>
-                </li>
-                {user?.venueManager && (
-                  <li className="cursor-pointer">My bookings</li>
-                )}
-
-                <li
-                  className="cursor-pointer"
-                  onClick={() => {
-                    setOpen(false);
-                    logOut();
-                  }}
-                >
-                  Log out
-                </li>
-              </ul>
-            </div>
-          )}
+                    Log out
+                  </li>
+                </ul>
+              </motion.div>
+            )}
+          </AnimatePresence>
         </>
       ) : (
         <li>
