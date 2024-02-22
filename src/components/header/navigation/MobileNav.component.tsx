@@ -101,7 +101,7 @@ function MobileNav() {
                 {isLoggedIn ? user?.name : "Profile"}
                 <motion.div
                   animate={{
-                    rotate: open ? 180 : 0,
+                    rotate: open ? -180 : -90,
                   }}
                   transition={{ duration: 0.2 }}
                 >

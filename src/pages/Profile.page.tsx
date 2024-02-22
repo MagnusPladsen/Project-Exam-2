@@ -8,12 +8,13 @@ import H2 from "../components/common/H2.component";
 import Toggle from "../components/forms/Toggle.component";
 import ProfileIcon from "../components/icons/Profileicon.component";
 import ConfirmModal from "../components/modals/ConfirmModal.component";
-import CreateVenueModal from "../components/modals/venue/CreateVenueModal.component";
+import VenueModal from "../components/modals/venue/VenueModal.component";
 import VenueCard from "../components/venue/VenueCard.component";
 import useAuth from "../hooks/useAuth";
 import {
+  useDeleteVenueMutation,
   useGetProfileQuery,
-  useUpdateVenueManagerStatusMutation
+  useUpdateVenueManagerStatusMutation,
 } from "../services/api/holidazeApi";
 import { UpdateVenueManagerStatusRequest, Venue } from "../types/types";
 import H3 from "../components/common/H3.component";
@@ -23,16 +24,17 @@ function ProfilePage() {
   const { user } = useAuth();
   const { data, error, isLoading } = useGetProfileQuery(name!);
 
-  const isProfileLoggedIn = !!user && ((name === user.name) ?? false);
+  const isProfileLoggedIn = !!user && (name === user.name ?? false);
 
   const [updateStatus] = useUpdateVenueManagerStatusMutation();
+  const [deleteVenue] = useDeleteVenueMutation();
 
   const [userIsManager, setUserIsManager] = useState(
     data ? data.venueManager : false
   );
 
   const [venueManagerModalOpen, setVenueManagerModalOpen] = useState(false);
-  const [createVenueModalOpen, setCreateVenueModalOpen] = useState(false);
+  const [VenueModalOpen, setVenueModalOpen] = useState(false);
   const [updateVenueModalOpen, setUpdateVenueModalOpen] = useState(false);
   const [venuesStepper, setVenuesStepper] = useState(5);
 
@@ -42,6 +44,10 @@ function ProfilePage() {
 
   const [venuesToShow, setVenuesToShow] = useState<Venue[]>([]);
   const [venueToUpdate, setVenueToUpdate] = useState<Venue | undefined>(
+    undefined
+  );
+  const [deleteVenueActive, setDeleteVenueActive] = useState(false);
+  const [venueToDelete, setVenueToDelete] = useState<Venue | undefined>(
     undefined
   );
 
@@ -63,9 +69,9 @@ function ProfilePage() {
 
   const toggleVenueManagerText = () => {
     if (userIsManager) {
-      return "Are you sure you want to unregister as a venue manager?";
+      return "Are you sure you want to UNREGISTER as a venue manager?";
     }
-    return "Are you sure you want to register as a venue manager?";
+    return "Are you sure you want to REGISTER as a venue manager?";
   };
 
   useEffect(() => {
@@ -85,6 +91,12 @@ function ProfilePage() {
       setUpdateVenueModalOpen(true);
     }
   }, [venueToUpdate]);
+
+  useEffect(() => {
+    if (venueToDelete) {
+      setDeleteVenueActive(true);
+    }
+  }, [venueToDelete]);
 
   return (
     <>
@@ -160,7 +172,7 @@ function ProfilePage() {
                   {isProfileLoggedIn && userIsManager && (
                     <div className="flex flex-col gap-4 w-full">
                       <PrimaryButton
-                        onClick={() => setCreateVenueModalOpen(true)}
+                        onClick={() => setVenueModalOpen(true)}
                         className="!mx-auto !mb-7"
                       >
                         Create venue
@@ -171,10 +183,10 @@ function ProfilePage() {
                 {userIsManager && venuesToShow.length > 0 && (
                   <div className="mt-4 pt-4 pb-10 border-t border-blueGray-200 text-center w-full">
                     <H3
-                        className={`!text-primary text-lg mt-4 font-medium  leading-normal mb-4 uppercase`}
-                      >
-                        {isProfileLoggedIn ? "Your venues" : "Venues"}
-                      </H3>
+                      className={`!text-primary text-lg mt-4 font-medium  leading-normal mb-4 uppercase`}
+                    >
+                      {isProfileLoggedIn ? "Your venues" : "Venues"}
+                    </H3>
                     <AnimatePresence initial={false}>
                       <motion.div
                         initial={{ opacity: 0, height: 0 }}
@@ -193,6 +205,7 @@ function ProfilePage() {
                             className="!mx-auto"
                             profilePage
                             setVenueToUpdate={setVenueToUpdate}
+                            setVenueToDelete={setVenueToDelete}
                           />
                         ))}
                         {data.venues!.length !== venuesToShow.length && (
@@ -214,21 +227,34 @@ function ProfilePage() {
       )}
 
       <ConfirmModal
-        text={toggleVenueManagerText()}
-        open={venueManagerModalOpen}
-        onCancel={() => setVenueManagerModalOpen(false)}
+        text={
+          deleteVenueActive
+            ? "Are you sure you want to delete this venue? This action cannot be undone!"
+            : toggleVenueManagerText()
+        }
+        open={deleteVenueActive || venueManagerModalOpen}
+        onCancel={() =>
+          deleteVenueActive
+            ? setDeleteVenueActive(false)
+            : setVenueManagerModalOpen(false)
+        }
         onConfirm={() =>
-          sendVenueManagerChange({ name: data!.name, status: !userIsManager })
+          deleteVenueActive
+            ? deleteVenue(venueToDelete!.id)
+            : sendVenueManagerChange({
+                name: data!.name,
+                status: !userIsManager,
+              })
         }
       />
 
-      <CreateVenueModal
+      <VenueModal
         setOpen={
           updateVenueModalOpen && venueToUpdate
             ? setUpdateVenueModalOpen
-            : setCreateVenueModalOpen
+            : setVenueModalOpen
         }
-        open={createVenueModalOpen || updateVenueModalOpen}
+        open={VenueModalOpen || updateVenueModalOpen}
         venue={venueToUpdate}
         updateMode={updateVenueModalOpen}
       />

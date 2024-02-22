@@ -38,7 +38,7 @@ function DesktopNav({ links }: { links: NavigationLink[] }) {
           >
             <motion.div
               animate={{
-                rotate: open ? 180 : 0,
+                rotate: open ? 0 : -90,
               }}
               transition={{ duration: 0.2 }}
             >

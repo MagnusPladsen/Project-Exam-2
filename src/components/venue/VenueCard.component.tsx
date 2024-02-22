@@ -1,3 +1,5 @@
+import { AnimatePresence } from "framer-motion";
+import { useEffect, useRef, useState } from "react";
 import Skeleton from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
 import { Link } from "react-router-dom";
@@ -6,7 +8,9 @@ import capitalizeFirstLetter from "../../formatters/capitalizeFirstLetter";
 import { Venue } from "../../types/types";
 import H2 from "../common/H2.component";
 import ArrowIcon from "../icons/ArrowIcon.component";
+import Crossicon from "../icons/CrossIcon.component";
 import EditIcon from "../icons/EditIcon.component";
+import MoreIcon from "../icons/MoreIcon.component";
 import ProfileIcon from "../icons/Profileicon.component";
 import HolidazeTooltip from "../tooltip/HolidazeTooltip.component";
 
@@ -16,16 +20,38 @@ function VenueCard({
   className,
   profilePage = false,
   setVenueToUpdate,
+  setVenueToDelete,
 }: {
   venue?: Venue;
   isLoading?: boolean;
   className?: string;
   profilePage?: boolean;
   setVenueToUpdate?: React.Dispatch<React.SetStateAction<Venue | undefined>>;
+  setVenueToDelete?: React.Dispatch<React.SetStateAction<Venue | undefined>>;
 }) {
+  const refMenu = useRef<HTMLDivElement | null>(null);
+
+  const [venueOptionsOpen, setVenueOptionsOpen] = useState(false);
+
+  const closeOpenMenus = (e: MouseEvent) => {
+    if (
+      venueOptionsOpen &&
+      refMenu.current &&
+      !refMenu.current.contains(e.target as Node)
+    ) {
+      setVenueOptionsOpen(false);
+    }
+  };
+
+  useEffect(() => {
+    document.addEventListener("mousedown", closeOpenMenus);
+    return () => {
+      document.removeEventListener("mousedown", closeOpenMenus);
+    };
+  }, [open]);
   return (
     <article
-      className={`${className} p-6 w-[90vw] lg:w-full xl:max-w-lg xl:mx-auto bg-white rounded-lg border border-gray-200 shadow-md`}
+      className={`${className} relative p-6 w-[90vw] lg:w-full xl:max-w-lg xl:mx-auto bg-white rounded-lg border border-gray-200 shadow-md`}
     >
       <HolidazeTooltip id="price-per-night" />
       <div className="flex justify-between items-center mb-5 text-gray-500">
@@ -70,20 +96,44 @@ function VenueCard({
           capitalizeFirstLetter(venue.description)
         )}
       </div>
-      <div className="flex justify-between items-center flex-row-reverse">
-        <Link
-          to={`/venues/${venue?.id}`}
-          className="inline-flex gap-2 items-center font-medium text-primary hover:underline"
-        >
-          See venue
-          <ArrowIcon />
-        </Link>
+      <div className="flex justify-between items-center ">
         {profilePage ? (
-          <div
-            className="flex items-center text-primary cursor-pointer hover:underline underline-offset-2 transition-all gap-2 font-medium"
-            onClick={() => (setVenueToUpdate ? setVenueToUpdate(venue) : {})}
-          >
-            <EditIcon /> Edit
+          <div>
+            <div
+              className=" flex items-center text-primary cursor-pointer hover:underline underline-offset-2 transition-all gap-2 font-medium"
+              onClick={() => setVenueOptionsOpen((prev) => !prev)}
+            >
+              <MoreIcon className="text-primary" /> <p>Options</p>
+            </div>
+            <AnimatePresence initial={false}>
+              {venueOptionsOpen && (
+                <div
+                  ref={refMenu}
+                  className="absolute left-0 -bottom-22 shadow-md py-5 px-10 bg-white  rounded-b-lg border-b border-x border-gray-200 z-50"
+                  onMouseLeave={() => setVenueOptionsOpen(false)}
+                >
+                  <ul className="flex flex-col gap-4">
+                    <li
+                      onClick={() =>
+                        setVenueToUpdate ? setVenueToUpdate(venue) : {}
+                      }
+                      className="cursor-pointer flex gap-2 items-center hover:underline text-primary transition-all underline-offset-2 font-medium"
+                    >
+                      <EditIcon /> <p>Edit</p>
+                    </li>
+                    <li
+                      className="cursor-pointer flex gap-2 items-center hover:underline text-primary transition-all underline-offset-2 font-medium"
+                      onClick={() =>
+                        setVenueToDelete ? setVenueToDelete(venue) : {}
+                      }
+                    >
+                      <Crossicon />
+                      <p>Delete</p>
+                    </li>
+                  </ul>
+                </div>
+              )}
+            </AnimatePresence>
           </div>
         ) : (
           <Link
@@ -117,6 +167,13 @@ function VenueCard({
             </div>
           </Link>
         )}
+        <Link
+          to={`/venues/${venue?.id}`}
+          className="flex gap-2 items-center font-medium text-primary hover:underline"
+        >
+          <p>See venue</p>
+          <ArrowIcon />
+        </Link>
       </div>
     </article>
   );
