@@ -20,7 +20,7 @@ import Crossicon from "../../icons/CrossIcon.component";
 import ErrorMessage from "../../messages/ErrorMessage.component";
 import schema from "./validation";
 
-function CreateVenueModal({
+function VenueModal({
   open,
   setOpen,
   venue,
@@ -70,6 +70,7 @@ function CreateVenueModal({
         : await createVenue(requestBody).unwrap();
       console.log(res);
       if (res) {
+        setOpen(false);
         navigate(`/venues/${res.id}`);
       }
     } catch (err) {
@@ -91,7 +92,6 @@ function CreateVenueModal({
         zip: venue.location.zip,
         country: venue.location.country,
       });
-      console.log("venue", venue);
     }
   }, [venue, updateMode]);
 
@@ -317,4 +317,4 @@ function CreateVenueModal({
   );
 }
 
-export default CreateVenueModal;
+export default VenueModal;

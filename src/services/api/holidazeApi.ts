@@ -37,6 +37,7 @@ export const holidazeApi = createApi({
     }),
     getSingleVenue: builder.query<Venue, string>({
       query: (id) => `venues/${id}?_owner=true&_bookings=true`,
+      providesTags: ["venue"],
     }),
     createVenue: builder.mutation<Venue, CreateVenueRequest>({
       query: (body) => ({
@@ -59,6 +60,18 @@ export const holidazeApi = createApi({
         url: `venues/${id}`,
         method: "PUT",
         body,
+      }),
+      invalidatesTags: ["venues", "profile", "venue"],
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      transformErrorResponse: (response: any) => {
+        if (!response.ok) throw new Error(response.data.status);
+        return response.json();
+      },
+    }),
+    deleteVenue: builder.mutation<Venue, string>({
+      query: (id) => ({
+        url: `venues/${id}`,
+        method: "DELETE",
       }),
       invalidatesTags: ["venues", "profile"],
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -115,6 +128,7 @@ export const {
   useGetVenuesQuery,
   useCreateVenueMutation,
   useUpdateVenueMutation,
+  useDeleteVenueMutation,
   useGetSingleVenueQuery,
   useLazyGetSingleVenueQuery,
   useCreateBookingMutation,

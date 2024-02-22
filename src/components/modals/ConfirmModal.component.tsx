@@ -1,6 +1,7 @@
 import { AnimatePresence, motion } from "framer-motion";
 import PrimaryButton from "../buttons/PrimaryButton.component";
 import Crossicon from "../icons/CrossIcon.component";
+import { useEffect } from "react";
 
 function ConfirmModal({
   open,
@@ -13,6 +14,15 @@ function ConfirmModal({
   onConfirm: () => void;
   onCancel: () => void;
 }) {
+  useEffect(() => {
+    // Scroll to top when modal is opened and prevent background from scrolling
+    if (open) {
+      document.body.style.overflow = "hidden";
+    }
+    return () => {
+      document.body.style.overflow = "auto";
+    };
+  }, [open]);
   return (
     <AnimatePresence initial={false}>
       {open && (
@@ -21,7 +31,7 @@ function ConfirmModal({
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
           transition={{ duration: 0.3 }}
-          className=" max-w-[600px] mx-auto absolute p-4 top-1/2 transform -translate-y-1/2 right-0 left-0 z-50 text-center bg-white rounded-lg sm:p-5 border border-gray-200 shadow-md"
+          className=" max-w-[600px] mx-auto fixed p-4 top-1/2 transform -translate-y-1/2 right-0 left-0 z-50 text-center bg-white rounded-lg sm:p-5 border border-gray-200 shadow-md"
         >
           <button
             onClick={onCancel}

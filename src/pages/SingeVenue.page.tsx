@@ -1,45 +1,66 @@
-import Skeleton from "react-loading-skeleton";
-import { useParams } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { useNavigate, useParams } from "react-router-dom";
 import StarRatings from "react-star-ratings";
-import H1 from "../components/common/H1.component";
-import ImageSlider from "../components/imageSlider/ImageSlider.component";
+import ConfirmModal from "../components/modals/ConfirmModal.component";
+import VenueModal from "../components/modals/venue/VenueModal.component";
 import HolidazeTooltip from "../components/tooltip/HolidazeTooltip.component";
 import VenueAccordion from "../components/venue/VenueAccordion.component";
+import VenueAdminPanel from "../components/venue/VenueAdminPanel.component";
 import VenueBookOptions from "../components/venue/VenueBookOptions.component";
 import VenueFooter from "../components/venue/VenueFooter.component";
-import capitalizeFirstLetter from "../formatters/capitalizeFirstLetter";
-import { useGetSingleVenueQuery } from "../services/api/holidazeApi";
+import VenueHeader from "../components/venue/VenueHeader.component";
+import VenueImage from "../components/venue/VenueImage.component";
+import VenuePriceHeader from "../components/venue/VenuePriceHeader.component";
 import useAuth from "../hooks/useAuth";
+import {
+  useDeleteVenueMutation,
+  useGetSingleVenueQuery,
+} from "../services/api/holidazeApi";
+import { Venue } from "../types/types";
 
 function SingleVenuePage() {
   const { id } = useParams();
-  const { isLoggedIn, user } = useAuth();
+  const { user, isLoggedIn } = useAuth();
   const { data: venue, error, isLoading } = useGetSingleVenueQuery(String(id));
+  const [deleteVenue] = useDeleteVenueMutation();
+  const navigate = useNavigate();
+
+  const [venueToUpdate, setVenueToUpdate] = useState<Venue | undefined>(
+    undefined
+  );
+  const [updateVenueModalOpen, setUpdateVenueModalOpen] = useState(false);
+  const [deleteVenueActive, setDeleteVenueActive] = useState(false);
+
+  useEffect(() => {
+    if (venueToUpdate) {
+      setUpdateVenueModalOpen(true);
+    }
+  }, [venueToUpdate]);
 
   if (error) {
     return (
       <div>Error! Could not find the venue requested... Please try again.</div>
     );
   }
+  // TODO: FIX, IF NOT VENUE ID, NAVIGATE TO VENUES
+  if (!isLoading && !venue) {
+    navigate("/venues");
+  }
 
   return (
     <article className="pt-[80px] lg:pt-[120px] pb-8 lg:pb-16 lg:px-6 w-[100vw] lg:w-[900px] mx-auto dark:bg-gray-800 dark:border-gray-700 flex flex-col gap-5">
-      <H1>
-        {isLoading || !venue ? (
-          <Skeleton width={200} height={20} />
-        ) : (
-          capitalizeFirstLetter(venue.name)
-        )}
-      </H1>
+      <VenueHeader venue={venue} isLoading={isLoading} />
 
-      <div className="lg:p-0 px-[5vw] flex justify-between items-center  text-gray-500">
-        {isLoading || !venue ? (
-          <Skeleton width={50} height={20} />
-        ) : (
-          <span className="bg-green-200 text-green-600 font-medium inline-flex items-center px-2.5 py-1 rounded dark:bg-primary-light gap-2">
-            Price per night: <span className="font-bold">$ {venue.price}</span>
-          </span>
-        )}
+      <VenueAdminPanel
+        userIsOwner={
+          !!(venue && isLoggedIn && user?.name === venue?.owner.name)
+        }
+        updateVenue={() => setVenueToUpdate(venue)}
+        deleteVenue={() => setDeleteVenueActive(true)}
+      />
+
+      <div className="lg:p-0 px-[5vw] flex justify-between items-center text-gray-500">
+        <VenuePriceHeader venue={venue} isLoading={isLoading} />
 
         <HolidazeTooltip id="venue-rating" />
         <span
@@ -57,29 +78,34 @@ function SingleVenuePage() {
         </span>
       </div>
 
-      {isLoading || !venue ? (
-        <Skeleton width={"100%"} height={600} />
-      ) : venue.media.length > 0 ? (
-        <ImageSlider
-          images={venue.media}
-          className="lg:rounded"
-          imageClassName="lg:rounded"
-        />
-      ) : (
-        <img
-          src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/1255/image-not-found.svg"
-          alt="Venue"
-          className="max-h-[600px] lg:max-h-[800px] w-full border bg-primary-light rounded"
-        />
-      )}
+      <VenueImage venue={venue} isLoading={isLoading} />
 
       <VenueAccordion venue={venue!} isLoading={isLoading} />
 
-      {user?.name !== venue?.owner.name ? (
+      {user?.name !== venue?.owner.name && (
         <VenueBookOptions venue={venue} isLoading={isLoading} />
-      ): (<>THIS IS YOUR VENUE BRO</>)}
+      )}
 
       <VenueFooter venue={venue} isLoading={isLoading} />
+
+      <ConfirmModal
+        text={
+          "Are you sure you want to delete this venue? This action cannot be undone!"
+        }
+        open={deleteVenueActive}
+        onCancel={() => setDeleteVenueActive(false)}
+        onConfirm={() => {
+          deleteVenue(venue!.id);
+          navigate("/venues");
+        }}
+      />
+
+      <VenueModal
+        setOpen={setUpdateVenueModalOpen}
+        open={updateVenueModalOpen}
+        venue={venueToUpdate}
+        updateMode
+      />
     </article>
   );
 }
