@@ -40,8 +40,7 @@ function SingleVenuePage() {
     if (!isLoading && !venue) {
       navigate("/venues");
     }
-  }
-  , [isLoading, venue]);
+  }, [isLoading, venue]);
 
   return (
     <article className="pt-[80px] lg:pt-[120px] pb-8 lg:pb-16 lg:px-6 w-[100vw] lg:w-[900px] mx-auto dark:bg-gray-800 dark:border-gray-700 flex flex-col gap-5">
@@ -78,9 +77,7 @@ function SingleVenuePage() {
 
       <VenueAccordion venue={venue!} isLoading={isLoading} />
 
-      {user?.name !== venue?.owner.name && (
-        <VenueBookOptions venue={venue} isLoading={isLoading} />
-      )}
+      <VenueBookOptions venue={venue} isLoading={isLoading} />
 
       <VenueFooter venue={venue} isLoading={isLoading} />
 
