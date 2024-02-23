@@ -39,7 +39,7 @@ function VenuesPage() {
   }, [isLoading]);
 
   return (
-    <section className=" pt-[80px] lg:pt-[120px] pb-8 mx-auto xl:max-w-screen-xl lg:pb-16 lg:px-6">
+    <section className=" pt-[80px] lg:pt-[120px] pb-8 mx-auto xl:max-w-screen-xl pb-16 lg:px-6">
       <div className="mx-auto lg:max-w-screen-sm text-center lg:mb-16 mb-8">
         {error ? (
           <p>No venues where found... Please try again!</p>

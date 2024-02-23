@@ -43,7 +43,7 @@ function SingleVenuePage() {
   }, [isLoading, venue]);
 
   return (
-    <article className="pt-[80px] lg:pt-[120px] pb-8 lg:pb-16 lg:px-6 w-[100vw] lg:w-[900px] mx-auto dark:bg-gray-800 dark:border-gray-700 flex flex-col gap-5">
+    <article className="pt-[80px] lg:pt-[120px] pb-20 lg:px-6 w-[100vw] lg:w-[900px] mx-auto dark:bg-gray-800 dark:border-gray-700 flex flex-col gap-5">
       <VenueHeader venue={venue} isLoading={isLoading} />
 
       <VenueAdminPanel

@@ -17,23 +17,24 @@ function VenueFooter({
     <div className="lg:p-0 px-[5vw] flex justify-between items-center">
       <Link
         to={`/venues`}
-        className="inline-flex items-center font-medium text-primary hover:underline"
+        className="inline-flex  gap-2 items-center font-medium text-primary hover:underline"
       >
         <motion.div style={{ rotate: -180 }}>
           <ArrowIcon />
         </motion.div>
         All venues
       </Link>
-      <Link
-        className="cursor-pointer hover:underline underline-offset-2 hover:text-primary group transition-all"
-        to={`/profile/${venue?.owner.name}`}
-      >
-        <div className="flex items-center space-x-2">
+      <div className="flex">
+        <p className="mr-2 hidden lg:block">Posted by:</p>
+
+        <Link
+          className=" group flex items-center space-x-2"
+          to={`/profile/${venue?.owner.name}`}
+        >
           {isLoading ? (
             <Skeleton circle width={28} height={28} />
           ) : (
             <>
-              <p className="mr-2">Posted by:</p>
               {venue?.owner?.avatar ? (
                 <img
                   className="w-7 h-7 rounded-full group-hover:opacity-80 transition-all border-2 group-hover:border-primary border-white"
@@ -46,17 +47,19 @@ function VenueFooter({
             </>
           )}
 
-          <span className="font-medium dark:text-white ">
+          <p className="font-medium dark:text-white transition-all cursor-pointer group-hover:underline underline-offset-2 group-hover:text-primary">
             {isLoading || !venue ? (
               <Skeleton width={100} height={20} />
             ) : (
               capitalizeFirstLetter(venue.owner.name)
             )}
-          </span>
-        </div>
-      </Link>
+          </p>
+        </Link>
+      </div>
     </div>
-  ) : <></>
+  ) : (
+    <></>
+  );
 }
 
 export default VenueFooter;
