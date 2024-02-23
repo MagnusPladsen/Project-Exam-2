@@ -30,6 +30,7 @@ function RegisterForm() {
       console.log(err);
     }
   };
+  
   return (
     <FormProvider {...formMethods}>
       <form onSubmit={handleSubmit(onSubmit)} className="w-full">

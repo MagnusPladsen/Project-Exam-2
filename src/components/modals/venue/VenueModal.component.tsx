@@ -96,7 +96,6 @@ function VenueModal({
   }, [venue, updateMode]);
 
   useEffect(() => {
-    // Scroll to top when modal is opened and prevent background from scrolling
     if (open) {
       document.body.style.overflow = "hidden";
       window.scrollTo(0, 0);

@@ -4,6 +4,7 @@ import {
   Booking,
   CreateBookingRequest,
   CreateVenueRequest,
+  UpdateProfileMediaRequest,
   UpdateVenueManagerStatusRequest,
   User,
   Venue,
@@ -118,6 +119,22 @@ export const holidazeApi = createApi({
         },
       }),
     }),
+    updateProfileMediaStatus: builder.mutation<
+      User,
+      UpdateProfileMediaRequest
+    >({
+      query: ({ avatar, name }) => ({
+        url: `profiles/${name}/media`,
+        method: "PUT",
+        body: { avatar,},
+        invalidatesTags: ["profile"],
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        transformErrorResponse: (response: any) => {
+          if (!response.ok) throw new Error(response.data.status);
+          return response.json();
+        },
+      }),
+    }),
   }),
 });
 
@@ -128,6 +145,7 @@ export const {
   useGetVenuesQuery,
   useCreateVenueMutation,
   useUpdateVenueMutation,
+  useUpdateProfileMediaStatusMutation,
   useDeleteVenueMutation,
   useGetSingleVenueQuery,
   useLazyGetSingleVenueQuery,

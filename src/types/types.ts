@@ -46,6 +46,15 @@ interface UpdateVenueManagerStatusRequest {
   status: boolean;
 }
 
+interface UpdateProfileMediaRequest {
+  name: string;
+  avatar: string;
+}
+
+interface UpdateProfileForm {
+  avatar: string;
+}
+
 interface CreateBookingRequest {
   dateFrom: Date;
   dateTo: Date;
@@ -188,4 +197,6 @@ export type {
   UpdateVenueManagerStatusRequest,
   HolidazeHeaderProps,
   TextAreaProps,
+  UpdateProfileMediaRequest,
+  UpdateProfileForm
 };
