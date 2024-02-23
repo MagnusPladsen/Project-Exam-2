@@ -27,7 +27,7 @@ function ProfilePage() {
   const { user } = useAuth();
   const { data, error, isLoading } = useGetProfileQuery(name!);
 
-  const isProfileLoggedIn = !!user && (name === user.name ?? false);
+  const isProfileLoggedIn = !!user && (name === user.name);
 
   const [updateManagerStatus] = useUpdateVenueManagerStatusMutation();
   const [deleteVenue] = useDeleteVenueMutation();

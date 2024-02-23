@@ -1,19 +1,18 @@
+import { yupResolver } from "@hookform/resolvers/yup";
 import { AnimatePresence, motion } from "framer-motion";
 import { useEffect, useState } from "react";
+import { FormProvider, SubmitHandler, useForm } from "react-hook-form";
+import useAuth from "../../../hooks/useAuth";
 import { useUpdateProfileMediaStatusMutation } from "../../../services/api/holidazeApi";
 import {
-  UpdateProfileForm,
-  UpdateProfileMediaRequest,
+    UpdateProfileForm,
+    UpdateProfileMediaRequest,
 } from "../../../types/types";
-import Input from "../../forms/Input.component";
-import { FormProvider, SubmitHandler, set, useForm } from "react-hook-form";
-import schema from "./validations";
-import { yupResolver } from "@hookform/resolvers/yup";
-import PrimaryButton from "../../buttons/PrimaryButton.component";
-import useAuth from "../../../hooks/useAuth";
 import isImageValid from "../../../utils/isImageValid";
-import Skeleton from "react-loading-skeleton";
-import ErrorMessage from "../../messages/ErrorMessage.component";
+import PrimaryButton from "../../buttons/PrimaryButton.component";
+import SecondaryButton from "../../buttons/SecondaryButton.component";
+import Input from "../../forms/Input.component";
+import schema from "./validations";
 
 function UpdateImageModal({
   open,
@@ -33,25 +32,32 @@ function UpdateImageModal({
     resolver: yupResolver(schema),
   });
 
-  const { handleSubmit, watch, reset } = formMethods;
+  const {
+    handleSubmit,
+    watch,
+    trigger,
+    formState: { errors },
+  } = formMethods;
 
   const onSubmit: SubmitHandler<UpdateProfileForm> = (data) =>
     sendProfileMediaChange(data);
 
-  const [imageIsValid, setImageIsValid] = useState(false);
   const [imageIsUnchanged, setImageIsUnchanged] = useState(
     userImage === watch("avatar")
   );
 
   const sendProfileMediaChange = async (body: UpdateProfileForm) => {
     try {
-      const newBody: UpdateProfileMediaRequest = {
-        name: user!.name,
-        avatar: body.avatar,
-      };
-      await updateProfileMedia(newBody).unwrap();
-      setUserImage(body.avatar);
-      setOpen(false);
+      const imageIsValid = await isImageValid(body.avatar);
+      if (imageIsValid) {
+        const newBody: UpdateProfileMediaRequest = {
+          name: user!.name,
+          avatar: body.avatar,
+        };
+        await updateProfileMedia(newBody).unwrap();
+        setUserImage(body.avatar);
+        setOpen(false);
+      }
     } catch (err) {
       console.log(err);
     }
@@ -60,7 +66,6 @@ function UpdateImageModal({
   useEffect(() => {
     if (open) {
       document.body.style.overflow = "hidden";
-      reset({ avatar: userImage });
     }
     return () => {
       document.body.style.overflow = "auto";
@@ -68,16 +73,13 @@ function UpdateImageModal({
   }, [open]);
 
   useEffect(() => {
-    const fetchImageValidity = async () => {
-      const newImageUrl = watch("avatar");
-      const isValid = await isImageValid(newImageUrl);
-      if (isValid) {
-        setImageIsUnchanged(newImageUrl === userImage);
-        setImageIsValid(true);
-      }
-    };
-    fetchImageValidity();
+    setImageIsUnchanged(watch("avatar") === userImage);
+    trigger("avatar");
   }, [watch("avatar")]);
+
+  console.log(imageIsUnchanged, "imageIsUnchanged");
+  console.log(userImage, "userImage");
+  console.log(errors.avatar?.message, "!errors.avatar?.message");
 
   return (
     <AnimatePresence initial={false}>
@@ -87,42 +89,51 @@ function UpdateImageModal({
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
           transition={{ duration: 0.3 }}
-          className=" max-w-[600px] mx-auto fixed p-4 top-1/2 transform -translate-y-1/2 right-0 left-0 z-50 text-center bg-white rounded-lg sm:p-5 border border-gray-200 shadow-md"
+          className=" w-[100vw] h-[100vh] lg:max-w-[600px] mx-auto fixed p-4 top-1/2 transform -translate-y-1/2 right-0 left-0 z-50 text-center bg-white rounded-lg sm:p-5 border border-gray-200 shadow-md"
         >
           <FormProvider {...formMethods}>
-            <form
-              onSubmit={handleSubmit(onSubmit)}
-              className="w-full flex flex-col gap-4"
-            >
-              {imageIsUnchanged ? (
-                <img
-                  src={userImage}
-                  alt="Profile picture"
-                  className="rounded-full mx-auto"
-                />
-              ) : (
-                <>
-                  {imageIsValid ? (
-                    <img
-                      src={watch("avatar")}
-                      alt="Profile picture"
-                      className="rounded-full mx-auto"
-                    />
-                  ) : (
-                    <>
+            <form onSubmit={handleSubmit(onSubmit)}>
+              <div className="w-full h-full flex flex-col gap-4">
+                {imageIsUnchanged ? (
+                  <img
+                    src={userImage}
+                    alt="Profile picture"
+                    className="rounded-full mx-auto"
+                  />
+                ) : (
+                  <>
+                    {!errors.avatar?.message ? (
                       <img
-                        src={userImage}
+                        src={watch("avatar")}
                         alt="Profile picture"
                         className="rounded-full mx-auto"
                       />
-                    </>
-                  )}
-                </>
-              )}
-              <Input name="avatar" label="Image url" />
-              <PrimaryButton type="submit" className="">
-                Update image
-              </PrimaryButton>
+                    ) : (
+                      <>
+                        <img
+                          src={userImage}
+                          alt="Profile picture"
+                          className="rounded-full mx-auto"
+                        />
+                      </>
+                    )}
+                  </>
+                )}
+
+                <Input
+                  name="avatar"
+                  label="Image url"
+                  placeholder={userImage ?? "https://image.com"}
+                />
+                <div className="flex justify-between">
+                  <SecondaryButton onClick={() => setOpen(false)}>
+                    Cancel
+                  </SecondaryButton>
+                  <PrimaryButton type="submit" className="">
+                    Update image
+                  </PrimaryButton>
+                </div>
+              </div>
             </form>
           </FormProvider>
         </motion.div>
