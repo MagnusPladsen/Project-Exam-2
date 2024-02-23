@@ -1,11 +1,19 @@
 import { ErrorMessage as HookFormErrorMessage } from "@hookform/error-message";
 import ErrorMessage from "./ErrorMessage.component";
+import { FieldErrors, FieldValues } from "react-hook-form";
 
-function FormErrorMessage({ name }: { name: string }) {
+function FormErrorMessage({
+  name,
+  errors,
+}: {
+  name: string;
+  errors: FieldErrors<FieldValues>;
+}) {
   return (
     <HookFormErrorMessage
       name={name}
-      render={({ message }) => <ErrorMessage message={message} />}
+      errors={errors}
+      render={({ message }) => <ErrorMessage show={!!errors[name]} message={message} />}
     />
   );
 }

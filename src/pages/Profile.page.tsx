@@ -5,11 +5,15 @@ import { useParams } from "react-router-dom";
 import PrimaryButton from "../components/buttons/PrimaryButton.component";
 import H1 from "../components/common/H1.component";
 import H2 from "../components/common/H2.component";
+import H3 from "../components/common/H3.component";
 import Toggle from "../components/forms/Toggle.component";
+import EditIcon from "../components/icons/EditIcon.component";
 import ProfileIcon from "../components/icons/Profileicon.component";
 import ConfirmModal from "../components/modals/ConfirmModal.component";
+import UpdateImageModal from "../components/modals/profile/UpdateImageModal.component";
 import VenueModal from "../components/modals/venue/VenueModal.component";
 import VenueCard from "../components/venue/VenueCard.component";
+import formatDate from "../formatters/formatToDate";
 import useAuth from "../hooks/useAuth";
 import {
   useDeleteVenueMutation,
@@ -17,16 +21,15 @@ import {
   useUpdateVenueManagerStatusMutation,
 } from "../services/api/holidazeApi";
 import { UpdateVenueManagerStatusRequest, Venue } from "../types/types";
-import H3 from "../components/common/H3.component";
 
 function ProfilePage() {
   const { name } = useParams();
   const { user } = useAuth();
   const { data, error, isLoading } = useGetProfileQuery(name!);
 
-  const isProfileLoggedIn = !!user && (name === user.name ?? false);
+  const isProfileLoggedIn = !!user && (name === user.name);
 
-  const [updateStatus] = useUpdateVenueManagerStatusMutation();
+  const [updateManagerStatus] = useUpdateVenueManagerStatusMutation();
   const [deleteVenue] = useDeleteVenueMutation();
 
   const [userIsManager, setUserIsManager] = useState(
@@ -37,11 +40,6 @@ function ProfilePage() {
   const [VenueModalOpen, setVenueModalOpen] = useState(false);
   const [updateVenueModalOpen, setUpdateVenueModalOpen] = useState(false);
   const [venuesStepper, setVenuesStepper] = useState(5);
-
-  const showMoreVenues = () => {
-    setVenuesStepper((prev) => prev + prev);
-  };
-
   const [venuesToShow, setVenuesToShow] = useState<Venue[]>([]);
   const [venueToUpdate, setVenueToUpdate] = useState<Venue | undefined>(
     undefined
@@ -50,6 +48,13 @@ function ProfilePage() {
   const [venueToDelete, setVenueToDelete] = useState<Venue | undefined>(
     undefined
   );
+  const [showVenues, setShowVenues] = useState<boolean>(true);
+  const [updateImageModalOpen, setUpdateImageModalOpen] = useState(false);
+  const [userImage, setUserImage] = useState<string | undefined>(data?.avatar);
+
+  const showMoreVenues = () => {
+    setVenuesStepper((prev) => prev + prev);
+  };
 
   const toggleVenueManager = () => {
     setVenueManagerModalOpen(true);
@@ -59,7 +64,7 @@ function ProfilePage() {
     body: UpdateVenueManagerStatusRequest
   ) => {
     try {
-      const res = await updateStatus(body).unwrap();
+      const res = await updateManagerStatus(body).unwrap();
       setUserIsManager(res.venueManager);
       setVenueManagerModalOpen(false);
     } catch (err) {
@@ -98,13 +103,19 @@ function ProfilePage() {
     }
   }, [venueToDelete]);
 
+  useEffect(() => {
+    if (data) {
+      setUserImage(data.avatar);
+    }
+  }, [data]);
+
   return (
     <>
       {data && !error && (
         <article className="pt-[50px] lg:pt-[80px] antialiased bg-gradient-to-b from-primary to-white h-full w-full pb-40 shadow-md">
           <div className="w-full lg:w-[900px] lg:px-4 mx-auto">
             <div className=" relative flex flex-col min-w-0 break-words bg-white w-full mb-6 shadow-xl lg:rounded-lg mt-20 lg:mt-24">
-              <div className="lg:px-6 mb-10">
+              <div className=" mb-10">
                 <div className="flex flex-wrap justify-center">
                   <div className="px-4 flex justify-center">
                     <div className="relative">
@@ -112,28 +123,37 @@ function ProfilePage() {
                         <Skeleton circle width={28} height={28} />
                       ) : (
                         <>
-                          {data.avatar ? (
+                          {userImage ? (
                             <img
-                              src={data.avatar}
+                              src={userImage}
                               alt="Profile picture"
                               className="shadow-xl rounded-full align-middle absolute -my-16 left-1/2 transform -translate-x-1/2 max-w-[150px] h-[150px] border border-white object-cover"
                             />
                           ) : (
                             <ProfileIcon className="shadow-xl rounded-full align-middle absolute -my-16 left-1/2 transform -translate-x-1/2 max-w-[150px] h-[150px] border border-white object-cover bg-white" />
                           )}
+                          <div
+                            onClick={() => setUpdateImageModalOpen(true)}
+                            className=" test mt-24 flex gap-2 items-center group cursor-pointer"
+                          >
+                            <H3 className="!text-gray-400 group-hover:!text-primary group-hover:underline underline-offset-2 transition-all">
+                              Edit image
+                            </H3>
+                            <EditIcon className="!text-gray-400 group-hover:!text-primary transition-all" />
+                          </div>
                         </>
                       )}
                     </div>
                   </div>
                 </div>
-                <div className="text-center mt-28 flex flex-col gap-4">
+                <div className="text-center mt-4 flex flex-col gap-4">
                   <H1 className="!mb-2">{data.name}</H1>
 
                   <div className="flex gap-2 w-fit mx-auto">
                     {isProfileLoggedIn ? (
                       <H2
                         className={`${
-                          userIsManager ? "!text-primary" : "!text-gray-300"
+                          userIsManager ? "!text-primary" : "!text-gray-400"
                         } text-xs  leading-normal mt-1 uppercase`}
                       >
                         Venue Manager
@@ -169,54 +189,116 @@ function ProfilePage() {
                       </div>
                     )}
                   </div>
-                  {isProfileLoggedIn && userIsManager && (
-                    <div className="flex flex-col gap-4 w-full">
-                      <PrimaryButton
-                        onClick={() => setVenueModalOpen(true)}
-                        className="!mx-auto !mb-7"
-                      >
-                        Create venue
-                      </PrimaryButton>
-                    </div>
-                  )}
                 </div>
                 {userIsManager && venuesToShow.length > 0 && (
-                  <div className="mt-4 pt-4 pb-10 border-t border-blueGray-200 text-center w-full">
-                    <H3
-                      className={`!text-primary text-lg mt-4 font-medium  leading-normal mb-4 uppercase`}
-                    >
-                      {isProfileLoggedIn ? "Your venues" : "Venues"}
-                    </H3>
-                    <AnimatePresence initial={false}>
-                      <motion.div
-                        initial={{ opacity: 0, height: 0 }}
-                        animate={{
-                          opacity: 1,
-                          height: "auto",
-                        }}
-                        exit={{ opacity: 0, height: 0 }}
-                        transition={{ duration: 0.3 }}
-                        className="flex text-left flex-col gap-4 lg:max-w-[500px] mx-auto"
+                  <div className="mt-4 pb-10 border-t border-blueGray-200 text-center w-full">
+                    {isProfileLoggedIn ? (
+                      <div className="w-full mb-8 flex gap-5 items-center justify-between">
+                        <H3
+                          onClick={() => setShowVenues(false)}
+                          className={`${
+                            !showVenues
+                              ? "!text-primary bg-primary-light !border-primary"
+                              : "!text-gray-400 !border-white"
+                          } text-lg  font-medium  leading-normal mb-4 uppercase w-full rounded-r-lg rounded-t-none py-5 border border-t-0 border-l-0 cursor-pointer `}
+                        >
+                          Your bookings
+                        </H3>{" "}
+                        <H3
+                          onClick={() => setShowVenues(true)}
+                          className={`${
+                            showVenues
+                              ? "!text-primary bg-primary-light !border-primary"
+                              : "!text-gray-400 !border-white"
+                          } text-lg font-medium leading-normal mb-4 uppercase w-full  rounded-l-lg rounded-t-none py-5 border border-t-0 border-r-0 cursor-pointer`}
+                        >
+                          Your venues
+                        </H3>
+                      </div>
+                    ) : (
+                      <H3
+                        className={`!text-primary text-lg mt-4 font-medium leading-normal mb-4 uppercase`}
                       >
-                        {venuesToShow?.map((venue) => (
-                          <VenueCard
-                            key={venue.id}
-                            venue={venue}
-                            className="!mx-auto"
-                            profilePage
-                            setVenueToUpdate={setVenueToUpdate}
-                            setVenueToDelete={setVenueToDelete}
-                          />
-                        ))}
-                        {data.venues!.length !== venuesToShow.length && (
-                          <PrimaryButton
-                            className="mx-auto"
-                            onClick={showMoreVenues}
-                          >
-                            See more
-                          </PrimaryButton>
-                        )}
-                      </motion.div>
+                        Venues
+                      </H3>
+                    )}
+
+                    <AnimatePresence initial={false}>
+                      {showVenues ? (
+                        <motion.div
+                          initial={{ opacity: 0, height: 0 }}
+                          animate={{
+                            opacity: 1,
+                            height: "auto",
+                          }}
+                          exit={{ opacity: 0, height: 0 }}
+                          transition={{ duration: 0.3 }}
+                          className="flex text-left flex-col gap-4 lg:max-w-[500px] mx-auto"
+                        >
+                          <div className="flex flex-col gap-4 w-full">
+                            <PrimaryButton
+                              onClick={() => setVenueModalOpen(true)}
+                              className="!mx-auto !mb-7"
+                            >
+                              Create venue
+                            </PrimaryButton>
+                          </div>
+                          {venuesToShow?.map((venue) => (
+                            <VenueCard
+                              key={venue.id}
+                              venue={venue}
+                              className="!mx-auto"
+                              profilePage
+                              setVenueToUpdate={setVenueToUpdate}
+                              setVenueToDelete={setVenueToDelete}
+                            />
+                          ))}
+                          {data.venues!.length !== venuesToShow.length && (
+                            <PrimaryButton
+                              className="mx-auto"
+                              onClick={showMoreVenues}
+                            >
+                              See more
+                            </PrimaryButton>
+                          )}
+                        </motion.div>
+                      ) : (
+                        <motion.div
+                          initial={{ opacity: 0, height: 0 }}
+                          animate={{
+                            opacity: 1,
+                            height: "auto",
+                          }}
+                          exit={{ opacity: 0, height: 0 }}
+                          transition={{ duration: 0.3 }}
+                          className="flex text-left flex-col gap-12 lg:max-w-[500px] mx-auto"
+                        >
+                          <h4 className="text-center text-lg font-medium">
+                            Upcoming
+                          </h4>
+                          {data.bookings?.map((booking) => (
+                            <div
+                              key={booking.id}
+                              className="flex flex-col gap-4 w-full items-center justify-center"
+                            >
+                              <h5 className="flex gap-2 items-center text-md text-gray-400">
+                                <p>Booked </p>
+                                <p className="text-black font-bold">
+                                  {formatDate(booking.dateFrom)} -
+                                </p>
+                                <p className="text-black font-bold">
+                                  {formatDate(booking.dateTo)}
+                                </p>
+                              </h5>
+                              <VenueCard
+                                venue={booking.venue}
+                                className="!mx-auto"
+                                profileBookingPage
+                              />
+                            </div>
+                          ))}
+                        </motion.div>
+                      )}
                     </AnimatePresence>
                   </div>
                 )}
@@ -246,6 +328,13 @@ function ProfilePage() {
                 status: !userIsManager,
               })
         }
+      />
+
+      <UpdateImageModal
+        open={updateImageModalOpen}
+        setOpen={setUpdateImageModalOpen}
+        userImage={userImage}
+        setUserImage={setUserImage}
       />
 
       <VenueModal

@@ -14,8 +14,8 @@ function ConfirmModal({
   onConfirm: () => void;
   onCancel: () => void;
 }) {
+
   useEffect(() => {
-    // Scroll to top when modal is opened and prevent background from scrolling
     if (open) {
       document.body.style.overflow = "hidden";
     }
@@ -23,6 +23,7 @@ function ConfirmModal({
       document.body.style.overflow = "auto";
     };
   }, [open]);
+
   return (
     <AnimatePresence initial={false}>
       {open && (

@@ -16,7 +16,7 @@ function HolidazeDatePicker({
       <input
         ref={ref}
         className={`appearance-none border-2 border-gray-100 rounded-lg px-4 py-3 placeholder-gray-300 focus:outline-none focus:ring-2 focus:ring-primary focus:shadow-lg w-full`}
-        placeholder={inputPlaceholder || "Select a date"}
+        placeholder={inputPlaceholder ?? "Select a date"}
       />
     </div>
   );

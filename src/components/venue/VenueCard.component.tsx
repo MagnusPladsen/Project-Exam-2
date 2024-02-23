@@ -19,6 +19,7 @@ function VenueCard({
   isLoading = false,
   className,
   profilePage = false,
+  profileBookingPage = false,
   setVenueToUpdate,
   setVenueToDelete,
 }: {
@@ -26,6 +27,7 @@ function VenueCard({
   isLoading?: boolean;
   className?: string;
   profilePage?: boolean;
+  profileBookingPage?: boolean;
   setVenueToUpdate?: React.Dispatch<React.SetStateAction<Venue | undefined>>;
   setVenueToDelete?: React.Dispatch<React.SetStateAction<Venue | undefined>>;
 }) {
@@ -96,8 +98,15 @@ function VenueCard({
           capitalizeFirstLetter(venue.description)
         )}
       </div>
-      <div className="flex justify-between items-center ">
-        {profilePage ? (
+      <div className="flex justify-between items-center flex-row-reverse">
+        <Link
+          to={`/venues/${venue?.id}`}
+          className="flex gap-2 items-center font-medium text-primary hover:underline fe"
+        >
+          <p>See venue</p>
+          <ArrowIcon />
+        </Link>
+        {profilePage && !profileBookingPage && (
           <div>
             <div
               className=" flex items-center text-primary cursor-pointer hover:underline underline-offset-2 transition-all gap-2 font-medium"
@@ -138,7 +147,8 @@ function VenueCard({
               )}
             </AnimatePresence>
           </div>
-        ) : (
+        )}
+        {!profilePage && !profileBookingPage && (
           <Link
             className="cursor-pointer hover:underline underline-offset-2 hover:text-primary group transition-all"
             to={`/profile/${venue?.owner.name}`}
@@ -170,13 +180,6 @@ function VenueCard({
             </div>
           </Link>
         )}
-        <Link
-          to={`/venues/${venue?.id}`}
-          className="flex gap-2 items-center font-medium text-primary hover:underline"
-        >
-          <p>See venue</p>
-          <ArrowIcon />
-        </Link>
       </div>
     </article>
   );
