@@ -89,7 +89,7 @@ function UpdateImageModal({
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
           transition={{ duration: 0.3 }}
-          className=" w-[100vw] h-[100vh] lg:max-w-[600px] mx-auto fixed p-4 top-1/2 transform -translate-y-1/2 right-0 left-0 z-50 text-center bg-white rounded-lg sm:p-5 border border-gray-200 shadow-md"
+          className=" w-[100vw] h-[100vh] lg:max-w-[600px] mx-auto fixed p-4 top-1/2 transform -translate-y-1/2 right-0 left-0 z-50 text-center bg-white sm:p-5 border border-gray-200 shadow-md"
         >
           <FormProvider {...formMethods}>
             <form onSubmit={handleSubmit(onSubmit)}>
