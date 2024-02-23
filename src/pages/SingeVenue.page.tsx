@@ -21,7 +21,7 @@ import { Venue } from "../types/types";
 function SingleVenuePage() {
   const { id } = useParams();
   const { user, isLoggedIn } = useAuth();
-  const { data: venue, error, isLoading } = useGetSingleVenueQuery(String(id));
+  const { data: venue, isLoading } = useGetSingleVenueQuery(String(id));
   const [deleteVenue] = useDeleteVenueMutation();
   const navigate = useNavigate();
 
@@ -36,16 +36,12 @@ function SingleVenuePage() {
       setUpdateVenueModalOpen(true);
     }
   }, [venueToUpdate]);
-
-  if (error) {
-    return (
-      <div>Error! Could not find the venue requested... Please try again.</div>
-    );
+  useEffect(() => {
+    if (!isLoading && !venue) {
+      navigate("/venues");
+    }
   }
-  // TODO: FIX, IF NOT VENUE ID, NAVIGATE TO VENUES
-  if (!isLoading && !venue) {
-    navigate("/venues");
-  }
+  , [isLoading, venue]);
 
   return (
     <article className="pt-[80px] lg:pt-[120px] pb-8 lg:pb-16 lg:px-6 w-[100vw] lg:w-[900px] mx-auto dark:bg-gray-800 dark:border-gray-700 flex flex-col gap-5">

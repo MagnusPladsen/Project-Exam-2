@@ -32,7 +32,7 @@ function VenueAccordion({
   );
 
   return (
-    <>
+    <div>
       <div
         onClick={() => setDescriptionOpen((prev) => !prev)}
         className="px-[5vw] lg:px-0 flex items-center justify-between w-full py-5 font-medium rtl:text-right text-gray-900 border-b border-gray-200 dark:border-gray-700 dark:text-gray-400 "
@@ -191,7 +191,7 @@ function VenueAccordion({
           </motion.div>
         )}
       </AnimatePresence>
-    </>
+    </div>
   );
 }
 
