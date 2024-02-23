@@ -5,14 +5,15 @@ import { FormProvider, SubmitHandler, useForm } from "react-hook-form";
 import useAuth from "../../../hooks/useAuth";
 import { useUpdateProfileMediaStatusMutation } from "../../../services/api/holidazeApi";
 import {
-    UpdateProfileForm,
-    UpdateProfileMediaRequest,
+  UpdateProfileForm,
+  UpdateProfileMediaRequest,
 } from "../../../types/types";
 import isImageValid from "../../../utils/isImageValid";
 import PrimaryButton from "../../buttons/PrimaryButton.component";
 import SecondaryButton from "../../buttons/SecondaryButton.component";
 import Input from "../../forms/Input.component";
 import schema from "./validations";
+import ErrorMessage from "../../messages/ErrorMessage.component";
 
 function UpdateImageModal({
   open,
@@ -25,7 +26,7 @@ function UpdateImageModal({
   userImage: string | undefined;
   setUserImage: (userImage: string) => void;
 }) {
-  const [updateProfileMedia] = useUpdateProfileMediaStatusMutation();
+  const [updateProfileMedia, { error }] = useUpdateProfileMediaStatusMutation();
   const { user } = useAuth();
 
   const formMethods = useForm<UpdateProfileForm>({
@@ -45,6 +46,9 @@ function UpdateImageModal({
   const [imageIsUnchanged, setImageIsUnchanged] = useState(
     userImage === watch("avatar")
   );
+  const [errorMessage, setErrorMessage] = useState<string>(
+    "Something went wrong. Please try again!"
+  );
 
   const sendProfileMediaChange = async (body: UpdateProfileForm) => {
     try {
@@ -59,6 +63,7 @@ function UpdateImageModal({
         setOpen(false);
       }
     } catch (err) {
+      setErrorMessage((err as Error).message);
       console.log(err);
     }
   };
@@ -76,10 +81,6 @@ function UpdateImageModal({
     setImageIsUnchanged(watch("avatar") === userImage);
     trigger("avatar");
   }, [watch("avatar")]);
-
-  console.log(imageIsUnchanged, "imageIsUnchanged");
-  console.log(userImage, "userImage");
-  console.log(errors.avatar?.message, "!errors.avatar?.message");
 
   return (
     <AnimatePresence initial={false}>
@@ -133,6 +134,7 @@ function UpdateImageModal({
                     Update image
                   </PrimaryButton>
                 </div>
+                <ErrorMessage message={errorMessage} show={!!error} />
               </div>
             </form>
           </FormProvider>

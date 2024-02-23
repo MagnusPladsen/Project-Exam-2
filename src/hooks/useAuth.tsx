@@ -8,9 +8,11 @@ import {
 } from "../redux/slices/authSlice";
 import { useLazyGetProfileQuery } from "../services/api/holidazeApi";
 import { User } from "../types/types";
+import { useNavigate } from "react-router-dom";
 
 function useAuth() {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const token = useSelector(selectToken);
   const oldUser = useSelector(selectCurrentUser);
@@ -24,6 +26,7 @@ function useAuth() {
 
   const logOut = () => {
     dispatch(removeCredentials());
+    navigate("/login");
   };
 
   const isLoggedIn = !!token && !!oldUser;
