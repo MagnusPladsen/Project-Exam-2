@@ -8,6 +8,7 @@ import Input from "../Input.component";
 import schema from "./validation";
 import { LoginRequest } from "../../../types/types";
 import { useNavigate } from "react-router-dom";
+import { useState } from "react";
 
 function LoginForm() {
   const navigate = useNavigate();
@@ -23,12 +24,17 @@ function LoginForm() {
 
   const [login, { error }] = useLoginMutation();
 
+  const [errorMessage, setErrorMessage] = useState(
+    "Something went wrong. Please try again!"
+  );
+
   const submitForm = async (data: LoginRequest) => {
     try {
       const res = await login(data).unwrap();
       saveUser(res);
       navigate("/venues");
     } catch (err) {
+      setErrorMessage((err as Error).message);
       console.log(err);
     }
   };
@@ -43,7 +49,7 @@ function LoginForm() {
           <PrimaryButton type="submit" className="w-full">
             Log in
           </PrimaryButton>
-          <ErrorMessage show={!!error} />
+          <ErrorMessage message={errorMessage} show={!!error} />
         </div>
       </form>
     </FormProvider>

@@ -1,6 +1,6 @@
 import { yupResolver } from "@hookform/resolvers/yup";
 import { AnimatePresence, motion } from "framer-motion";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { FormProvider, SubmitHandler, useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import sanitizeUrl from "../../../formatters/sanitizeUrl";
@@ -35,6 +35,10 @@ function VenueModal({
   const { isMobile } = useIsMobile();
   const [createVenue, { error: createError }] = useCreateVenueMutation();
   const [updateVenue, { error: updateError }] = useUpdateVenueMutation();
+
+  const [errorMessage, setErrorMessage] = useState<string>(
+    "Something went wrong. Please try again!"
+  );
 
   const formMethods = useForm<CreateVenue>({
     resolver: yupResolver(schema),
@@ -74,6 +78,7 @@ function VenueModal({
         navigate(`/venues/${res.id}`);
       }
     } catch (err) {
+      setErrorMessage((err as Error).message);
       console.log(err);
     }
   };
@@ -305,7 +310,7 @@ function VenueModal({
                 <ErrorMessage
                   show={!!(createError ?? updateError)}
                   className="mt-4 fixed bottom-36 z-50 lg:left-1/2 lg:-translate-x-1/2 lg:transform lg:w-[80%]"
-                  message="Something went wrong, please try again!"
+                  message={errorMessage}
                 />
               </form>
             </div>

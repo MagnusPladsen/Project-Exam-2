@@ -21,13 +21,14 @@ import {
   useUpdateVenueManagerStatusMutation,
 } from "../services/api/holidazeApi";
 import { UpdateVenueManagerStatusRequest, Venue } from "../types/types";
+import ErrorMessage from "../components/messages/ErrorMessage.component";
 
 function ProfilePage() {
   const { name } = useParams();
   const { user } = useAuth();
   const { data, error, isLoading } = useGetProfileQuery(name!);
 
-  const isProfileLoggedIn = !!user && (name === user.name);
+  const isProfileLoggedIn = !!user && name === user.name;
 
   const [updateManagerStatus] = useUpdateVenueManagerStatusMutation();
   const [deleteVenue] = useDeleteVenueMutation();
@@ -51,6 +52,9 @@ function ProfilePage() {
   const [showVenues, setShowVenues] = useState<boolean>(true);
   const [updateImageModalOpen, setUpdateImageModalOpen] = useState(false);
   const [userImage, setUserImage] = useState<string | undefined>(data?.avatar);
+  const [errorMessage, setErrorMessage] = useState<string>(
+    "Something went wrong. Please try again!"
+  );
 
   const showMoreVenues = () => {
     setVenuesStepper((prev) => prev + prev);
@@ -68,6 +72,7 @@ function ProfilePage() {
       setUserIsManager(res.venueManager);
       setVenueManagerModalOpen(false);
     } catch (err) {
+      setErrorMessage((err as Error).message);
       console.log(err);
     }
   };
@@ -307,7 +312,11 @@ function ProfilePage() {
           </div>
         </article>
       )}
-
+      <ErrorMessage
+        show={!!error}
+        className="mt-4 fixed bottom-36 z-50 left-1/2 -translate-x-1/2 !transform whitespace-nowrap"
+        message={errorMessage}
+      />
       <ConfirmModal
         text={
           deleteVenueActive

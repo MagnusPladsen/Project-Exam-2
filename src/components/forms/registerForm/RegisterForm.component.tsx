@@ -8,6 +8,7 @@ import PrimaryButton from "../../buttons/PrimaryButton.component";
 import ErrorMessage from "../../messages/ErrorMessage.component";
 import Input from "../Input.component";
 import schema from "./validation";
+import { useState } from "react";
 
 function RegisterForm() {
   const { saveUser } = useAuth();
@@ -22,15 +23,20 @@ function RegisterForm() {
 
   const [register, { error }] = useRegisterMutation();
 
+  const [errorMessage, setErrorMessage] = useState<string>(
+    "Something went wrong. Please try again!"
+  );
+
   const submitForm = async (data: RegisterRequest) => {
     try {
       const res = await register(data).unwrap();
       saveUser(res);
     } catch (err) {
+      setErrorMessage((err as Error).message);
       console.log(err);
     }
   };
-  
+
   return (
     <FormProvider {...formMethods}>
       <form onSubmit={handleSubmit(onSubmit)} className="w-full">
@@ -54,7 +60,7 @@ function RegisterForm() {
           <PrimaryButton type="submit" className="w-full">
             Register
           </PrimaryButton>
-          <ErrorMessage show={!!error} />
+          <ErrorMessage message={errorMessage} show={!!error} />
         </div>
       </form>
     </FormProvider>
