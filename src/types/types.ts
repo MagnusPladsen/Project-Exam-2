@@ -176,6 +176,15 @@ interface HolidazeHeaderProps extends React.HTMLAttributes<HTMLHeadingElement> {
   className?: string;
 }
 
+interface SearchVenue {
+  searchString: string;
+}
+
+enum SortOrder {
+  Ascending = "asc",
+  Descending = "desc",
+}
+
 export type {
   NavigationLink,
   Customer,
@@ -198,5 +207,8 @@ export type {
   HolidazeHeaderProps,
   TextAreaProps,
   UpdateProfileMediaRequest,
-  UpdateProfileForm
+  UpdateProfileForm,
+  SearchVenue,
 };
+
+export { SortOrder };

@@ -4,6 +4,7 @@ import {
   Booking,
   CreateBookingRequest,
   CreateVenueRequest,
+  SortOrder,
   UpdateProfileMediaRequest,
   UpdateVenueManagerStatusRequest,
   User,
@@ -31,9 +32,12 @@ export const holidazeApi = createApi({
       query: () => "venues/?_owner=true&_bookings=true&sort=created",
       providesTags: ["venues"],
     }),
-    getVenues: builder.query<Venue[], { limit: number; offset: number }>({
-      query: ({ limit, offset }) =>
-        `venues/?limit=${limit}&offset=${offset}&_owner=true&_bookings=true&sort=created`,
+    getVenues: builder.query<
+      Venue[],
+      { limit: number; offset: number; sortOrder: SortOrder }
+    >({
+      query: ({ limit, offset, sortOrder }) =>
+        `venues/?limit=${limit}&offset=${offset}&_owner=true&_bookings=true&sort=created&sortOrder=${sortOrder}`,
       providesTags: ["venues"],
     }),
     getSingleVenue: builder.query<Venue, string>({
@@ -119,22 +123,21 @@ export const holidazeApi = createApi({
         },
       }),
     }),
-    updateProfileMediaStatus: builder.mutation<
-      User,
-      UpdateProfileMediaRequest
-    >({
-      query: ({ avatar, name }) => ({
-        url: `profiles/${name}/media`,
-        method: "PUT",
-        body: { avatar,},
-        invalidatesTags: ["profile"],
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        transformErrorResponse: (response: any) => {
-          if (!response.ok) throw new Error(response.data.status);
-          return response.json();
-        },
-      }),
-    }),
+    updateProfileMediaStatus: builder.mutation<User, UpdateProfileMediaRequest>(
+      {
+        query: ({ avatar, name }) => ({
+          url: `profiles/${name}/media`,
+          method: "PUT",
+          body: { avatar },
+          invalidatesTags: ["profile"],
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any
+          transformErrorResponse: (response: any) => {
+            if (!response.ok) throw new Error(response.data.status);
+            return response.json();
+          },
+        }),
+      }
+    ),
   }),
 });
 
@@ -143,6 +146,7 @@ export const holidazeApi = createApi({
 export const {
   useGetLatestVenuesQuery,
   useGetVenuesQuery,
+  useLazyGetVenuesQuery,
   useCreateVenueMutation,
   useUpdateVenueMutation,
   useUpdateProfileMediaStatusMutation,
