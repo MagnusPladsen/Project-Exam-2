@@ -52,6 +52,7 @@ function UpdateImageModal({
 
   const sendProfileMediaChange = async (body: UpdateProfileForm) => {
     try {
+      console.log("SAVE IMAGE")
       const imageIsValid = await isImageValid(body.avatar);
       if (imageIsValid) {
         const newBody: UpdateProfileMediaRequest = {
@@ -127,7 +128,7 @@ function UpdateImageModal({
                   placeholder={userImage ?? "https://image.com"}
                 />
                 <div className="flex justify-between">
-                  <SecondaryButton onClick={() => setOpen(false)}>
+                  <SecondaryButton type="button" onClick={() => setOpen(false)}>
                     Cancel
                   </SecondaryButton>
                   <PrimaryButton type="submit" className="">
