@@ -63,7 +63,7 @@ function VenueCard({
           <span
             data-tooltip-id="price-per-night"
             data-tooltip-content={`Price per night: $ ${venue.price}`}
-            className="font-bold bg-green-200 text-green-600 text-xs inline-flex items-center px-2.5 py-1 rounded dark:bg-primary-light gap-2"
+            className="font-bold bg-green-200 text-green-600 text-xs inline-flex items-center px-2.5 py-1 rounded gap-2"
           >
             $ {venue.price}
           </span>
@@ -84,14 +84,14 @@ function VenueCard({
           />
         </span>
       </div>
-      <H2 className="mb-2 text-xl font-bold tracking-tight text-gray-900 dark:text-white truncate text-ellipsis">
+      <H2 className="mb-2 text-xl font-bold tracking-tight text-gray-900  truncate text-ellipsis">
         {isLoading || !venue ? (
           <Skeleton width={200} height={20} />
         ) : (
           <span>{capitalizeFirstLetter(venue.name)}</span>
         )}
       </H2>
-      <div className="mb-5 h-[calc(1rem*3)] font-light text-gray-500 dark:text-gray-400 line-clamp-3">
+      <div className="mb-5 h-[calc(1rem*3)] font-light text-gray-500 line-clamp-3">
         {isLoading || !venue ? (
           <Skeleton width={300} height={20} />
         ) : (
@@ -170,7 +170,7 @@ function VenueCard({
                 </>
               )}
 
-              <span className="font-medium dark:text-white ">
+              <span className="font-medium ">
                 {isLoading || !venue ? (
                   <Skeleton width={100} height={20} />
                 ) : (

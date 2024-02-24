@@ -18,7 +18,7 @@ function ErrorMessage({
           animate={{ opacity: 1, y: 0 }}
           exit={{ opacity: 0, y: 20 }}
           transition={{ duration: 0.3 }}
-          className={`${className} flex items-center p-4 mb-4 text-sm text-red-500 border border-red-500 rounded-lg bg-red-50 dark:bg-gray-800 text-left`}
+          className={`${className} flex items-center p-4 mb-4 text-sm text-red-500 border border-red-500 rounded-lg bg-red-50 text-left`}
           role="alert"
         >
           <ErrorIcon className="" />

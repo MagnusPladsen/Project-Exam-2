@@ -1,7 +1,7 @@
 function ProfileIcon({ className }: { className?: string }) {
   return (
     <svg
-      className={`${className} mb-2 text-gray-500 dark:text-gray-400 group-hover:text-primary dark:group-hover:text-blue-500`}
+      className={`${className} mb-2 text-gray-500 group-hover:text-primary `}
       aria-hidden="true"
       xmlns="http://www.w3.org/2000/svg"
       fill="currentColor"

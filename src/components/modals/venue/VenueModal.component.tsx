@@ -125,7 +125,7 @@ function VenueModal({
             aria-hidden="true"
             className="absolute top-0 lg:top-[100px] left-0 lg:left-1/2 lg:-translate-x-1/2 lg:transform w-full lg:max-w-md z-40"
           >
-            <div className="relative overflow-y-scroll lg:mt-0 bg-white lg:rounded-lg border border-gray-200 lg:shadow-md dark:bg-gray-700 h-[calc(100vh-64px)] lg:h-[80vh] ">
+            <div className="relative overflow-y-scroll lg:mt-0 bg-white lg:rounded-lg border border-gray-200 lg:shadow-md h-[calc(100vh-64px)] lg:h-[80vh] ">
               <div className="fixed bg-white lg:shadow flex items-center justify-between p-4 border-b lg:rounded-t w-full border-gray-200">
                 <h3 className="text-lg font-semibold text-gray-900 ">
                   {updateMode ? "Update booking" : "Create new booking"}
@@ -133,7 +133,7 @@ function VenueModal({
                 <button
                   onClick={() => setOpen(false)}
                   type="button"
-                  className="hover:text-primary text-gray-400 bg-transparent hover:bg-gray-200 rounded-lg hover:border hover:border-primary text-sm w-8 h-8 ms-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white transition-all"
+                  className="hover:text-primary text-gray-400 bg-transparent hover:bg-gray-200 rounded-lg hover:border hover:border-primary text-sm w-8 h-8 ms-auto inline-flex justify-center items-center transition-all"
                   data-modal-toggle="crud-modal"
                 >
                   <Crossicon />

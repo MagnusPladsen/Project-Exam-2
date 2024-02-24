@@ -80,7 +80,7 @@ function MobileNav() {
           {isLoggedIn ? (
             <div
               onClick={() => setOpen((prev) => !prev)}
-              className="inline-flex flex-col items-center justify-center px-5 hover:bg-gray-50 dark:hover:bg-gray-800 group"
+              className="inline-flex flex-col items-center justify-center px-5 hover:bg-gray-50  group"
             >
               {user?.avatar ? (
                 <img
@@ -91,12 +91,12 @@ function MobileNav() {
                   alt="Profile picture"
                 />
               ) : (
-                <ProfileIcon className="w-5 h-5 mb-2 text-gray-500 dark:text-gray-400 group-hover:text-primary dark:group-hover:text-blue-500" />
+                <ProfileIcon className="w-5 h-5 mb-2 text-gray-500  group-hover:text-primary" />
               )}
               <span
                 className={`${
                   isOnProfileRoute && "text-primary"
-                } text-sm text-gray-500 dark:text-gray-400 group-hover:text-primary dark:group-hover:text-blue-500 flex gap-2 items-center `}
+                } text-sm text-gray-500 group-hover:text-primary flex gap-2 items-center `}
               >
                 {isLoggedIn ? user?.name : "Profile"}
                 <motion.div
@@ -119,8 +119,8 @@ function MobileNav() {
                   : navLinkStyles
               }
             >
-              <ProfileIcon className="w-5 h-5 mb-2 text-gray-500 dark:text-gray-400 group-hover:text-primary dark:group-hover:text-blue-500" />
-              <span className="text-sm text-gray-500 dark:text-gray-400 group-hover:text-primary dark:group-hover:text-blue-500">
+              <ProfileIcon className="w-5 h-5 mb-2 text-gray-500  group-hover:text-primary " />
+              <span className="text-sm text-gray-500  group-hover:text-primary ">
                 Log in
               </span>
             </NavLink>

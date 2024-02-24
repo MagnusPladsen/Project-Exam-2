@@ -47,7 +47,7 @@ function VenueFooter({
             </>
           )}
 
-          <p className="font-medium dark:text-white transition-all cursor-pointer group-hover:underline underline-offset-2 group-hover:text-primary">
+          <p className="font-medium  transition-all cursor-pointer group-hover:underline underline-offset-2 group-hover:text-primary">
             {isLoading || !venue ? (
               <Skeleton width={100} height={20} />
             ) : (

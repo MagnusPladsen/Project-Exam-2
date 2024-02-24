@@ -34,5 +34,5 @@ export default {
       },
     },
   },
-  plugins: [require("flowbite/plugin", "@tailwindcss/line-clamp")],
+  plugins: ["@tailwindcss/line-clamp"],
 };
