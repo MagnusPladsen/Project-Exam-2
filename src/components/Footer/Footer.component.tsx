@@ -1,7 +1,11 @@
-import { Link } from "react-router-dom";
+import { Link, NavLink } from "react-router-dom";
 import Logo from "../logo/Logo.component";
+import useAuth from "../../hooks/useAuth";
 
 function Footer() {
+  const { isLoggedIn, user } = useAuth();
+
+  const linkStyles = "hover:underline me-4 md:me-6";
   return (
     <footer className="bg-primary mt-10 hidden lg:block">
       <div className="w-full max-w-screen-xl mx-auto p-4 md:py-8">
@@ -14,30 +18,76 @@ function Footer() {
           </Link>
           <ul className="flex flex-wrap items-center mb-6 text-sm font-medium text-white sm:mb-0 ">
             <li>
-              <Link to="/" className="hover:underline me-4 md:me-6">
+              <NavLink
+                to="/"
+                className={({ isActive }) =>
+                  isActive
+                    ? `underline underline-offset-4 ${linkStyles}`
+                    : linkStyles
+                }
+              >
                 Home
-              </Link>
+              </NavLink>
             </li>
             <li>
-              <Link to="/venues" className="hover:underline me-4 md:me-6">
+              <NavLink
+                to="/venues"
+                className={({ isActive }) =>
+                  isActive
+                    ? `underline underline-offset-4 ${linkStyles}`
+                    : linkStyles
+                }
+              >
                 Venues
-              </Link>
+              </NavLink>
             </li>
             <li>
-              <Link to="/about" className="hover:underline me-4 md:me-6">
+              <NavLink
+                to="/about"
+                className={({ isActive }) =>
+                  isActive
+                    ? `underline underline-offset-4 ${linkStyles}`
+                    : linkStyles
+                }
+              >
                 About
-              </Link>
+              </NavLink>
             </li>
             <li>
-              <Link to="/contact" className="hover:underline me-4 md:me-6">
+              <NavLink
+                to="/contact"
+                className={({ isActive }) =>
+                  isActive
+                    ? `underline underline-offset-4 ${linkStyles}`
+                    : linkStyles
+                }
+              >
                 Contact
-              </Link>
+              </NavLink>
             </li>
-            <li>
-              <Link to="/login" className="hover:underline ">
-                Log in
-              </Link>
-            </li>
+            {!isLoggedIn ? (
+              <li>
+                <NavLink
+                  to="/login"
+                  className={({ isActive }) =>
+                    isActive ? "underline underline-offset-4" : ""
+                  }
+                >
+                  Log in
+                </NavLink>
+              </li>
+            ) : (
+              <li>
+                <NavLink
+                  to={`/profile/${user?.name}`}
+                  className={({ isActive }) =>
+                    isActive ? "underline underline-offset-4" : ""
+                  }
+                >
+                  My profile
+                </NavLink>
+              </li>
+            )}
           </ul>
         </div>
         <hr className="my-6 border-gray-200 sm:mx-auto lg:my-8" />
