@@ -179,14 +179,18 @@ function ProfilePage() {
                   </div>
                   <div className="flex gap-10 w-fit mx-auto mb-6">
                     <div className="text-xs flex flex-col gap-2">
-                      <p>{isProfileSameAsLoggedIn ? "Your bookings" : "Bookings"}</p>
+                      <p>
+                        {isProfileSameAsLoggedIn ? "Your bookings" : "Bookings"}
+                      </p>
                       <p className="font-bold text-2xl">
                         {data._count?.bookings}
                       </p>
                     </div>
                     {userIsManager && (
                       <div className="text-xs flex flex-col gap-2">
-                        <p>{isProfileSameAsLoggedIn ? "Your venues" : "Venues"}</p>
+                        <p>
+                          {isProfileSameAsLoggedIn ? "Your venues" : "Venues"}
+                        </p>
                         <p className="font-bold text-2xl">
                           {data._count?.venues}
                         </p>
@@ -201,22 +205,22 @@ function ProfilePage() {
                         <H3
                           onClick={() => setShowVenues(false)}
                           className={`${
-                            !showVenues
-                              ? "!text-primary bg-primary-light !border-primary"
-                              : "!text-gray-400 !border-white"
+                            showVenues
+                              ? "!text-gray-400 bg-gray-50 !border-gray-200 hover:!text-primary hover:bg-primary-light hover:!border-primary"
+                              : "!text-primary !border-white"
                           } text-lg  font-medium  leading-normal mb-4 uppercase w-full rounded-r-lg rounded-t-none py-5 border border-t-0 border-l-0 cursor-pointer `}
                         >
-                          Your bookings
+                          My bookings
                         </H3>{" "}
                         <H3
                           onClick={() => setShowVenues(true)}
                           className={`${
-                            showVenues
-                              ? "!text-primary bg-primary-light !border-primary"
-                              : "!text-gray-400 !border-white"
+                            !showVenues
+                              ? "!text-gray-400 bg-gray-50 !border-gray-200 hover:!text-primary hover:bg-primary-light hover:!border-primary"
+                              : "!text-primary !border-white"
                           } text-lg font-medium leading-normal mb-4 uppercase w-full  rounded-l-lg rounded-t-none py-5 border border-t-0 border-r-0 cursor-pointer`}
                         >
-                          Your venues
+                          My venues
                         </H3>
                       </div>
                     ) : (
@@ -311,31 +315,32 @@ function ProfilePage() {
           </div>
         </article>
       )}
+
       <ErrorMessage
         show={!!error}
         className="mt-4 fixed bottom-36 z-50 left-1/2 -translate-x-1/2 !transform whitespace-nowrap"
         message={errorMessage}
       />
+
+      <ConfirmModal
+        text={toggleVenueManagerText()}
+        open={venueManagerModalOpen}
+        onCancel={() => setVenueManagerModalOpen(false)}
+        onConfirm={() =>
+          sendVenueManagerChange({
+            name: data!.name,
+            status: !userIsManager,
+          })
+        }
+      />
+
       <ConfirmModal
         text={
-          deleteVenueActive
-            ? "Are you sure you want to delete this venue? This action cannot be undone!"
-            : toggleVenueManagerText()
+          "Are you sure you want to delete this venue? This action cannot be undone!"
         }
-        open={deleteVenueActive || venueManagerModalOpen}
-        onCancel={() =>
-          deleteVenueActive
-            ? setDeleteVenueActive(false)
-            : setVenueManagerModalOpen(false)
-        }
-        onConfirm={() =>
-          deleteVenueActive
-            ? deleteVenue(venueToDelete!.id)
-            : sendVenueManagerChange({
-                name: data!.name,
-                status: !userIsManager,
-              })
-        }
+        open={deleteVenueActive}
+        onCancel={() => setDeleteVenueActive(false)}
+        onConfirm={() => deleteVenue(venueToDelete!.id)}
       />
 
       <UpdateImageModal

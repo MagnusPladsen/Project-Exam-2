@@ -85,7 +85,10 @@ function SingleVenuePage() {
 
       <VenueBookOptions venue={venue} isLoading={isLoading} />
 
-      <VenueAdminBookings loggedInUserIsOwner={loggedInUserIsOwner} venue={venue} />
+      <VenueAdminBookings
+        loggedInUserIsOwner={loggedInUserIsOwner}
+        venue={venue}
+      />
 
       <VenueFooter venue={venue} isLoading={isLoading} />
 
