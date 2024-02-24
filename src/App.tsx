@@ -8,6 +8,7 @@ import VenuesPage from "./pages/Venues.page";
 import ProfilePage from "./pages/Profile.page";
 import SingleVenuePage from "./pages/SingeVenue.page";
 import ScrollToTop from "./utils/ScrollToTop";
+import NotFoundPage from "./pages/NotFound.page";
 
 function App() {
   return (
@@ -24,6 +25,9 @@ function App() {
 
             {/* Routes that require authentication */}
             <Route path="profile/:name" element={<ProfilePage />} />
+
+            {/* Catch-all route for unknown paths */}
+            <Route path="*" element={<NotFoundPage />} />
           </Route>
         </Routes>
       </AuthRoute>
