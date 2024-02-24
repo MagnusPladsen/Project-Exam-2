@@ -28,7 +28,7 @@ function ProfilePage() {
   const { user } = useAuth();
   const { data, error, isLoading } = useGetProfileQuery(name!);
 
-  const isProfileLoggedIn = !!user && name === user.name;
+  const isProfileSameAsLoggedIn = !!user && name === user.name;
 
   const [updateManagerStatus] = useUpdateVenueManagerStatusMutation();
   const [deleteVenue] = useDeleteVenueMutation();
@@ -155,7 +155,7 @@ function ProfilePage() {
                   <H1 className="!mb-2">{data.name}</H1>
 
                   <div className="flex gap-2 w-fit mx-auto">
-                    {isProfileLoggedIn ? (
+                    {isProfileSameAsLoggedIn ? (
                       <H2
                         className={`${
                           userIsManager ? "!text-primary" : "!text-gray-400"
@@ -171,7 +171,7 @@ function ProfilePage() {
                       </H2>
                     )}
 
-                    {isProfileLoggedIn && (
+                    {isProfileSameAsLoggedIn && (
                       <Toggle
                         onChange={toggleVenueManager}
                         value={userIsManager!}
@@ -180,14 +180,14 @@ function ProfilePage() {
                   </div>
                   <div className="flex gap-10 w-fit mx-auto mb-6">
                     <div className="text-xs flex flex-col gap-2">
-                      <p>{isProfileLoggedIn ? "Your bookings" : "Bookings"}</p>
+                      <p>{isProfileSameAsLoggedIn ? "Your bookings" : "Bookings"}</p>
                       <p className="font-bold text-2xl">
                         {data._count?.bookings}
                       </p>
                     </div>
                     {userIsManager && (
                       <div className="text-xs flex flex-col gap-2">
-                        <p>{isProfileLoggedIn ? "Your venues" : "Venues"}</p>
+                        <p>{isProfileSameAsLoggedIn ? "Your venues" : "Venues"}</p>
                         <p className="font-bold text-2xl">
                           {data._count?.venues}
                         </p>
@@ -197,7 +197,7 @@ function ProfilePage() {
                 </div>
                 {userIsManager && venuesToShow.length > 0 && (
                   <div className="mt-4 pb-10 border-t border-blueGray-200 text-center w-full">
-                    {isProfileLoggedIn ? (
+                    {isProfileSameAsLoggedIn ? (
                       <div className="w-full mb-8 flex gap-5 items-center justify-between">
                         <H3
                           onClick={() => setShowVenues(false)}

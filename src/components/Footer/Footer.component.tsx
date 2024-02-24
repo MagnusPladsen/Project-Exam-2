@@ -14,13 +14,28 @@ function Footer() {
           </Link>
           <ul className="flex flex-wrap items-center mb-6 text-sm font-medium text-white sm:mb-0 ">
             <li>
+              <Link to="/" className="hover:underline me-4 md:me-6">
+                Home
+              </Link>
+            </li>
+            <li>
+              <Link to="/venues" className="hover:underline me-4 md:me-6">
+                Venues
+              </Link>
+            </li>
+            <li>
               <Link to="/about" className="hover:underline me-4 md:me-6">
                 About
               </Link>
             </li>
             <li>
-              <Link to="/contact" className="hover:underline">
+              <Link to="/contact" className="hover:underline me-4 md:me-6">
                 Contact
+              </Link>
+            </li>
+            <li>
+              <Link to="/login" className="hover:underline ">
+                Log in
               </Link>
             </li>
           </ul>

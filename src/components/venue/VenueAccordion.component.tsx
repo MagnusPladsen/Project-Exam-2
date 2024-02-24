@@ -15,7 +15,7 @@ function VenueAccordion({
   venue,
   isLoading,
 }: {
-  venue: Venue;
+  venue: Venue | undefined;
   isLoading: boolean;
 }) {
   const [descriptionOpen, setDescriptionOpen] = useState<boolean>(true);

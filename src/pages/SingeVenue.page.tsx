@@ -17,6 +17,7 @@ import {
   useGetSingleVenueQuery,
 } from "../services/api/holidazeApi";
 import { Venue } from "../types/types";
+import VenueAdminBookings from "../components/venue/VenueAdminBookings.component";
 
 function SingleVenuePage() {
   const { id } = useParams();
@@ -31,11 +32,18 @@ function SingleVenuePage() {
   const [updateVenueModalOpen, setUpdateVenueModalOpen] = useState(false);
   const [deleteVenueActive, setDeleteVenueActive] = useState(false);
 
+  const loggedInUserIsOwner = !!(
+    venue &&
+    isLoggedIn &&
+    user?.name === venue?.owner.name
+  );
+
   useEffect(() => {
     if (venueToUpdate) {
       setUpdateVenueModalOpen(true);
     }
   }, [venueToUpdate]);
+
   useEffect(() => {
     if (!isLoading && !venue) {
       navigate("/venues");
@@ -47,9 +55,7 @@ function SingleVenuePage() {
       <VenueHeader venue={venue} isLoading={isLoading} />
 
       <VenueAdminPanel
-        userIsOwner={
-          !!(venue && isLoggedIn && user?.name === venue?.owner.name)
-        }
+        loggedInUserIsOwner={loggedInUserIsOwner}
         updateVenue={() => setVenueToUpdate(venue)}
         deleteVenue={() => setDeleteVenueActive(true)}
       />
@@ -75,9 +81,11 @@ function SingleVenuePage() {
 
       <VenueImage venue={venue} isLoading={isLoading} />
 
-      <VenueAccordion venue={venue!} isLoading={isLoading} />
+      <VenueAccordion venue={venue} isLoading={isLoading} />
 
       <VenueBookOptions venue={venue} isLoading={isLoading} />
+
+      <VenueAdminBookings loggedInUserIsOwner={loggedInUserIsOwner} venue={venue} />
 
       <VenueFooter venue={venue} isLoading={isLoading} />
 
