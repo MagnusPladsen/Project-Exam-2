@@ -48,10 +48,8 @@ function DesktopNav({ links }: { links: NavigationLink[] }) {
             {user?.avatar ? (
               <img
                 src={user.avatar}
-                height={"34px"}
-                width={"34px"}
+                className="mb-2 rounded-full object-cover h-[34px] w-[34px]"
                 alt="Profile picture"
-                className="rounded-full"
               />
             ) : (
               <ProfileIcon className="!h-[34px] !w-[34px] !text-white" />

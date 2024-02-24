@@ -85,9 +85,7 @@ function MobileNav() {
               {user?.avatar ? (
                 <img
                   src={user.avatar}
-                  height={"22px"}
-                  width={"22px"}
-                  className="mb-2 rounded-full"
+                  className="mb-2 rounded-full object-cover h-[22px] w-[22px]"
                   alt="Profile picture"
                 />
               ) : (
