@@ -9,6 +9,7 @@ import ProfilePage from "./pages/Profile.page";
 import SingleVenuePage from "./pages/SingeVenue.page";
 import ScrollToTop from "./utils/ScrollToTop";
 import NotFoundPage from "./pages/NotFound.page";
+import AboutPage from "./pages/About.page";
 
 function App() {
   return (
@@ -19,6 +20,7 @@ function App() {
           <Route path="" element={<LandingPage />} />
           {/* Routes with header and footer */}
           <Route path="/*" element={<AppContainer />}>
+            <Route path="about" element={<AboutPage />} />
             <Route path="login" element={<LoginPage />} />
             <Route path="venues" element={<VenuesPage />} />
             <Route path="venues/:id" element={<SingleVenuePage />} />

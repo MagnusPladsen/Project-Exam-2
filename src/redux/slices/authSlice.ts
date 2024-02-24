@@ -23,7 +23,8 @@ const auth = createSlice({
       return state;
     },
   },
-  extraReducers: () => {},
+  extraReducers: (
+  ) => {},
 });
 
 export const { setCredentials, removeCredentials } = auth.actions;

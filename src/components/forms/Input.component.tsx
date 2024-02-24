@@ -29,7 +29,7 @@ function Input({ name, label, className, ...inputProps }: InputProps) {
               className={`${
                 (formState.errors[name] || fieldState.invalid) &&
                 "!border-red-500 "
-              } ${className} appearance-none border-2 border-gray-100 rounded-lg px-4 py-3 placeholder-gray-300 focus:outline-none focus:ring-2 shadow-inner focus:ring-primary focus:shadow-lg checked:bg-primary checked:border-primary checked:text-white`}
+              } ${className} appearance-none border-2 border-gray-100 rounded-lg px-4 py-3 placeholder-gray-300 focus:outline-none focus:ring-2 shadow-inner focus:ring-primary focus:shadow-lg checked:bg-primary checked:text-white`}
             />
             <FormErrorMessage errors={formState.errors} name={name} />
           </div>

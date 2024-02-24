@@ -35,7 +35,6 @@ function LoginForm() {
       navigate("/venues");
     } catch (err) {
       setErrorMessage((err as Error).message);
-      console.log(err);
     }
   };
 

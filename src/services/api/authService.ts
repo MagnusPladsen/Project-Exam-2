@@ -1,5 +1,10 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
-import { LoginRequest, RegisterRequest, User } from "../../types/types";
+import {
+  ErrorResponse,
+  LoginRequest,
+  RegisterRequest,
+  User,
+} from "../../types/types";
 
 export const authService = createApi({
   baseQuery: fetchBaseQuery({
@@ -14,7 +19,8 @@ export const authService = createApi({
       }),
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       transformErrorResponse: (response: any) => {
-        if (!response.ok) throw new Error(response.data.status);
+        if (!response.ok)
+          throw new Error((response as ErrorResponse).data.errors[0].message);
         return response.json();
       },
     }),
@@ -26,7 +32,8 @@ export const authService = createApi({
       }),
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       transformErrorResponse: (response: any) => {
-        if (!response.ok) throw new Error(response.data.status);
+        if (!response.ok)
+          throw new Error((response as ErrorResponse).data.errors[0].message);
         return response.json();
       },
     }),

@@ -4,6 +4,7 @@ import {
   Booking,
   CreateBookingRequest,
   CreateVenueRequest,
+  ErrorResponse,
   SortOrder,
   UpdateProfileMediaRequest,
   UpdateVenueManagerStatusRequest,
@@ -31,6 +32,12 @@ export const holidazeApi = createApi({
     getLatestVenues: builder.query<Venue[], void>({
       query: () => "venues/?_owner=true&_bookings=true&sort=created",
       providesTags: ["venues"],
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      transformErrorResponse: (response: any) => {
+        if (!response.ok)
+          throw new Error((response as ErrorResponse).data.errors[0].message);
+        return response.json();
+      },
     }),
     getVenues: builder.query<
       Venue[],
@@ -39,10 +46,22 @@ export const holidazeApi = createApi({
       query: ({ limit, offset, sortOrder }) =>
         `venues/?limit=${limit}&offset=${offset}&_owner=true&_bookings=true&sort=created&sortOrder=${sortOrder}`,
       providesTags: ["venues"],
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      transformErrorResponse: (response: any) => {
+        if (!response.ok)
+          throw new Error((response as ErrorResponse).data.errors[0].message);
+        return response.json();
+      },
     }),
     getSingleVenue: builder.query<Venue, string>({
       query: (id) => `venues/${id}?_owner=true&_bookings=true`,
       providesTags: ["venue"],
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      transformErrorResponse: (response: any) => {
+        if (!response.ok)
+          throw new Error((response as ErrorResponse).data.errors[0].message);
+        return response.json();
+      },
     }),
     createVenue: builder.mutation<Venue, CreateVenueRequest>({
       query: (body) => ({
@@ -53,7 +72,8 @@ export const holidazeApi = createApi({
       invalidatesTags: ["venues", "profile"],
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       transformErrorResponse: (response: any) => {
-        if (!response.ok) throw new Error(response.data.status);
+        if (!response.ok)
+          throw new Error((response as ErrorResponse).data.errors[0].message);
         return response.json();
       },
     }),
@@ -69,7 +89,8 @@ export const holidazeApi = createApi({
       invalidatesTags: ["venues", "profile", "venue"],
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       transformErrorResponse: (response: any) => {
-        if (!response.ok) throw new Error(response.data.status);
+        if (!response.ok)
+          throw new Error((response as ErrorResponse).data.errors[0].message);
         return response.json();
       },
     }),
@@ -81,7 +102,8 @@ export const holidazeApi = createApi({
       invalidatesTags: ["venues", "profile"],
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       transformErrorResponse: (response: any) => {
-        if (!response.ok) throw new Error(response.data.status);
+        if (!response.ok)
+          throw new Error((response as ErrorResponse).data.errors[0].message);
         return response.json();
       },
     }),
@@ -94,18 +116,20 @@ export const holidazeApi = createApi({
       invalidatesTags: ["profile"],
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       transformErrorResponse: (response: any) => {
-        if (!response.ok) throw new Error(response.data.status);
+        if (!response.ok)
+          throw new Error((response as ErrorResponse).data.errors[0].message);
         return response.json();
       },
     }),
     getProfile: builder.query<User, string>({
       query: (name) => `profiles/${name}?_bookings=true&_venues=true`,
+      providesTags: ["profile"],
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       transformErrorResponse: (response: any) => {
-        if (!response.ok) throw new Error(response.data.status);
+        if (!response.ok)
+          throw new Error((response as ErrorResponse).data.errors[0].message);
         return response.json();
       },
-      providesTags: ["profile"],
     }),
     updateVenueManagerStatus: builder.mutation<
       User,
@@ -118,7 +142,8 @@ export const holidazeApi = createApi({
         invalidatesTags: ["profile"],
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
         transformErrorResponse: (response: any) => {
-          if (!response.ok) throw new Error(response.data.status);
+          if (!response.ok)
+            throw new Error((response as ErrorResponse).data.errors[0].message);
           return response.json();
         },
       }),
@@ -132,7 +157,10 @@ export const holidazeApi = createApi({
           invalidatesTags: ["profile"],
           // eslint-disable-next-line @typescript-eslint/no-explicit-any
           transformErrorResponse: (response: any) => {
-            if (!response.ok) throw new Error(response.data.status);
+            if (!response.ok)
+              throw new Error(
+                (response as ErrorResponse).data.errors[0].message
+              );
             return response.json();
           },
         }),
