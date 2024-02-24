@@ -41,9 +41,10 @@ function LoginForm() {
   return (
     <FormProvider {...formMethods}>
       <form onSubmit={handleSubmit(onSubmit)} className="w-full">
-        <Input name="email" type="email" label="Email" />
-        <Input name="password" type="password" label="Password" />
-
+        <div className="flex flex-col gap-2">
+          <Input name="email" type="email" label="Email" />
+          <Input name="password" type="password" label="Password" />
+        </div>
         <div id="button" className="flex flex-col w-full my-5 gap-6">
           <PrimaryButton type="submit" className="w-full">
             Log in

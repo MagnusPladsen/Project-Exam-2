@@ -14,6 +14,7 @@ const mobileHeaderHeight = "50px";
 const navLinks: NavigationLink[] = [
   { name: "Home", path: "/" },
   { name: "Venues", path: "/venues" },
+  { name: "About", path: "/about" },
 ];
 function Header() {
   const { isMobile } = useIsMobile();

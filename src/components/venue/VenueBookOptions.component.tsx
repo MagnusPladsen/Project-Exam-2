@@ -16,6 +16,7 @@ import MinusIcon from "../icons/MinusIcon.component";
 import PlusIcon from "../icons/PlusIcon.component";
 import HolidazeTooltip from "../tooltip/HolidazeTooltip.component";
 import ErrorMessage from "../messages/ErrorMessage.component";
+import ConfirmModal from "../modals/ConfirmModal.component";
 
 function VenueBookOptions({
   venue,
@@ -32,6 +33,7 @@ function VenueBookOptions({
   });
   const disabledDays = formatBookingsForDatePicker(venue?.bookings ?? []);
   const [bookingDone, setBookingDone] = useState(false);
+  const [createBookigActive, setCreateBookingActive] = useState(false);
   const [guests, setGuests] = useState<number>(1);
   const [errorMessage, setErrorMessage] = useState(
     "Something went wrong. Please try again!"
@@ -141,7 +143,7 @@ function VenueBookOptions({
                         <PrimaryButton
                           data-tooltip-id="venue-booking"
                           data-tooltip-content={`You need to select a date range to create a booking.`}
-                          onClick={handleCreateBooking}
+                          onClick={() => setCreateBookingActive(true)}
                           disabled={!(selectedDays.to && selectedDays.from)}
                         >
                           Create booking
@@ -182,6 +184,13 @@ function VenueBookOptions({
           )}
         </>
       )}
+      <ConfirmModal
+        text={`Are you sure you want to create a booking at "${venue?.name}" for ${guests} guests at ${selectedDays.from?.day}.${selectedDays.from?.month}.${selectedDays.from?.year} - ${selectedDays.to?.day}.${selectedDays.to?.month}.${selectedDays.to?.year}?`}
+        open={createBookigActive}
+        onCancel={() => setCreateBookingActive(false)}
+        onConfirm={() => handleCreateBooking()}
+      />
+
       <ErrorMessage message={errorMessage} show={!!error} />
     </>
   );

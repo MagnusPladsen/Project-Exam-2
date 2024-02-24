@@ -121,7 +121,7 @@ function VenueCard({
                   animate={{ opacity: 1, y: 0 }}
                   exit={{ opacity: 0, y: -50 }}
                   ref={refMenu}
-                  className="absolute left-0 -bottom-22 shadow-md py-5 px-10 bg-white  rounded-b-lg border-b border-x border-gray-200 z-10"
+                  className="absolute left-0 -bottom-14 shadow-md py-5 px-10 bg-white  rounded-b-lg border-b border-x border-gray-200 z-10"
                   onMouseLeave={() => setVenueOptionsOpen(false)}
                 >
                   <ul className="flex flex-col gap-4">
