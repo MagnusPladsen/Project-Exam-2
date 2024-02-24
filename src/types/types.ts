@@ -185,6 +185,18 @@ enum SortOrder {
   Descending = "desc",
 }
 
+interface ErrorResponse {
+  status: number;
+  data: {
+    errors: {
+      message: string;
+    }[];
+    status: string;
+    statusCode: number;
+  };
+}
+
+
 export type {
   NavigationLink,
   Customer,
@@ -209,6 +221,7 @@ export type {
   UpdateProfileMediaRequest,
   UpdateProfileForm,
   SearchVenue,
+  ErrorResponse
 };
 
 export { SortOrder };

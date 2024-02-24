@@ -1,4 +1,5 @@
 import { yupResolver } from "@hookform/resolvers/yup";
+import { useState } from "react";
 import { FormProvider, SubmitHandler, useForm } from "react-hook-form";
 import sanitizeUrl from "../../../formatters/sanitizeUrl";
 import useAuth from "../../../hooks/useAuth";
@@ -7,17 +8,20 @@ import { RegisterRequest } from "../../../types/types";
 import PrimaryButton from "../../buttons/PrimaryButton.component";
 import ErrorMessage from "../../messages/ErrorMessage.component";
 import Input from "../Input.component";
+import Toggle from "../Toggle.component";
 import schema from "./validation";
-import { useState } from "react";
 
 function RegisterForm() {
   const { saveUser } = useAuth();
 
   const formMethods = useForm<RegisterRequest>({
     resolver: yupResolver(schema),
+    defaultValues: {
+      venueManager: false,
+    },
   });
 
-  const { handleSubmit, setValue } = formMethods;
+  const { handleSubmit, setValue, getValues, watch } = formMethods;
 
   const onSubmit: SubmitHandler<RegisterRequest> = (data) => submitForm(data);
 
@@ -33,29 +37,47 @@ function RegisterForm() {
       saveUser(res);
     } catch (err) {
       setErrorMessage((err as Error).message);
-      console.log(err);
     }
   };
+
+  console.log(watch());
 
   return (
     <FormProvider {...formMethods}>
       <form onSubmit={handleSubmit(onSubmit)} className="w-full">
-        <Input name="name" type="name" label="Name" />
-        <Input name="email" type="email" label="Email" />
-        <Input name="password" type="password" label="Password" />
-        <Input
-          name="avatar"
-          type="url"
-          label="Avatar (optional)"
-          required={false}
-          onBlur={(e) => {
-            if (!e.target.value) return;
-            const sanitizedUrl = sanitizeUrl(e.target.value);
-            setValue("avatar", sanitizedUrl);
-          }}
-        />
-        <Input name="venueManager" type="checkbox" label="Venue manager" />
-
+        <div className="flex flex-col gap-2">
+          <Input name="name" type="name" label="Name" />
+          <Input name="email" type="email" label="Email" />
+          <Input name="password" type="password" label="Password" />
+          <Input
+            name="avatar"
+            type="url"
+            label="Avatar (optional)"
+            required={false}
+            onBlur={(e) => {
+              if (!e.target.value) return;
+              const sanitizedUrl = sanitizeUrl(e.target.value);
+              setValue("avatar", sanitizedUrl);
+            }}
+            placeholder="https://example.com/avatar.png"
+          />
+          <div className="flex flex-col w-full gap-2">
+            <label
+              htmlFor={"venueManager"}
+              className={` text-left text-gray-500`}
+            >
+              Venue manager
+            </label>
+            <div className="w-full flex ">
+              <Toggle
+                onChange={() =>
+                  setValue("venueManager", !getValues("venueManager"))
+                }
+                value={watch("venueManager")}
+              />
+            </div>
+          </div>
+        </div>
         <div id="button" className="flex flex-col w-full my-5 gap-6">
           <PrimaryButton type="submit" className="w-full">
             Register

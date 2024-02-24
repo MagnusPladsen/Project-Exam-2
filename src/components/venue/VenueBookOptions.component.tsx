@@ -15,6 +15,7 @@ import H3 from "../common/H3.component";
 import MinusIcon from "../icons/MinusIcon.component";
 import PlusIcon from "../icons/PlusIcon.component";
 import HolidazeTooltip from "../tooltip/HolidazeTooltip.component";
+import ErrorMessage from "../messages/ErrorMessage.component";
 
 function VenueBookOptions({
   venue,
@@ -32,6 +33,9 @@ function VenueBookOptions({
   const disabledDays = formatBookingsForDatePicker(venue?.bookings ?? []);
   const [bookingDone, setBookingDone] = useState(false);
   const [guests, setGuests] = useState<number>(1);
+  const [errorMessage, setErrorMessage] = useState(
+    "Something went wrong. Please try again!"
+  );
 
   function incrementGuests() {
     if (guests < (venue?.maxGuests || 1)) {
@@ -45,7 +49,7 @@ function VenueBookOptions({
     }
   }
 
-  const [createBooking] = useCreateBookingMutation();
+  const [createBooking, { error }] = useCreateBookingMutation();
 
   const handleCreateBooking = async () => {
     try {
@@ -55,7 +59,7 @@ function VenueBookOptions({
       await createBooking(body).unwrap();
       setBookingDone(true);
     } catch (err) {
-      console.log(err);
+      setErrorMessage((err as Error).message);
     }
   };
 
@@ -178,6 +182,7 @@ function VenueBookOptions({
           )}
         </>
       )}
+      <ErrorMessage message={errorMessage} show={!!error} />
     </>
   );
 }

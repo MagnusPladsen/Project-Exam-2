@@ -79,7 +79,6 @@ function VenueModal({
       }
     } catch (err) {
       setErrorMessage((err as Error).message);
-      console.log(err);
     }
   };
 

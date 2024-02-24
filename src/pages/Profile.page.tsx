@@ -73,7 +73,6 @@ function ProfilePage() {
       setVenueManagerModalOpen(false);
     } catch (err) {
       setErrorMessage((err as Error).message);
-      console.log(err);
     }
   };
 
