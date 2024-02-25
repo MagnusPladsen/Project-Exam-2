@@ -95,7 +95,7 @@ function SingleVenuePage() {
         text={
           "Are you sure you want to delete this venue? This action cannot be undone!"
         }
-        open={deleteVenueActive}Pc
+        open={deleteVenueActive}
         onCancel={() => setDeleteVenueActive(false)}
         onConfirm={() => {
           deleteVenue(venue!.id);

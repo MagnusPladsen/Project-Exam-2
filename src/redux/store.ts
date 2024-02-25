@@ -20,8 +20,9 @@ const combinedReducers = combineReducers({
 
 // fixed the issue with the non-serializable value
 const nonSerializableCheckMiddleware: Middleware =
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   () => (next) => (action: any) => {
-    if (action.type === "persist/PERSIST") {
+    if (action.type === ("persist/PERSIST" || "PERSIST" || "persist")) {
       // Exclude specific actions from the check
       return next(action);
     }

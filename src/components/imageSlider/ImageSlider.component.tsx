@@ -18,7 +18,7 @@ function ImageSlider({
       {isLoading && <Skeleton width={"100%"} height={600} />}
       <Carousel className={className}>
         {images.map((image, index) => (
-          <div key={image}>
+          <div key={image+index}>
             <img
               src={image}
               alt={`Venue Image ${index}`}

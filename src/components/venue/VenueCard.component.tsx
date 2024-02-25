@@ -78,6 +78,7 @@ function VenueCard({
 
   return (
     <article
+      key={venue?.id+"outside"}
       className={`${className} relative pb-6 w-[90vw] lg:w-full xl:max-w-lg xl:mx-auto bg-white rounded-lg border border-gray-200 shadow-md`}
     >
       <div className="mb-5">

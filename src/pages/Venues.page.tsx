@@ -152,7 +152,6 @@ function VenuesPage() {
           )}
         </AnimatePresence>
       </div>
-      <AnimatePresence initial={false}>
         <div className="grid gap-8 lg:grid-cols-2 xl:grid-cols-3 mb-4 justify-center w-full">
           {isLoading && !venues && (
             <>
@@ -166,7 +165,7 @@ function VenuesPage() {
           {!!venuesToShow.length &&
             !error &&
             venuesToShow.map((venue) => (
-              <VenueCard venue={venue} key={venue.id} />
+              <VenueCard venue={venue} key={venue.id+"inside"} />
             ))}
           <ErrorMessage show={!!error} />
         </div>
@@ -182,7 +181,6 @@ function VenuesPage() {
             <PrimaryButton onClick={incrementStep}>Load more</PrimaryButton>
           </motion.div>
         )}
-      </AnimatePresence>
     </section>
   );
 }
