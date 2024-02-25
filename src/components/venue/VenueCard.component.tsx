@@ -6,6 +6,7 @@ import { Link } from "react-router-dom";
 import StarRatings from "react-star-ratings";
 import capitalizeFirstLetter from "../../formatters/capitalizeFirstLetter";
 import { Venue } from "../../types/types";
+import isImageValid from "../../utils/isImageValid";
 import H2 from "../common/H2.component";
 import ArrowIcon from "../icons/ArrowIcon.component";
 import Crossicon from "../icons/CrossIcon.component";
@@ -34,6 +35,7 @@ function VenueCard({
   const refMenu = useRef<HTMLDivElement | null>(null);
 
   const [venueOptionsOpen, setVenueOptionsOpen] = useState(false);
+  const [venueImage, setVenueImage] = useState<string | undefined>();
 
   const closeOpenMenus = (e: MouseEvent) => {
     if (
@@ -46,17 +48,43 @@ function VenueCard({
   };
 
   useEffect(() => {
+    const checkIfImageIsValid = async () => {
+      if (venue?.media[0]) {
+        setVenueImage(
+          (await isImageValid(venue?.media[0]))
+            ? venue?.media[0]
+            : "https://picsum.photos/640/360"
+        );
+      }
+    };
+
+    checkIfImageIsValid();
+  }, [venue?.media]);
+
+  useEffect(() => {
     document.addEventListener("mousedown", closeOpenMenus);
     return () => {
       document.removeEventListener("mousedown", closeOpenMenus);
     };
   }, [open]);
+
   return (
     <article
-      className={`${className} relative p-6 w-[90vw] lg:w-full xl:max-w-lg xl:mx-auto bg-white rounded-lg border border-gray-200 shadow-md`}
+      className={`${className} relative pb-6 w-[90vw] lg:w-full xl:max-w-lg xl:mx-auto bg-white rounded-lg border border-gray-200 shadow-md`}
     >
+      <div className="mb-5">
+        {!venueImage ? (
+          <Skeleton className="rounded-t-lg" width={"100%"} height={240} />
+        ) : (
+          <img
+            src={venueImage}
+            alt={venue?.name}
+            className="h-60 rounded-t-lg object-cover bg-primary-light w-full shadow-inner"
+          />
+        )}
+      </div>
       <HolidazeTooltip id="price-per-night" />
-      <div className="flex justify-between items-center mb-5 text-gray-500">
+      <div className="flex justify-between items-center mb-5 text-gray-500 px-6">
         {isLoading || !venue ? (
           <Skeleton width={50} height={20} />
         ) : (
@@ -84,21 +112,22 @@ function VenueCard({
           />
         </span>
       </div>
-      <H2 className="mb-2 text-xl tracking-tight text-gray-900  truncate text-ellipsis">
+
+      <H2 className="mb-2 text-xl tracking-tight text-gray-900  truncate text-ellipsis px-6">
         {isLoading || !venue ? (
           <Skeleton width={200} height={20} />
         ) : (
           <span>{capitalizeFirstLetter(venue.name)}</span>
         )}
       </H2>
-      <div className="mb-5 h-[calc(1rem*3)] font-light text-gray-500 line-clamp-3">
+      <div className="mb-5 h-[calc(1rem*3)] font-light text-gray-500 line-clamp-3 px-6">
         {isLoading || !venue ? (
           <Skeleton width={300} height={20} />
         ) : (
           capitalizeFirstLetter(venue.description)
         )}
       </div>
-      <div className="flex justify-between items-center flex-row-reverse">
+      <div className="flex justify-between items-center flex-row-reverse px-6">
         <Link
           to={`/venues/${venue?.id}`}
           className="flex gap-2 items-center font-medium text-primary hover:underline fe"
