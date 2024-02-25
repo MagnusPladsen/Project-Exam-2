@@ -196,6 +196,11 @@ interface ErrorResponse {
   };
 }
 
+interface TechStackItem {
+  logo: JSX.Element;
+  text: string;
+  link: string;
+}
 
 export type {
   NavigationLink,
@@ -221,7 +226,8 @@ export type {
   UpdateProfileMediaRequest,
   UpdateProfileForm,
   SearchVenue,
-  ErrorResponse
+  ErrorResponse,
+  TechStackItem,
 };
 
 export { SortOrder };

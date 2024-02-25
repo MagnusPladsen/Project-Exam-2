@@ -158,13 +158,13 @@ function ProfilePage() {
                       <H2
                         className={`${
                           userIsManager ? "!text-primary" : "!text-gray-400"
-                        } text-xs  leading-normal mt-1 uppercase`}
+                        } text-xs !font-medium leading-normal mt-1 uppercase`}
                       >
                         Venue Manager
                       </H2>
                     ) : (
                       <H2
-                        className={`!text-primary text-xs  leading-normal mb-4 uppercase`}
+                        className={`!text-primary text-xs !font-medium leading-normal mb-4 uppercase`}
                       >
                         {data.venueManager ? "Venue Manager" : "Venue Tenant"}
                       </H2>

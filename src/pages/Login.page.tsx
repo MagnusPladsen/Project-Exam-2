@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import LoginForm from "../components/forms/loginForm/LoginForm.component";
 import RegisterForm from "../components/forms/registerForm/RegisterForm.component";
 import Logo from "../components/logo/Logo.component";
+import H2 from "../components/common/H2.component";
 
 function LoginPage() {
   const [register, setRegister] = useState(false);
@@ -25,9 +26,9 @@ function LoginPage() {
           </div>
           <div className="w-full md:w-9/12 mx-auto md:mx-0">
             <div className="bg-white p-10 flex flex-col w-full shadow-xl rounded-xl">
-              <h2 className="text-2xl font-bold text-gray-800 text-left mb-5">
+              <H2 className="!text-2xl text-left mb-5">
                 {register ? "Register" : "Log in"}
-              </h2>
+              </H2>
               {register ? <RegisterForm /> : <LoginForm />}
               <p
                 onClick={() => {

@@ -37,7 +37,7 @@ function VenueAccordion({
         onClick={() => setDescriptionOpen((prev) => !prev)}
         className="px-[5vw] lg:px-0 flex items-center justify-between w-full py-5 font-medium rtl:text-right text-gray-900 border-b border-gray-200 cursor-pointer group"
       >
-        <H2 className="group-hover:!text-primary underline-offset-2 group-hover:underline transition-all">Information</H2>
+        <H2 className="group-hover:!text-primary underline-offset-2 group-hover:underline transition-all !font-medium">Information</H2>
         <motion.div animate={{ rotate: descriptionOpen ? 180 : 0 }}>
           <DropDownIcon />
         </motion.div>
@@ -90,7 +90,7 @@ function VenueAccordion({
         onClick={() => setFacilitiesOpen((prev) => !prev)}
         className="px-[5vw] lg:px-0 flex items-center justify-between w-full py-5 font-medium rtl:text-right text-gray-900 border-b border-gray-200  cursor-pointer hover:text-primary group"
       >
-        <H2 className="group-hover:!text-primary underline-offset-2 group-hover:underline transition-all">Facilities</H2>
+        <H2 className="group-hover:!text-primary underline-offset-2 group-hover:underline transition-all !font-medium">Facilities</H2>
         <motion.div animate={{ rotate: facilitiesOpen ? 180 : 0 }}>
           <DropDownIcon />
         </motion.div>
@@ -149,7 +149,7 @@ function VenueAccordion({
         onClick={() => setLocationOpen((prev) => !prev)}
         className="px-[5vw] lg:px-0 flex items-center justify-between w-full py-5 font-medium rtl:text-right text-gray-900 border-b border-gray-200  cursor-pointer hover:text-primary group"
       >
-        <H2 className="group-hover:!text-primary underline-offset-2 group-hover:underline transition-all">Location</H2>
+        <H2 className="group-hover:!text-primary underline-offset-2 group-hover:underline transition-all !font-medium">Location</H2>
         <motion.div animate={{ rotate: locationOpen ? 180 : 0 }}>
           <DropDownIcon />
         </motion.div>

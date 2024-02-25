@@ -28,7 +28,7 @@ function VenueAdminBookings({
     <>
       {loggedInUserIsOwner && (
         <div className="flex flex-col gap-2 border border-primary rounded my-2 lg:mx-0 mx-[5vw] p-4 bg-primary-light">
-          <H2 className="!mx-auto text-primary text-center !font-bold max-w-[80%] mb-4">
+          <H2 className="!mx-auto text-primary text-center max-w-[80%] mb-4">
             Bookings
           </H2>
           {!showBookings && (
