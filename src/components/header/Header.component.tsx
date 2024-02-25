@@ -55,24 +55,20 @@ function Header() {
   return (
     <header>
       <AnimatePresence initial={false}>
-        {show && (
-          <motion.nav
-            animate={{ y: 0 }}
-            initial={{ y: -80 }}
-            exit={{ y: -80 }}
-            transition={{ duration: 0.2 }}
-            // style bevause of tailwindcss not working properly with variables sometimes
-            style={{ height: isMobile ? mobileHeaderHeight : headerHeight }}
-            className={` bg-primary text-white fixed w-full z-40`}
-          >
-            <div className="px-4 lg:mx-auto lg:max-w-[1800px] flex items-center justify-center lg:justify-between h-full gap-2 relative shadow-md">
-              <Link to="/">
-                <Logo isMobile={isMobile} />
-              </Link>
-              <DesktopNav links={navLinks} />
-            </div>
-          </motion.nav>
-        )}
+        <motion.nav
+          animate={{ opacity: show ? 1 : 0, y: show ? 0 : -80 }}
+          transition={{ duration: 0.2 }}
+          // style bevause of tailwindcss not working properly with variables sometimes
+          style={{ height: isMobile ? mobileHeaderHeight : headerHeight }}
+          className={` bg-primary text-white fixed w-full z-40`}
+        >
+          <div className="px-4 lg:mx-auto lg:max-w-[1800px] flex items-center justify-center lg:justify-between h-full gap-2 relative shadow-md">
+            <Link to="/venues">
+              <Logo isMobile={isMobile} />
+            </Link>
+            <DesktopNav links={navLinks} />
+          </div>
+        </motion.nav>
       </AnimatePresence>
       <MobileNav />
     </header>
