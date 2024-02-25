@@ -36,6 +36,7 @@ function VenueCard({
 
   const [venueOptionsOpen, setVenueOptionsOpen] = useState(false);
   const [venueImage, setVenueImage] = useState<string | undefined>();
+  const [isLoadingImage, setIsLoadingImage] = useState(true);
 
   const closeOpenMenus = (e: MouseEvent) => {
     if (
@@ -49,15 +50,18 @@ function VenueCard({
 
   useEffect(() => {
     const checkIfImageIsValid = async () => {
-      if (venue?.media[0]) {
+      if (!!venue && venue.media.length > 0) {
+        const imageValid = await isImageValid(venue?.media[0]);
         setVenueImage(
-          (await isImageValid(venue?.media[0]))
-            ? venue?.media[0]
-            : "https://picsum.photos/640/360"
+          imageValid
+            ? venue.media[0]
+            : "https://source.unsplash.com/600x300/?hotel"
         );
+      } else if (!!venue && venue.media.length === 0) {
+        console.log("No image found", venue.name);
+        setVenueImage("https://source.unsplash.com/600x300/?hotel");
       }
     };
-
     checkIfImageIsValid();
   }, [venue?.media]);
 
@@ -73,15 +77,17 @@ function VenueCard({
       className={`${className} relative pb-6 w-[90vw] lg:w-full xl:max-w-lg xl:mx-auto bg-white rounded-lg border border-gray-200 shadow-md`}
     >
       <div className="mb-5">
-        {!venueImage ? (
+        {isLoadingImage && (
           <Skeleton className="rounded-t-lg" width={"100%"} height={240} />
-        ) : (
-          <img
-            src={venueImage}
-            alt={venue?.name}
-            className="h-60 rounded-t-lg object-cover bg-primary-light w-full shadow-inner"
-          />
         )}
+        <img
+          src={venueImage}
+          alt={venue?.name}
+          onLoad={() => setIsLoadingImage(false)}
+          className={`${
+            isLoadingImage && "hidden"
+          } h-60 rounded-t-lg object-cover w-full shadow-inner`}
+        />
       </div>
       <HolidazeTooltip id="price-per-night" />
       <div className="flex justify-between items-center mb-5 text-gray-500 px-6">

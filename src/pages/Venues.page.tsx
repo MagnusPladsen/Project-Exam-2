@@ -39,13 +39,15 @@ function VenuesPage() {
 
   function incrementStep() {
     setActiveStep((prev) => prev + amountOfVenues);
-    getMoreVenues();
-  }
-
-  function getMoreVenues() {
-    if (venues) {
-      setVenuesToShow((prev) => [...prev, ...venues]);
-    }
+    fetchVenues({
+      limit: amountOfVenues,
+      offset: activeStep + amountOfVenues,
+      sortOrder: sortOrder,
+    })
+      .unwrap()
+      .then((data) => {
+        setVenuesToShow((prev) => [...prev, ...data]);
+      });
   }
 
   function sortSearchResults(sortOrder: SortOrder) {
@@ -109,6 +111,7 @@ function VenuesPage() {
 
   useEffect(() => {
     getLatestVenues();
+    console.log("Venues", venues);
   }, [isLoading]);
 
   return (
