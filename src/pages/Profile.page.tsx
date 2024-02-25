@@ -20,7 +20,8 @@ function ProfilePage() {
   const { user } = useAuth();
   const { data, error, isLoading } = useGetProfileQuery(name!);
 
-  const isProfileSameAsLoggedIn = !!user && name === user.name;
+  const isProfileSameAsLoggedIn =
+    !!user && name?.toLocaleLowerCase() === user.name.toLocaleLowerCase();
 
   const [updateManagerStatus] = useUpdateVenueManagerStatusMutation();
 
@@ -82,6 +83,7 @@ function ProfilePage() {
                   isLoading={isLoading}
                   userImage={userImage}
                   setUpdateImageModalOpen={setUpdateImageModalOpen}
+                  isProfileSameAsLoggedIn={isProfileSameAsLoggedIn}
                 />
                 <div className="text-center mt-4 flex flex-col gap-4">
                   <H1 className="!mb-2">{data.name}</H1>
