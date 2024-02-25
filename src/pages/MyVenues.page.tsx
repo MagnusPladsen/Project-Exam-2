@@ -1,68 +1,19 @@
 import { motion } from "framer-motion";
+import { useEffect, useState } from "react";
+import { useNavigate, useParams } from "react-router-dom";
+import PrimaryButton from "../components/buttons/PrimaryButton.component";
 import H1 from "../components/common/H1.component";
-import H3 from "../components/common/H3.component";
-import VenueCard from "../components/venue/VenueCard.component";
-import formatDate from "../formatters/formatToDate";
+import ConfirmModal from "../components/modals/ConfirmModal.component";
+import VenueModal from "../components/modals/venue/VenueModal.component";
+import capitalizeFirstLetter from "../formatters/capitalizeFirstLetter";
 import useAuth from "../hooks/useAuth";
-import { Venue } from "../types/types";
 import {
   useDeleteVenueMutation,
   useGetProfileQuery,
 } from "../services/api/holidazeApi";
-import { useNavigate, useParams } from "react-router-dom";
-import capitalizeFirstLetter from "../formatters/capitalizeFirstLetter";
-import Skeleton from "react-loading-skeleton";
-import PrimaryButton from "../components/buttons/PrimaryButton.component";
-import { useState, useEffect } from "react";
-import ConfirmModal from "../components/modals/ConfirmModal.component";
-import VenueModal from "../components/modals/venue/VenueModal.component";
-
-function renderVenue(
-  venue: Venue,
-  setVenueToUpdate: React.Dispatch<React.SetStateAction<Venue | undefined>>,
-  setVenueToDelete: React.Dispatch<React.SetStateAction<Venue | undefined>>
-) {
-  return (
-    <div
-      key={venue.id}
-      className="flex flex-col gap-2 w-full items-center justify-center"
-    >
-      <H3 className="flex gap-1 items-center text-gray-400">
-        {venue.created !== venue.updated ? (
-          <>
-            <span>Updated: </span>
-            <span>{formatDate(venue.updated)}</span>
-          </>
-        ) : (
-          <>
-            <span>Created: </span>
-            <span>{formatDate(venue.created)}</span>
-          </>
-        )}
-      </H3>
-      <VenueCard
-        venue={venue}
-        className="!mx-auto"
-        profilePage
-        setVenueToDelete={setVenueToDelete}
-        setVenueToUpdate={setVenueToUpdate}
-      />
-    </div>
-  );
-}
-
-function renderSkeletons(amount: number) {
-  const skeletons = [];
-  for (let i = 0; i < amount; i++) {
-    skeletons.push(
-      <div className="flex flex-col gap-1 items-center">
-        <Skeleton height={20} width={120} />
-        <VenueCard isLoading key={`skeleton${i}`} />
-      </div>
-    );
-  }
-  return skeletons;
-}
+import { Venue } from "../types/types";
+import renderSkeletons from "../components/myVenues/RenderSkeletons";
+import renderVenue from "../components/myVenues/RenderVenues";
 
 function MyVenuesPage() {
   const navigate = useNavigate();
