@@ -70,7 +70,7 @@ function VenueSearchInput({
       <div className="relative w-full">
         <input
           type="search"
-          className="block p-2.5 w-full z-20 text-sm text-gray-900 bg-gray-50 rounded-e-lg border-s-gray-50 border-s-2 border border-gray-300 focus:ring-primary focus:border-primary shadow-inner"
+          className="p-2.5 w-full z-20 text-sm text-gray-900 bg-gray-50 rounded-e-lg border-s-gray-50 border-s-2 border border-gray-300 focus:border-primary focus:outline-none focus:ring-2 shadow-inner focus:ring-primary focus:shadow-lg"
           placeholder="Search venues..."
           value={searchString}
           onChange={(e) => setSearchString(e.target.value)}
