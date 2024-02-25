@@ -123,6 +123,7 @@ function MyVenuesPage() {
         onCancel={() => setDeleteVenueActive(false)}
         onConfirm={() => {
           deleteVenue(venueToDelete!.id);
+          setDeleteVenueActive(false)
         }}
       />
 
