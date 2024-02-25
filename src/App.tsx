@@ -10,8 +10,8 @@ import SingleVenuePage from "./pages/SingeVenue.page";
 import ScrollToTop from "./utils/ScrollToTop";
 import NotFoundPage from "./pages/NotFound.page";
 import AboutPage from "./pages/About.page";
-import BookingsPage from "./pages/Bookings.page";
 import MyVenuesPage from "./pages/MyVenues.page";
+import MyBookingsPage from "./pages/MyBookings.page";
 
 function App() {
   return (
@@ -29,7 +29,7 @@ function App() {
 
             {/* Routes that require authentication */}
             <Route path="profile/:name" element={<ProfilePage />} />
-            <Route path="profile/:name/bookings" element={<BookingsPage />} />
+            <Route path="profile/:name/bookings" element={<MyBookingsPage />} />
             <Route path="profile/:name/venues" element={<MyVenuesPage />} />
 
             {/* Catch-all route for unknown paths */}

@@ -31,17 +31,18 @@ function renderBooking(booking: Booking) {
   );
 }
 
-function BookingsPage() {
+function MyBookingsPage() {
   const { name } = useParams();
   const { user } = useAuth();
   const navigate = useNavigate();
 
-  const isProfileSameAsLoggedIn = !!user && name === user.name;
+  const isProfileSameAsLoggedIn =
+    !!user && name?.toLocaleLowerCase() === user.name.toLocaleLowerCase();
 
   const [showUpcoming, setShowUpcoming] = useState(true);
   const [showPast, setShowPast] = useState(false);
 
-  if (!isProfileSameAsLoggedIn) {
+  if (!!user && !isProfileSameAsLoggedIn) {
     navigate("/404");
   }
 
@@ -106,4 +107,4 @@ function BookingsPage() {
   );
 }
 
-export default BookingsPage;
+export default MyBookingsPage;
