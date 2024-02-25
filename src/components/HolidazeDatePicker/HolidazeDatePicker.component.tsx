@@ -15,7 +15,7 @@ function HolidazeDatePicker({
       {inputLabel && <H3>{inputLabel}</H3>}
       <input
         ref={ref}
-        className={`appearance-none border-2 border-gray-100 rounded-lg px-4 py-3 placeholder-gray-300 focus:outline-none focus:ring-2 focus:ring-primary focus:shadow-lg w-full`}
+        className={`appearance-none border-2 border-gray-100 rounded-lg px-4 py-3 placeholder-gray-300 focus:outline-none focus:ring-2 hover:border-primary focus:ring-primary focus:shadow-lg w-full cursor-pointer hover:placeholder:text-primary`}
         placeholder={inputPlaceholder ?? "Select a date"}
       />
     </div>
