@@ -34,12 +34,12 @@ function DesktopNav({ links }: { links: NavigationLink[] }) {
             onClick={() => setOpen((prev) => !prev)}
             className={`${
               isOnProfileRoute && "underline underline-offset-4"
-            } flex gap-2 items-center cursor-pointer justify-center`}
+            } flex gap-2 items-center cursor-pointer justify-center ml-2`}
           >
             {user?.avatar ? (
               <img
                 src={user.avatar}
-                className="mb-2 rounded-full object-cover h-[34px] w-[34px]"
+                className="rounded-full object-cover h-[34px] w-[34px]"
                 alt="Profile picture"
               />
             ) : (
