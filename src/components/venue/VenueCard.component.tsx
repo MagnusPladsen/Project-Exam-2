@@ -34,6 +34,9 @@ function VenueCard({
 }) {
   const refMenu = useRef<HTMLDivElement | null>(null);
 
+  const fallBackImage =
+    "https://www.feednavigator.com/var/wrbm_gb_food_pharma/storage/images/_aliases/news_large/9/2/8/5/235829-6-eng-GB/Feed-Test-SIC-Feed-20142.jpg";
+
   const [venueOptionsOpen, setVenueOptionsOpen] = useState(false);
   const [venueImage, setVenueImage] = useState<string | undefined>();
   const [isLoadingImage, setIsLoadingImage] = useState(true);
@@ -52,18 +55,14 @@ function VenueCard({
     const checkIfImageIsValid = async () => {
       if (!!venue && venue.media.length > 0) {
         const imageValid = await isImageValid(venue?.media[0]);
-        setVenueImage(
-          imageValid
-            ? venue.media[0]
-            : "https://source.unsplash.com/600x300/?hotel"
-        );
+        setVenueImage(imageValid ? venue.media[0] : fallBackImage);
       } else if (!!venue && venue.media.length === 0) {
         console.log("No image found", venue.name);
-        setVenueImage("https://source.unsplash.com/600x300/?hotel");
+        setVenueImage(fallBackImage);
       }
     };
     checkIfImageIsValid();
-  }, [venue?.media]);
+  }, [venue]);
 
   useEffect(() => {
     document.addEventListener("mousedown", closeOpenMenus);
