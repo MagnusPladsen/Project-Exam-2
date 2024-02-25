@@ -18,7 +18,7 @@ import { UpdateVenueManagerStatusRequest } from "../types/types";
 function ProfilePage() {
   const navigate = useNavigate();
   const { name } = useParams();
-  const { user } = useAuth();
+  const { user, fetchUser } = useAuth();
   const { data, error, isLoading } = useGetProfileQuery(name!);
 
   const isProfileSameAsLoggedIn = !!user && name === user.name;
@@ -82,6 +82,7 @@ function ProfilePage() {
                   userImage={userImage}
                   setUpdateImageModalOpen={setUpdateImageModalOpen}
                   isProfileSameAsLoggedIn={isProfileSameAsLoggedIn}
+                  fetchUser={fetchUser}
                 />
                 <div className="text-center mt-4 flex flex-col gap-4">
                   <H1 className="!mb-2">{data.name}</H1>

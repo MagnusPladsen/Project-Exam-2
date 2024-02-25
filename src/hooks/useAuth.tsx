@@ -31,17 +31,18 @@ function useAuth() {
 
   const isLoggedIn = !!token && !!oldUser;
 
+  const fetchUser = async () => {
+    if (isLoggedIn) {
+      const user = await updateProfile(oldUser.name).unwrap();
+      setUser(user);
+    }
+  };
+
   useEffect(() => {
-    const fetchUser = async () => {
-      if (isLoggedIn) {
-        const user = await updateProfile(oldUser.name).unwrap();
-        setUser(user);
-      }
-    };
     fetchUser();
   }, [isLoggedIn, oldUser]);
 
-  return { isLoggedIn, user, token, saveUser, logOut };
+  return { isLoggedIn, user, token, saveUser, logOut, fetchUser };
 }
 
 export default useAuth;

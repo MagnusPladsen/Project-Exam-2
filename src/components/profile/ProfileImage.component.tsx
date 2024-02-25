@@ -8,11 +8,13 @@ function ProfileImage({
   userImage,
   setUpdateImageModalOpen,
   isProfileSameAsLoggedIn,
+  fetchUser,
 }: {
   isLoading: boolean;
   userImage?: string;
   setUpdateImageModalOpen: React.Dispatch<React.SetStateAction<boolean>>;
   isProfileSameAsLoggedIn: boolean;
+  fetchUser: () => void;
 }) {
   return (
     <div className="flex flex-wrap justify-center">
@@ -25,16 +27,19 @@ function ProfileImage({
               {userImage ? (
                 <img
                   src={userImage}
-                  alt="Profile picture"
+                  alt="Profile avatar"
                   className="shadow-xl rounded-full align-middle absolute -my-16 left-1/2 transform -translate-x-1/2 max-w-[150px] h-[150px] aspect-square border border-white object-cover"
                 />
               ) : (
                 <ProfileIcon className="shadow-xl rounded-full align-middle absolute -my-16 left-1/2 transform -translate-x-1/2 max-w-[150px] h-[150px] border border-white object-cover bg-white" />
               )}
-              <div
-                onClick={() =>
-                  isProfileSameAsLoggedIn && setUpdateImageModalOpen(true)
-                }
+              <button
+                onClick={async () => {
+                  if (isProfileSameAsLoggedIn) {
+                    fetchUser();
+                    setUpdateImageModalOpen(true);
+                  }
+                }}
                 className=" test mt-24 flex gap-2 items-center group cursor-pointer"
               >
                 {isProfileSameAsLoggedIn && (
@@ -45,7 +50,7 @@ function ProfileImage({
                     <EditIcon className="!text-gray-400 group-hover:!text-primary transition-all" />
                   </>
                 )}
-              </div>
+              </button>
             </>
           )}
         </div>
