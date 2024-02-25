@@ -115,23 +115,23 @@ function VenuesPage() {
 
   return (
     <section className=" pt-[80px] lg:pt-[120px] mx-auto xl:max-w-screen-xl pb-16 lg:px-6">
-      <AnimatePresence initial={false}>
-        <div className="mx-auto lg:max-w-screen-sm text-center  mb-8 flex flex-col">
-          {error ? (
-            <p>No venues where found... Please try again!</p>
-          ) : (
-            <H1>Venues</H1>
-          )}
-          <p className="font-light text-gray-500 sm:text-xl mb-5">
-            Find venues posted by our community
-          </p>
-          <VenueSearchInput
-            setSearchString={setSearchString}
-            searchString={searchString}
-            sortOrder={sortOrder}
-            searchVenues={searchVenues}
-            handleSort={handleSort}
-          />
+      <div className="mx-auto lg:max-w-screen-sm text-center  mb-8 flex flex-col">
+        {error ? (
+          <p>No venues where found... Please try again!</p>
+        ) : (
+          <H1>Venues</H1>
+        )}
+        <p className="font-light text-gray-500 sm:text-xl mb-5">
+          Find venues posted by our community
+        </p>
+        <VenueSearchInput
+          setSearchString={setSearchString}
+          searchString={searchString}
+          sortOrder={sortOrder}
+          searchVenues={searchVenues}
+          handleSort={handleSort}
+        />
+        <AnimatePresence initial={false}>
           {searchActive && (
             <motion.div
               initial={{ scale: 0 }}
@@ -150,7 +150,9 @@ function VenuesPage() {
               </div>
             </motion.div>
           )}
-        </div>
+        </AnimatePresence>
+      </div>
+      <AnimatePresence initial={false}>
         <div className="grid gap-8 lg:grid-cols-2 xl:grid-cols-3 mb-4 justify-center w-full">
           {isLoading && !venues && (
             <>
