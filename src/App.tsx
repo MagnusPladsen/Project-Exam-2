@@ -20,6 +20,7 @@ function App() {
         <ScrollToTop />
         <Routes>
           <Route path="" element={<LandingPage />} />
+          
           {/* Routes with header and footer */}
           <Route path="/*" element={<AppContainer />}>
             <Route path="about" element={<AboutPage />} />
