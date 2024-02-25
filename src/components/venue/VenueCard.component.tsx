@@ -84,7 +84,7 @@ function VenueCard({
           />
         </span>
       </div>
-      <H2 className="mb-2 text-xl font-bold tracking-tight text-gray-900  truncate text-ellipsis">
+      <H2 className="mb-2 text-xl tracking-tight text-gray-900  truncate text-ellipsis">
         {isLoading || !venue ? (
           <Skeleton width={200} height={20} />
         ) : (

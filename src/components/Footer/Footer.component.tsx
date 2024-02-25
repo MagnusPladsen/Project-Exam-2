@@ -53,18 +53,6 @@ function Footer() {
                 About
               </NavLink>
             </li>
-            <li>
-              <NavLink
-                to="/contact"
-                className={({ isActive }) =>
-                  isActive
-                    ? `underline underline-offset-4 ${linkStyles}`
-                    : linkStyles
-                }
-              >
-                Contact
-              </NavLink>
-            </li>
             {!isLoggedIn ? (
               <li>
                 <NavLink

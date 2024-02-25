@@ -144,33 +144,6 @@ function MobileNav() {
                       My profile
                     </NavLink>
                   </li>
-                  {user?.venueManager && (
-                    <>
-                      <li className="hover:bg-gray-50 py-5  cursor-pointer hover:text-primary">
-                        <NavLink
-                          to={"/profile/venues"}
-                          onClick={() => setOpen(false)}
-                          className={({ isActive }) =>
-                            isActive ? "underline underline-offset-4 " : ""
-                          }
-                        >
-                          My venues
-                        </NavLink>
-                      </li>
-                      <li className="hover:bg-gray-50 py-5  cursor-pointer hover:text-primary">
-                        <NavLink
-                          to={"/profile/venues/new"}
-                          onClick={() => setOpen(false)}
-                          className={({ isActive }) =>
-                            isActive ? "underline underline-offset-4 " : ""
-                          }
-                        >
-                          New venue
-                        </NavLink>
-                      </li>
-                    </>
-                  )}
-
                   <li
                     className="cursor-pointer hover:bg-gray-50 py-5 "
                     onClick={() => {

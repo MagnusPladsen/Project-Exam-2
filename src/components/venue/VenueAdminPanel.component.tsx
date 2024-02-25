@@ -15,7 +15,7 @@ function VenueAdminPanel({
     <>
       {loggedInUserIsOwner && (
         <div className="flex flex-col gap-2 border border-primary rounded my-2 lg:mx-0 mx-[5vw] p-4 bg-primary-light lg:p-10">
-          <H2 className="!mx-auto text-primary text-center !font-bold max-w-[80%] ">
+          <H2 className="!mx-auto text-primary text-center max-w-[80%] ">
             You&apos;re the administrator for this venue
           </H2>
           <div className=" flex  justify-between font-medium">

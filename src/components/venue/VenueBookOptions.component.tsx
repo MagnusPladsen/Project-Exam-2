@@ -78,14 +78,14 @@ function VenueBookOptions({
                   <>
                     {bookingDone ? (
                       <>
-                        <H2>Booking created!</H2>
+                        <H2 className="!font-medium">Booking created!</H2>
                         <Link to={`/profile/${user?.name}`}>
                           <PrimaryButton>See your bookings</PrimaryButton>
                         </Link>
                       </>
                     ) : (
                       <>
-                        <H2>Book venue</H2>
+                        <H2 className="!font-medium">Book venue</H2>
                         {!(selectedDays.from && selectedDays.to) ? (
                           <HolidazeDatePicker
                             value={selectedDays}

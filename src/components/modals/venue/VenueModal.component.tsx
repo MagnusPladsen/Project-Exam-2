@@ -218,7 +218,7 @@ function VenueModal({
                     </div>
                   </div>
                   <div className="flex flex-col gap-2 mt-6 pt-8 w-full border-t">
-                    <H2 className="underline underline-offset-2 ">Included</H2>
+                    <H2 className="underline underline-offset-2 !font-medium">Included</H2>
                     <div className="flex justify-between w-full">
                       <Input
                         name="wifi"
@@ -250,7 +250,7 @@ function VenueModal({
                       />
                     </div>
                   </div>
-                  <H2 className="underline underline-offset-2 mt-6 pt-8 w-full border-t">
+                  <H2 className="underline underline-offset-2 mt-6 pt-8 w-full border-t !font-medium">
                     Location
                   </H2>
                   <div className="w-full flex flex-col gap-2">
