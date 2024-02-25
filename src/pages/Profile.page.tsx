@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import H1 from "../components/common/H1.component";
 import ErrorMessage from "../components/messages/ErrorMessage.component";
 import ConfirmModal from "../components/modals/ConfirmModal.component";
@@ -16,12 +16,12 @@ import {
 import { UpdateVenueManagerStatusRequest } from "../types/types";
 
 function ProfilePage() {
+  const navigate = useNavigate();
   const { name } = useParams();
   const { user } = useAuth();
   const { data, error, isLoading } = useGetProfileQuery(name!);
 
-  const isProfileSameAsLoggedIn =
-    !!user && name?.toLocaleLowerCase() === user.name.toLocaleLowerCase();
+  const isProfileSameAsLoggedIn = !!user && name === user.name;
 
   const [updateManagerStatus] = useUpdateVenueManagerStatusMutation();
 
@@ -63,12 +63,10 @@ function ProfilePage() {
   useEffect(() => {
     if (data) {
       setUserIsManager(data.venueManager);
-    }
-  }, [data]);
-
-  useEffect(() => {
-    if (data) {
       setUserImage(data.avatar);
+    }
+    if (!data && !isLoading) {
+      navigate("/404");
     }
   }, [data]);
 

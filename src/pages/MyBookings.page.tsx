@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import H1 from "../components/common/H1.component";
 import H2 from "../components/common/H2.component";
 import H3 from "../components/common/H3.component";
@@ -36,15 +36,16 @@ function MyBookingsPage() {
   const { user } = useAuth();
   const navigate = useNavigate();
 
-  const isProfileSameAsLoggedIn =
-    !!user && name?.toLocaleLowerCase() === user.name.toLocaleLowerCase();
+  const isProfileSameAsLoggedIn = !!user && name === user.name;
 
   const [showUpcoming, setShowUpcoming] = useState(true);
   const [showPast, setShowPast] = useState(false);
 
-  if (!!user && !isProfileSameAsLoggedIn) {
-    navigate("/404");
-  }
+  useEffect(() => {
+    if (!!user && !isProfileSameAsLoggedIn) {
+      navigate("/404");
+    }
+  }, [user, isProfileSameAsLoggedIn, navigate]);
 
   return (
     <section className="min-h-[100vh] pt-[80px] lg:pt-[120px] mx-auto pb-16 lg:px-6">

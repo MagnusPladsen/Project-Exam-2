@@ -59,9 +59,11 @@ function MyVenuesPage() {
     }
   }, [venueToDelete]);
 
-  if (error) {
-    navigate("/404");
-  }
+  useEffect(() => {
+    if (error) {
+      navigate("/404");
+    }
+  }, [error, navigate]);
 
   return (
     <section className="min-h-[100vh] pt-[80px] lg:pt-[120px] mx-auto pb-16 lg:px-6">
@@ -123,7 +125,7 @@ function MyVenuesPage() {
         onCancel={() => setDeleteVenueActive(false)}
         onConfirm={() => {
           deleteVenue(venueToDelete!.id);
-          setDeleteVenueActive(false)
+          setDeleteVenueActive(false);
         }}
       />
 
