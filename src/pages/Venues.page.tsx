@@ -17,7 +17,7 @@ function VenuesPage() {
   const [searchActive, setSearchActive] = useState<boolean>(false);
   const [venuesToShow, setVenuesToShow] = useState<Venue[]>([]);
   const [sortOrder, setSortOrder] = useState<SortOrder>(SortOrder.Descending);
-  const [amountOfVenues, setAmountOfVenues] = useState<number>(5);
+  const [amountOfVenues, setAmountOfVenues] = useState<number>(6);
   const [searchString, setSearchString] = useState<string>("");
   const [lastSearchString, setLastSearchString] = useState<string>("");
 
@@ -85,7 +85,7 @@ function VenuesPage() {
   function resetToLatestVenues() {
     setLastSearchString("");
     setSearchActive(false);
-    setAmountOfVenues(5);
+    setAmountOfVenues(6);
     setActiveStep(0);
     setSortOrder(SortOrder.Descending);
     getLatestVenues();
