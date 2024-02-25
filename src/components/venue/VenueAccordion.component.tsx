@@ -37,7 +37,9 @@ function VenueAccordion({
         onClick={() => setDescriptionOpen((prev) => !prev)}
         className="px-[5vw] lg:px-0 flex items-center justify-between w-full py-5 font-medium rtl:text-right text-gray-900 border-b border-gray-200 cursor-pointer group"
       >
-        <H2 className="group-hover:!text-primary underline-offset-2 group-hover:underline transition-all !font-medium">Information</H2>
+        <H2 className="group-hover:!text-primary underline-offset-2 group-hover:underline transition-all !font-medium">
+          Information
+        </H2>
         <motion.div animate={{ rotate: descriptionOpen ? 180 : 0 }}>
           <DropDownIcon />
         </motion.div>
@@ -70,12 +72,17 @@ function VenueAccordion({
                     </div>
                     <div className="flex flex-col lg:gap-1 gap-2">
                       <div className="flex flex-col lg:flex-row lg:gap-1">
-                        <p>Updated: </p>
-                        <p>{formatDate(venue.updated)}</p>
-                      </div>
-                      <div className="flex flex-col lg:flex-row lg:gap-1">
-                        <p>Created: </p>
-                        <p>{formatDate(venue.created)}</p>
+                        {venue.created !== venue.updated ? (
+                          <>
+                            <p>Updated: </p>
+                            <p>{formatDate(venue.updated)}</p>
+                          </>
+                        ) : (
+                          <>
+                            <p>Updated: </p>
+                            <p>{formatDate(venue.created)}</p>
+                          </>
+                        )}
                       </div>
                     </div>
                   </div>
@@ -90,7 +97,9 @@ function VenueAccordion({
         onClick={() => setFacilitiesOpen((prev) => !prev)}
         className="px-[5vw] lg:px-0 flex items-center justify-between w-full py-5 font-medium rtl:text-right text-gray-900 border-b border-gray-200  cursor-pointer hover:text-primary group"
       >
-        <H2 className="group-hover:!text-primary underline-offset-2 group-hover:underline transition-all !font-medium">Facilities</H2>
+        <H2 className="group-hover:!text-primary underline-offset-2 group-hover:underline transition-all !font-medium">
+          Facilities
+        </H2>
         <motion.div animate={{ rotate: facilitiesOpen ? 180 : 0 }}>
           <DropDownIcon />
         </motion.div>
@@ -149,7 +158,9 @@ function VenueAccordion({
         onClick={() => setLocationOpen((prev) => !prev)}
         className="px-[5vw] lg:px-0 flex items-center justify-between w-full py-5 font-medium rtl:text-right text-gray-900 border-b border-gray-200  cursor-pointer hover:text-primary group"
       >
-        <H2 className="group-hover:!text-primary underline-offset-2 group-hover:underline transition-all !font-medium">Location</H2>
+        <H2 className="group-hover:!text-primary underline-offset-2 group-hover:underline transition-all !font-medium">
+          Location
+        </H2>
         <motion.div animate={{ rotate: locationOpen ? 180 : 0 }}>
           <DropDownIcon />
         </motion.div>

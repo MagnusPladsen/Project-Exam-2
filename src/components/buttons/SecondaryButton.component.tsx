@@ -1,5 +1,5 @@
 function SecondaryButton({
-  className,
+  className = "",
   children,
   ...props
 }: React.ButtonHTMLAttributes<HTMLButtonElement>) {

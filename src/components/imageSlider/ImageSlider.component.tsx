@@ -5,8 +5,8 @@ import "react-responsive-carousel/lib/styles/carousel.min.css"; // requires a lo
 
 function ImageSlider({
   images,
-  className,
-  imageClassName,
+  className = "",
+  imageClassName = " ",
 }: {
   images: string[];
   className?: string;

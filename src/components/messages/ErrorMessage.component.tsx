@@ -3,7 +3,7 @@ import ErrorIcon from "../icons/ErrorIcon.component";
 
 function ErrorMessage({
   message = "An unknown error occurred, please try again!",
-  className,
+  className =" ",
   show,
 }: {
   message?: string;

@@ -1,6 +1,6 @@
 import { HolidazeHeaderProps } from "../../types/types";
 
-function H3({ children, className, ...otherProps }: HolidazeHeaderProps) {
+function H3({ children, className = " ", ...otherProps }: HolidazeHeaderProps) {
   return (
     <h3
       {...otherProps}

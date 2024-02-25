@@ -19,7 +19,7 @@ import useAuth from "../../hooks/useAuth";
 function VenueCard({
   venue,
   isLoading = false,
-  className,
+  className = "",
   profilePage = false,
   profileBookingPage = false,
   setVenueToUpdate,

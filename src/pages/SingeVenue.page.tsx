@@ -18,7 +18,6 @@ import {
 } from "../services/api/holidazeApi";
 import { Venue } from "../types/types";
 import VenueAdminBookings from "../components/venue/VenueAdminBookings.component";
-
 function SingleVenuePage() {
   const { id } = useParams();
   const { user, isLoggedIn } = useAuth();
@@ -96,13 +95,14 @@ function SingleVenuePage() {
         text={
           "Are you sure you want to delete this venue? This action cannot be undone!"
         }
-        open={deleteVenueActive}
+        open={deleteVenueActive}Pc
         onCancel={() => setDeleteVenueActive(false)}
         onConfirm={() => {
           deleteVenue(venue!.id);
           navigate("/venues");
         }}
       />
+
 
       <VenueModal
         setOpen={setUpdateVenueModalOpen}

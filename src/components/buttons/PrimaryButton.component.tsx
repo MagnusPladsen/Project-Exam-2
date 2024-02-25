@@ -1,5 +1,5 @@
 function PrimaryButton({
-  className,
+  className = "",
   children,
   ...props
 }: React.ButtonHTMLAttributes<HTMLButtonElement>) {
