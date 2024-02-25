@@ -68,11 +68,9 @@ function VenueModal({
           ? data.media.split(",").map((media) => media.trim())
           : undefined,
       };
-      console.log("submit", requestBody);
       const res = updateMode
         ? await updateVenue({ body: requestBody, id: venue?.id ?? "" }).unwrap()
         : await createVenue(requestBody).unwrap();
-      console.log(res);
       if (res) {
         setOpen(false);
         navigate(`/venues/${res.id}`);

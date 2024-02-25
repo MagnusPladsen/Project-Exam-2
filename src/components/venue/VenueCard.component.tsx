@@ -63,7 +63,6 @@ function VenueCard({
         const imageValid = await isImageValid(venue?.media[0]);
         setVenueImage(imageValid ? venue.media[0] : fallBackImage);
       } else if (!!venue && venue.media.length === 0) {
-        console.log("No image found", venue.name);
         setVenueImage(fallBackImage);
       }
     };

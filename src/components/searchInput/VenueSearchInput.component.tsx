@@ -74,6 +74,11 @@ function VenueSearchInput({
           placeholder="Search venues..."
           value={searchString}
           onChange={(e) => setSearchString(e.target.value)}
+          onKeyDown={(e) => {
+            if (e.key === 'Enter') {
+              searchVenues();
+            }
+          }}
           required
         />
         <button

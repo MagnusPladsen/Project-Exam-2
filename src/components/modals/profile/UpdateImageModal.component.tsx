@@ -52,7 +52,6 @@ function UpdateImageModal({
 
   const sendProfileMediaChange = async (body: UpdateProfileForm) => {
     try {
-      console.log("SAVE IMAGE")
       const imageIsValid = await isImageValid(body.avatar);
       if (imageIsValid) {
         const newBody: UpdateProfileMediaRequest = {

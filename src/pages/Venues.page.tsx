@@ -111,7 +111,6 @@ function VenuesPage() {
 
   useEffect(() => {
     getLatestVenues();
-    console.log("Venues", venues);
   }, [isLoading]);
 
   return (
@@ -155,11 +154,11 @@ function VenuesPage() {
         <div className="grid gap-8 lg:grid-cols-2 xl:grid-cols-3 mb-4 justify-center w-full">
           {isLoading && !venues && (
             <>
-              <VenueCard isLoading />
-              <VenueCard isLoading />
-              <VenueCard isLoading />
-              <VenueCard isLoading />
-              <VenueCard isLoading />
+              <VenueCard isLoading key="skeleton1" />
+              <VenueCard isLoading key="skeleton2" />
+              <VenueCard isLoading key="skeleton3" />
+              <VenueCard isLoading key="skeleton4" />
+              <VenueCard isLoading key="skeleton5" />
             </>
           )}
           {!!venuesToShow.length &&
