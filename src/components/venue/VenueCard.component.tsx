@@ -78,23 +78,22 @@ function VenueCard({
 
   return (
     <article
-      key={venue?.id+"outside"}
+      key={venue?.id + "outside"}
       className={`${className} relative pb-6 w-[90vw] lg:w-full xl:max-w-lg xl:mx-auto bg-white rounded-lg border border-gray-200 shadow-md`}
     >
       <div className="mb-5">
-        {isLoadingImage && !profilePage && (
+        {isLoadingImage && (
           <Skeleton className="rounded-t-lg" width={"100%"} height={240} />
         )}
-        {!profilePage && (
-          <img
-            src={venueImage}
-            alt={venue?.name}
-            onLoad={() => setIsLoadingImage(false)}
-            className={`${
-              isLoadingImage && "hidden"
-            } h-60 rounded-t-lg object-cover w-full shadow-inner`}
-          />
-        )}
+
+        <img
+          src={venueImage}
+          alt={venue?.name}
+          onLoad={() => setIsLoadingImage(false)}
+          className={`${
+            isLoadingImage && "hidden"
+          } h-60 rounded-t-lg object-cover w-full shadow-inner`}
+        />
       </div>
       <HolidazeTooltip id="price-per-night" />
       <div className="flex justify-between items-center mb-5 text-gray-500 px-6">

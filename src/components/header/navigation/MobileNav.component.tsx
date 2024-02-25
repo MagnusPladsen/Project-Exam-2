@@ -42,7 +42,7 @@ function MobileNav() {
       <div className="fixed bottom-0 shadow left-0 z-50 w-full h-16 bg-white border-t border-gray-200 ">
         <div className="grid h-full max-w-lg grid-cols-4 mx-auto font-medium">
           <NavLink
-            to={"/venues"}
+            to={"/"}
             type="button"
             className={({ isActive }) =>
               isActive
@@ -99,7 +99,7 @@ function MobileNav() {
                 {isLoggedIn ? user?.name : "Profile"}
                 <motion.div
                   animate={{
-                    rotate: open ? -180 : -90,
+                    rotate: open ? 180 : 90,
                   }}
                   transition={{ duration: 0.2 }}
                 >
@@ -151,7 +151,7 @@ function MobileNav() {
                       My bookings
                     </NavLink>
                   </li>
-                  <li>
+                  <li className="hover:bg-gray-50 py-5  cursor-pointer hover:text-primary">
                     <NavLink
                       onClick={() => setOpen(false)}
                       to={`/profile/${user!.name}/venues`}
@@ -161,7 +161,7 @@ function MobileNav() {
                     </NavLink>
                   </li>
                   <li
-                    className="cursor-pointer hover:underline underline-offset-2 hover:bg-gray-50 py-5 "
+                    className="hover:bg-gray-50 py-5  cursor-pointer hover:text-primary"
                     onClick={() => {
                       setOpen(false);
                       logOut();
