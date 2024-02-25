@@ -16,7 +16,7 @@ function NotFoundPage() {
             Sorry, we can&apos;t find that page. You&apos;ll find lots to
             explore on the home page.{" "}
           </p>
-          <Link to="/" className=" my-4">
+          <Link to="/venues" className=" my-4">
             <PrimaryButton>Back to Homepage</PrimaryButton>
           </Link>
         </div>
