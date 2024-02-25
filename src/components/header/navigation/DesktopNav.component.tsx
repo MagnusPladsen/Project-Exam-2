@@ -36,15 +36,6 @@ function DesktopNav({ links }: { links: NavigationLink[] }) {
               isOnProfileRoute && "underline underline-offset-4"
             } flex gap-2 items-center cursor-pointer justify-center`}
           >
-            <motion.div
-              animate={{
-                rotate: open ? 0 : -90,
-              }}
-              transition={{ duration: 0.2 }}
-            >
-              <DropDownIcon className="text-white !h-3 !w-3" />
-            </motion.div>
-            <p>{user?.name}</p>
             {user?.avatar ? (
               <img
                 src={user.avatar}
@@ -54,6 +45,15 @@ function DesktopNav({ links }: { links: NavigationLink[] }) {
             ) : (
               <ProfileIcon className="!h-[34px] !w-[34px] !text-white" />
             )}
+            <p>{user?.name}</p>
+            <motion.div
+              animate={{
+                rotate: open ? 0 : -90,
+              }}
+              transition={{ duration: 0.2 }}
+            >
+              <DropDownIcon className="text-white !h-3 !w-3" />
+            </motion.div>
           </div>
           <AnimatePresence initial={false}>
             {open && (

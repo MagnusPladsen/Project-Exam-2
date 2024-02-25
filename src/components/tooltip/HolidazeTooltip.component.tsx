@@ -10,6 +10,7 @@ function HolidazeTooltip({ ...props }: ITooltip) {
       style={{
         backgroundColor: "#FF467C",
         borderRadius: "4px",
+        maxWidth: "90vw",
       }}
     />
   );

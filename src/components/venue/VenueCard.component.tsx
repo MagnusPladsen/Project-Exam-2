@@ -2,7 +2,7 @@ import { AnimatePresence, motion } from "framer-motion";
 import { useEffect, useRef, useState } from "react";
 import Skeleton from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
-import { Link } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import StarRatings from "react-star-ratings";
 import capitalizeFirstLetter from "../../formatters/capitalizeFirstLetter";
 import { Venue } from "../../types/types";
@@ -14,6 +14,7 @@ import EditIcon from "../icons/EditIcon.component";
 import MoreIcon from "../icons/MoreIcon.component";
 import ProfileIcon from "../icons/Profileicon.component";
 import HolidazeTooltip from "../tooltip/HolidazeTooltip.component";
+import useAuth from "../../hooks/useAuth";
 
 function VenueCard({
   venue,
@@ -32,7 +33,12 @@ function VenueCard({
   setVenueToUpdate?: React.Dispatch<React.SetStateAction<Venue | undefined>>;
   setVenueToDelete?: React.Dispatch<React.SetStateAction<Venue | undefined>>;
 }) {
+  const { name } = useParams();
+  const { user } = useAuth();
+
   const refMenu = useRef<HTMLDivElement | null>(null);
+
+  const isProfileSameAsLoggedIn = !!user && name === user.name;
 
   const fallBackImage =
     "https://www.feednavigator.com/var/wrbm_gb_food_pharma/storage/images/_aliases/news_large/9/2/8/5/235829-6-eng-GB/Feed-Test-SIC-Feed-20142.jpg";
@@ -76,17 +82,19 @@ function VenueCard({
       className={`${className} relative pb-6 w-[90vw] lg:w-full xl:max-w-lg xl:mx-auto bg-white rounded-lg border border-gray-200 shadow-md`}
     >
       <div className="mb-5">
-        {isLoadingImage && (
+        {isLoadingImage && !profilePage && (
           <Skeleton className="rounded-t-lg" width={"100%"} height={240} />
         )}
-        <img
-          src={venueImage}
-          alt={venue?.name}
-          onLoad={() => setIsLoadingImage(false)}
-          className={`${
-            isLoadingImage && "hidden"
-          } h-60 rounded-t-lg object-cover w-full shadow-inner`}
-        />
+        {!profilePage && (
+          <img
+            src={venueImage}
+            alt={venue?.name}
+            onLoad={() => setIsLoadingImage(false)}
+            className={`${
+              isLoadingImage && "hidden"
+            } h-60 rounded-t-lg object-cover w-full shadow-inner`}
+          />
+        )}
       </div>
       <HolidazeTooltip id="price-per-night" />
       <div className="flex justify-between items-center mb-5 text-gray-500 px-6">
@@ -140,7 +148,7 @@ function VenueCard({
           <p>See venue</p>
           <ArrowIcon />
         </Link>
-        {profilePage && !profileBookingPage && (
+        {profilePage && !profileBookingPage && isProfileSameAsLoggedIn && (
           <div>
             <div
               className=" flex items-center text-primary cursor-pointer hover:underline underline-offset-2 transition-all gap-2 font-medium"
