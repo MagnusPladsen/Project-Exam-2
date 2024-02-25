@@ -11,7 +11,7 @@ import TailwindCSSLogo from "../icons/logos/TailwindCSSLogo.component";
 
 function renderTechItem(item: TechStackItem) {
   return (
-    <div className="flex gap-5 items-center">
+    <div className="flex gap-5 items-center" key={item.text}>
       <div className="flex justify-between w-full">
         <div className="flex gap-5 justify-between">
           <div className="w-6">{item.logo}</div>
