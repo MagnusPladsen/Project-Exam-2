@@ -31,7 +31,7 @@ const aboutLinks: { text: string; link: string }[] = [
 function AboutLinks() {
   return (
     <div className="flex flex-col gap-2 w-full lg:w-[40%]">
-      <H2 className="">Links</H2>
+      <H2 className="mb-3">Links</H2>
       {aboutLinks.map((link) => (
         <div key={link.text} className="flex justify-between">
           <p>{link.text}</p>
