@@ -119,14 +119,14 @@ function VenueBookOptions({
                           <H3 className="text-secondary text-sm">Guests:</H3>
                           <div className="flex gap-2 items-center">
                             <div
-                              className="cursor-pointer"
+                              className={`${guests === 1 && "cursor-not-allowed  !fill-gray-400"} cursor-pointer `}
                               onClick={decrementGuests}
                             >
                               <MinusIcon />
                             </div>
                             <p className="">{guests}</p>
                             <div
-                              className="cursor-pointer"
+                              className={`${guests === venue?.maxGuests && "cursor-not-allowed  !fill-gray-400"} cursor-pointer`}
                               onClick={incrementGuests}
                             >
                               <PlusIcon />
@@ -188,7 +188,10 @@ function VenueBookOptions({
         text={`Are you sure you want to create a booking at "${venue?.name}" for ${guests} guests at ${selectedDays.from?.day}.${selectedDays.from?.month}.${selectedDays.from?.year} - ${selectedDays.to?.day}.${selectedDays.to?.month}.${selectedDays.to?.year}?`}
         open={createBookigActive}
         onCancel={() => setCreateBookingActive(false)}
-        onConfirm={() => handleCreateBooking()}
+        onConfirm={() => {
+          handleCreateBooking();
+          setCreateBookingActive(false);
+        }}
       />
 
       <ErrorMessage message={errorMessage} show={!!error} />
