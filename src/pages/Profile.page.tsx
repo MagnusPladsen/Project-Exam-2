@@ -1,27 +1,23 @@
-import { AnimatePresence, motion } from "framer-motion";
 import { useEffect, useState } from "react";
 import Skeleton from "react-loading-skeleton";
-import { useParams } from "react-router-dom";
-import PrimaryButton from "../components/buttons/PrimaryButton.component";
+import { NavLink, useParams } from "react-router-dom";
 import H1 from "../components/common/H1.component";
 import H2 from "../components/common/H2.component";
 import H3 from "../components/common/H3.component";
 import Toggle from "../components/forms/Toggle.component";
 import EditIcon from "../components/icons/EditIcon.component";
 import ProfileIcon from "../components/icons/Profileicon.component";
+import ErrorMessage from "../components/messages/ErrorMessage.component";
 import ConfirmModal from "../components/modals/ConfirmModal.component";
 import UpdateImageModal from "../components/modals/profile/UpdateImageModal.component";
-import VenueModal from "../components/modals/venue/VenueModal.component";
-import VenueCard from "../components/venue/VenueCard.component";
-import formatDate from "../formatters/formatToDate";
 import useAuth from "../hooks/useAuth";
 import {
-  useDeleteVenueMutation,
   useGetProfileQuery,
   useUpdateVenueManagerStatusMutation,
 } from "../services/api/holidazeApi";
-import { UpdateVenueManagerStatusRequest, Venue } from "../types/types";
-import ErrorMessage from "../components/messages/ErrorMessage.component";
+import { UpdateVenueManagerStatusRequest } from "../types/types";
+import PrimaryButton from "../components/buttons/PrimaryButton.component";
+import SecondaryButton from "../components/buttons/SecondaryButton.component";
 
 function ProfilePage() {
   const { name } = useParams();
@@ -31,34 +27,18 @@ function ProfilePage() {
   const isProfileSameAsLoggedIn = !!user && name === user.name;
 
   const [updateManagerStatus] = useUpdateVenueManagerStatusMutation();
-  const [deleteVenue] = useDeleteVenueMutation();
 
   const [userIsManager, setUserIsManager] = useState(
     data ? data.venueManager : false
   );
 
   const [venueManagerModalOpen, setVenueManagerModalOpen] = useState(false);
-  const [VenueModalOpen, setVenueModalOpen] = useState(false);
-  const [updateVenueModalOpen, setUpdateVenueModalOpen] = useState(false);
-  const [venuesStepper, setVenuesStepper] = useState(5);
-  const [venuesToShow, setVenuesToShow] = useState<Venue[]>([]);
-  const [venueToUpdate, setVenueToUpdate] = useState<Venue | undefined>(
-    undefined
-  );
-  const [deleteVenueActive, setDeleteVenueActive] = useState(false);
-  const [venueToDelete, setVenueToDelete] = useState<Venue | undefined>(
-    undefined
-  );
-  const [showVenues, setShowVenues] = useState<boolean>(true);
+
   const [updateImageModalOpen, setUpdateImageModalOpen] = useState(false);
   const [userImage, setUserImage] = useState<string | undefined>(data?.avatar);
   const [errorMessage, setErrorMessage] = useState<string>(
     "Something went wrong. Please try again!"
   );
-
-  const showMoreVenues = () => {
-    setVenuesStepper((prev) => prev + prev);
-  };
 
   const toggleVenueManager = () => {
     setVenueManagerModalOpen(true);
@@ -91,24 +71,6 @@ function ProfilePage() {
 
   useEffect(() => {
     if (data) {
-      setVenuesToShow(data.venues!.slice(0, venuesStepper));
-    }
-  }, [venuesStepper, data]);
-
-  useEffect(() => {
-    if (venueToUpdate) {
-      setUpdateVenueModalOpen(true);
-    }
-  }, [venueToUpdate]);
-
-  useEffect(() => {
-    if (venueToDelete) {
-      setDeleteVenueActive(true);
-    }
-  }, [venueToDelete]);
-
-  useEffect(() => {
-    if (data) {
       setUserImage(data.avatar);
     }
   }, [data]);
@@ -117,7 +79,7 @@ function ProfilePage() {
     <>
       {data && !error && (
         <article className="pt-[50px] lg:pt-[80px] antialiased bg-gradient-to-b from-primary to-white h-full w-full pb-40 shadow-md">
-          <div className="w-full lg:w-[900px] lg:px-4 mx-auto">
+          <div className="w-full lg:w-[700px] lg:px-4 mx-auto">
             <div className=" relative flex flex-col min-w-0 break-words bg-white w-full mb-6 shadow-xl lg:rounded-lg mt-20 lg:mt-24">
               <div className=" mb-10">
                 <div className="flex flex-wrap justify-center">
@@ -179,18 +141,14 @@ function ProfilePage() {
                   </div>
                   <div className="flex gap-10 w-fit mx-auto mb-6">
                     <div className="text-xs flex flex-col gap-2">
-                      <p>
-                        {isProfileSameAsLoggedIn ? "Your bookings" : "Bookings"}
-                      </p>
+                      <p>Bookings</p>
                       <p className="font-bold text-2xl">
                         {data._count?.bookings}
                       </p>
                     </div>
                     {userIsManager && (
                       <div className="text-xs flex flex-col gap-2">
-                        <p>
-                          {isProfileSameAsLoggedIn ? "Your venues" : "Venues"}
-                        </p>
+                        <p>Venues</p>
                         <p className="font-bold text-2xl">
                           {data._count?.venues}
                         </p>
@@ -198,118 +156,24 @@ function ProfilePage() {
                     )}
                   </div>
                 </div>
-                {userIsManager && venuesToShow.length > 0 && (
-                  <div className="mt-4 pb-10 border-t border-blueGray-200 text-center w-full">
-                    {isProfileSameAsLoggedIn ? (
-                      <div className="w-full mb-8 flex gap-5 items-center justify-between">
-                        <H3
-                          onClick={() => setShowVenues(false)}
-                          className={`${
-                            showVenues
-                              ? "!text-gray-400 bg-gray-50 !border-gray-200 hover:!text-primary hover:bg-primary-light hover:!border-primary"
-                              : "!text-primary !border-white"
-                          } text-lg  font-medium  leading-normal mb-4 uppercase w-full rounded-r-lg rounded-t-none py-5 border border-t-0 border-l-0 cursor-pointer `}
-                        >
-                          My bookings
-                        </H3>{" "}
-                        <H3
-                          onClick={() => setShowVenues(true)}
-                          className={`${
-                            !showVenues
-                              ? "!text-gray-400 bg-gray-50 !border-gray-200 hover:!text-primary hover:bg-primary-light hover:!border-primary"
-                              : "!text-primary !border-white"
-                          } text-lg font-medium leading-normal mb-4 uppercase w-full  rounded-l-lg rounded-t-none py-5 border border-t-0 border-r-0 cursor-pointer`}
-                        >
-                          My venues
-                        </H3>
-                      </div>
-                    ) : (
-                      <H3
-                        className={`!text-primary text-lg mt-4 font-medium leading-normal mb-4 uppercase`}
-                      >
-                        Venues
-                      </H3>
-                    )}
-
-                    <AnimatePresence initial={false}>
-                      {showVenues ? (
-                        <motion.div
-                          initial={{ opacity: 0, height: 0 }}
-                          animate={{
-                            opacity: 1,
-                            height: "auto",
-                          }}
-                          exit={{ opacity: 0, height: 0 }}
-                          transition={{ duration: 0.3 }}
-                          className="flex text-left flex-col gap-4 lg:max-w-[500px] mx-auto"
-                        >
-                          <div className="flex flex-col gap-4 w-full">
-                            <PrimaryButton
-                              onClick={() => setVenueModalOpen(true)}
-                              className="!mx-auto !mb-7"
-                            >
-                              Create venue
-                            </PrimaryButton>
-                          </div>
-                          {venuesToShow?.map((venue) => (
-                            <VenueCard
-                              key={venue.id}
-                              venue={venue}
-                              className="!mx-auto"
-                              profilePage
-                              setVenueToUpdate={setVenueToUpdate}
-                              setVenueToDelete={setVenueToDelete}
-                            />
-                          ))}
-                          {data.venues!.length !== venuesToShow.length && (
-                            <PrimaryButton
-                              className="mx-auto"
-                              onClick={showMoreVenues}
-                            >
-                              See more
-                            </PrimaryButton>
-                          )}
-                        </motion.div>
-                      ) : (
-                        <motion.div
-                          initial={{ opacity: 0, height: 0 }}
-                          animate={{
-                            opacity: 1,
-                            height: "auto",
-                          }}
-                          exit={{ opacity: 0, height: 0 }}
-                          transition={{ duration: 0.3 }}
-                          className="flex text-left flex-col gap-12 lg:max-w-[500px] mx-auto"
-                        >
-                          <h4 className="text-center text-lg font-medium">
-                            Upcoming
-                          </h4>
-                          {data.bookings?.map((booking) => (
-                            <div
-                              key={booking.id}
-                              className="flex flex-col gap-4 w-full items-center justify-center"
-                            >
-                              <h5 className="flex gap-2 items-center text-md text-gray-400">
-                                <p>Booked </p>
-                                <p className="text-black font-bold">
-                                  {formatDate(booking.dateFrom)} -
-                                </p>
-                                <p className="text-black font-bold">
-                                  {formatDate(booking.dateTo)}
-                                </p>
-                              </h5>
-                              <VenueCard
-                                venue={booking.venue}
-                                className="!mx-auto"
-                                profileBookingPage
-                              />
-                            </div>
-                          ))}
-                        </motion.div>
+                <div className="w-fit mx-auto">
+                  {isProfileSameAsLoggedIn ? (
+                    <div className="w-full gap-5 flex items-center justify-between">
+                      <NavLink to={`/profile/${data.name}/bookings`}>
+                        <SecondaryButton>My bookings</SecondaryButton>
+                      </NavLink>
+                      {userIsManager && (
+                        <NavLink to={`/profile/${data.name}/venues`}>
+                          <SecondaryButton>My venues</SecondaryButton>
+                        </NavLink>
                       )}
-                    </AnimatePresence>
-                  </div>
-                )}
+                    </div>
+                  ) : (
+                    <NavLink to={`/profile/${data.name}/venues`}>
+                      <SecondaryButton>See venues</SecondaryButton>
+                    </NavLink>
+                  )}
+                </div>
               </div>
             </div>
           </div>
@@ -334,31 +198,11 @@ function ProfilePage() {
         }
       />
 
-      <ConfirmModal
-        text={
-          "Are you sure you want to delete this venue? This action cannot be undone!"
-        }
-        open={deleteVenueActive}
-        onCancel={() => setDeleteVenueActive(false)}
-        onConfirm={() => deleteVenue(venueToDelete!.id)}
-      />
-
       <UpdateImageModal
         open={updateImageModalOpen}
         setOpen={setUpdateImageModalOpen}
         userImage={userImage}
         setUserImage={setUserImage}
-      />
-
-      <VenueModal
-        setOpen={
-          updateVenueModalOpen && venueToUpdate
-            ? setUpdateVenueModalOpen
-            : setVenueModalOpen
-        }
-        open={VenueModalOpen || updateVenueModalOpen}
-        venue={venueToUpdate}
-        updateMode={updateVenueModalOpen}
       />
     </>
   );

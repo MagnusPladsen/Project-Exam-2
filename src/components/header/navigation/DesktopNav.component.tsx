@@ -69,23 +69,38 @@ function DesktopNav({ links }: { links: NavigationLink[] }) {
                     <NavLink
                       onClick={() => setOpen(false)}
                       to={`/profile/${user!.name}`}
-                      className={({ isActive }) =>
-                        isActive ? "underline underline-offset-4" : ""
-                      }
+                      className={"hover:underline underline-offset-2"}
                     >
                       My profile
                     </NavLink>
                   </li>
-                  {user?.venueManager && (
-                    <li className="cursor-pointer">My bookings</li>
-                  )}
+
+                  <li>
+                    <NavLink
+                      onClick={() => setOpen(false)}
+                      to={`/profile/${user!.name}/bookings`}
+                      className={"hover:underline underline-offset-2"}
+                    >
+                      My bookings
+                    </NavLink>
+                  </li>
+
+                  <li>
+                    <NavLink
+                      onClick={() => setOpen(false)}
+                      to={`/profile/${user!.name}/venues`}
+                      className={"hover:underline underline-offset-2"}
+                    >
+                      My venues
+                    </NavLink>
+                  </li>
 
                   <li
-                    className="cursor-pointer"
                     onClick={() => {
                       setOpen(false);
                       logOut();
                     }}
+                    className={"hover:underline underline-offset-2"}
                   >
                     Log out
                   </li>

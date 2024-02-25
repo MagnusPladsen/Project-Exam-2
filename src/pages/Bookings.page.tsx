@@ -8,6 +8,7 @@ import formatDate from "../formatters/formatToDate";
 import useAuth from "../hooks/useAuth";
 import { Booking } from "../types/types";
 import { AnimatePresence, motion } from "framer-motion";
+import { useNavigate, useParams } from "react-router-dom";
 
 function renderBooking(booking: Booking) {
   return (
@@ -31,10 +32,18 @@ function renderBooking(booking: Booking) {
 }
 
 function BookingsPage() {
+  const { name } = useParams();
   const { user } = useAuth();
+  const navigate = useNavigate();
+
+  const isProfileSameAsLoggedIn = !!user && name === user.name;
 
   const [showUpcoming, setShowUpcoming] = useState(true);
   const [showPast, setShowPast] = useState(false);
+
+  if (!isProfileSameAsLoggedIn) {
+    navigate("/404");
+  }
 
   return (
     <section className="min-h-[100vh] pt-[80px] lg:pt-[120px] mx-auto pb-16 lg:px-6">

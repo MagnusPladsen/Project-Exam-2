@@ -79,7 +79,7 @@ function VenueAccordion({
                           </>
                         ) : (
                           <>
-                            <p>Updated: </p>
+                            <p>Created: </p>
                             <p>{formatDate(venue.created)}</p>
                           </>
                         )}

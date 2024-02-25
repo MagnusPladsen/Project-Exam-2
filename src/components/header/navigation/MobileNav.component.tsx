@@ -42,7 +42,7 @@ function MobileNav() {
       <div className="fixed bottom-0 shadow left-0 z-50 w-full h-16 bg-white border-t border-gray-200 ">
         <div className="grid h-full max-w-lg grid-cols-4 mx-auto font-medium">
           <NavLink
-            to={"/"}
+            to={"/venues"}
             type="button"
             className={({ isActive }) =>
               isActive
@@ -137,15 +137,31 @@ function MobileNav() {
                     <NavLink
                       to={`/profile/${user!.name}`}
                       onClick={() => setOpen(false)}
-                      className={({ isActive }) =>
-                        isActive ? "underline underline-offset-4 " : ""
-                      }
+                      className={"hover:underline underline-offset-2"}
                     >
                       My profile
                     </NavLink>
                   </li>
+                  <li className="hover:bg-gray-50 py-5  cursor-pointer hover:text-primary">
+                    <NavLink
+                      to={`/profile/${user!.name}/bookings`}
+                      onClick={() => setOpen(false)}
+                      className={"hover:underline underline-offset-2"}
+                    >
+                      My bookings
+                    </NavLink>
+                  </li>
+                  <li>
+                    <NavLink
+                      onClick={() => setOpen(false)}
+                      to={`/profile/${user!.name}/venues`}
+                      className={"hover:underline underline-offset-2"}
+                    >
+                      My venues
+                    </NavLink>
+                  </li>
                   <li
-                    className="cursor-pointer hover:bg-gray-50 py-5 "
+                    className="cursor-pointer hover:underline underline-offset-2 hover:bg-gray-50 py-5 "
                     onClick={() => {
                       setOpen(false);
                       logOut();
