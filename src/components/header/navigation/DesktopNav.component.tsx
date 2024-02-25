@@ -48,7 +48,7 @@ function DesktopNav({ links }: { links: NavigationLink[] }) {
             <p>{user?.name}</p>
             <motion.div
               animate={{
-                rotate: open ? 0 : -90,
+                rotate: open ? 0 : 90,
               }}
               transition={{ duration: 0.2 }}
             >
